@@ -1,11 +1,12 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import { SITE_TAGLINE, SITE_DESCRIPTION } from '../consts';
+import { SITE_DESCRIPTION } from '../consts';
 
 const tiers = [
   {
     code: 'DIY',
     name: 'Do It Yourself',
+    gem: 'gem--clarity',
     summary:
       'Guides, templates, and tools that let you build and grow on your own, at your own pace.',
     href: '/services#diy',
@@ -13,6 +14,7 @@ const tiers = [
   {
     code: 'DWY',
     name: 'Done With You',
+    gem: 'gem--glow',
     summary:
       'Hands-on coaching and strategy sessions where we work alongside your team to get results.',
     href: '/services#dwy',
@@ -20,48 +22,130 @@ const tiers = [
   {
     code: 'DFY',
     name: 'Done For You',
+    gem: 'gem--insight',
     summary:
       'Full-service execution — we take the work off your plate so you can focus on your business.',
     href: '/services#dfy',
   },
 ];
+
+const steps = [
+  { num: '01 / MAP', title: 'Find your level', body: 'We start by understanding your goals, budget, and how hands-on you want to be.' },
+  { num: '02 / PLAN', title: 'Build the plan', body: 'A clear, prioritised roadmap — the few moves that will actually move the needle.' },
+  { num: '03 / DO', title: 'Do the work', body: 'You run with it, we guide you, or we execute it for you. Your call, and it can change.' },
+  { num: '04 / GROW', title: 'Measure & adjust', body: 'We track what matters and refine, so momentum compounds instead of fizzling out.' },
+];
 ---
 
 <BaseLayout title="Home" description={SITE_DESCRIPTION}>
-  <section>
-    <h1>{SITE_TAGLINE}</h1>
-    <p>
-      Brightcave Digital meets you wherever you are. Whether you want to learn
-      the ropes yourself, get expert guidance, or hand it all over, we have a
-      path for you.
-    </p>
-    <p><a href="/services">Explore our services</a></p>
+  <section class="hero">
+    <div class="wrap grid">
+      <div>
+        <p class="eyebrow">Digital growth studio</p>
+        <h1>Digital growth, <span class="accent">on your terms.</span></h1>
+        <p class="lead">
+          Most agencies sell you one way of working. We meet you where you are —
+          learn it yourself, get a guide alongside you, or hand it all over.
+        </p>
+        <div class="actions">
+          <a class="btn btn-primary" href="/services">Explore our services →</a>
+          <a class="btn btn-ghost" href="/resources">Browse free resources</a>
+        </div>
+      </div>
+      <div class="hero-card">
+        <span class="chip">How it works</span>
+        <div class="row">
+          <span class="gem gem--sm gem--clarity" aria-hidden="true"></span>
+          <div><strong>DIY — you drive</strong><span>Playbooks &amp; templates, self-paced</span></div>
+        </div>
+        <div class="row">
+          <span class="gem gem--sm gem--glow" aria-hidden="true"></span>
+          <div><strong>DWY — we co-pilot</strong><span>Coaching &amp; strategy sessions</span></div>
+        </div>
+        <div class="row">
+          <span class="gem gem--sm gem--insight" aria-hidden="true"></span>
+          <div><strong>DFY — we handle it</strong><span>Full-service execution</span></div>
+        </div>
+        <p class="hand-note">↑ pick one — switch anytime</p>
+      </div>
+    </div>
   </section>
 
-  <section aria-labelledby="model-heading">
-    <h2 id="model-heading">Three ways to work together</h2>
-    <ul>
-      {
-        tiers.map((tier) => (
-          <li>
-            <h3>
-              <a href={tier.href}>
-                {tier.code} &mdash; {tier.name}
-              </a>
-            </h3>
-            <p>{tier.summary}</p>
-          </li>
-        ))
-      }
-    </ul>
+  <section class="section">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="eyebrow">The model</p>
+        <h2>Three ways to work together.</h2>
+        <p class="sub">
+          One question shapes every engagement: how much do you want to do
+          yourself? Start anywhere — you can move between tiers as you grow.
+        </p>
+      </div>
+      <div class="card-grid">
+        {
+          tiers.map((tier) => (
+            <article class="card">
+              <span class={`gem ${tier.gem}`} aria-hidden="true" />
+              <span class="tier-code">{tier.code}</span>
+              <h3><a href={tier.href} style="border-bottom:none;color:inherit;">{tier.name}</a></h3>
+              <p>{tier.summary}</p>
+              <p class="card-cta"><a href={tier.href}>Learn more →</a></p>
+            </article>
+          ))
+        }
+      </div>
+    </div>
   </section>
 
-  <section aria-labelledby="next-heading">
-    <h2 id="next-heading">Start here</h2>
-    <ul>
-      <li><a href="/about">Learn about Brightcave Digital</a></li>
-      <li><a href="/resources">Browse free resources</a></li>
-      <li><a href="/blog">Read the blog</a></li>
-    </ul>
+  <section class="section" style="background: var(--bca-fog); border-block: 1px solid var(--bca-border);">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="eyebrow">How we work</p>
+        <h2>A path from stuck to shipping.</h2>
+      </div>
+      <div class="steps">
+        {
+          steps.map((s) => (
+            <div class="step">
+              <div class="num">{s.num}</div>
+              <h3>{s.title}</h3>
+              <p>{s.body}</p>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="quote">
+    <div class="wrap grid">
+      <div>
+        <blockquote>
+          Brightcave gave us the playbook to start, then stepped in to run the
+          parts we couldn't. It felt like a partner, not a vendor.
+        </blockquote>
+        <div class="who">
+          <div class="av" aria-hidden="true">AR</div>
+          <div>
+            <strong>Placeholder testimonial</strong>
+            <span>Swap in a real client quote</span>
+          </div>
+        </div>
+      </div>
+      <div class="stats">
+        <div class="stat"><div class="num">3</div><div class="lbl">Ways to work with us</div></div>
+        <div class="stat"><div class="num">0</div><div class="lbl">Long-term lock-in required</div></div>
+        <div class="stat"><div class="num">1:1</div><div class="lbl">Guidance in every tier</div></div>
+        <div class="stat"><div class="num">∞</div><div class="lbl">Free resources, always</div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta-band">
+    <div class="wrap">
+      <h2>Not sure where you fit?</h2>
+      <p>Tell us your goal and we'll point you to the right starting tier.</p>
+      <a class="btn btn-accent" href="/services" style="padding:14px 24px;font-size:15px;">See the services →</a>
+    </div>
   </section>
 </BaseLayout>

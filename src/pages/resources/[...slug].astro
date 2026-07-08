@@ -42,27 +42,33 @@ const schema = articleSchema({
   modifiedTime={data.updatedDate}
   schema={[schema]}
 >
-  <article>
-    <header>
-      <h1>{data.title}</h1>
-      <p>
-        <span>{data.resourceType}</span>
-        {data.tier && <> &middot; For {data.tier}</>}
-      </p>
-    </header>
+  <section class="page-head">
+    <div class="wrap">
+      <header class="article-header">
+        <span class="badge">{data.resourceType}{data.tier ? ` · For ${data.tier}` : ''}</span>
+        <h1>{data.title}</h1>
+        <p class="meta">{data.description}</p>
+      </header>
+    </div>
+  </section>
 
-    <Content />
-
-    {
-      data.downloadUrl && (
-        <p>
-          <a href={data.downloadUrl} rel="noopener">
-            Download this resource
-          </a>
-        </p>
-      )
-    }
-  </article>
-
-  <p><a href="/resources">&larr; Back to resources</a></p>
+  <section class="section" style="padding-top: 0;">
+    <div class="wrap">
+      <article class="prose">
+        <Content />
+        {
+          data.downloadUrl && (
+            <p>
+              <a class="btn btn-accent" href={data.downloadUrl} rel="noopener">
+                Download this resource
+              </a>
+            </p>
+          )
+        }
+      </article>
+      <div class="prose">
+        <a class="back-link" href="/resources">← Back to resources</a>
+      </div>
+    </div>
+  </section>
 </BaseLayout>

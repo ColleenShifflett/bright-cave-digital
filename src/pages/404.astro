@@ -1,6 +1,5 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import { NAV_LINKS } from '../consts';
 ---
 
 <BaseLayout
@@ -8,18 +7,21 @@ import { NAV_LINKS } from '../consts';
   description="Sorry, we couldn't find that page."
   noindex={true}
 >
-  <section>
-    <h1>404 &mdash; Page not found</h1>
-    <p>
-      The page you're looking for doesn't exist, may have moved, or the link
-      might be broken.
-    </p>
-
-    <h2>Try one of these instead</h2>
-    <ul>
-      {NAV_LINKS.map((link) => <li><a href={link.href}>{link.label}</a></li>)}
-    </ul>
-
-    <p><a href="/">&larr; Back to the homepage</a></p>
+  <section class="section">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="gem gem--glow" aria-hidden="true" style="margin: 0 auto var(--bca-space-5);"></span>
+        <p class="eyebrow">Error 404</p>
+        <h2>We couldn't find that page.</h2>
+        <p class="sub">
+          The page you're looking for doesn't exist, may have moved, or the link
+          might be broken.
+        </p>
+        <div class="actions" style="justify-content:center;display:flex;gap:14px;flex-wrap:wrap;margin-top:var(--bca-space-8);">
+          <a class="btn btn-primary" href="/">← Back to the homepage</a>
+          <a class="btn btn-ghost" href="/services">See our services</a>
+        </div>
+      </div>
+    </div>
   </section>
 </BaseLayout>

@@ -49,38 +49,47 @@ const dateFmt = new Intl.DateTimeFormat('en-US', {
   author={data.author}
   schema={[schema]}
 >
-  <article>
-    <header>
-      <h1>{data.title}</h1>
-      <p>
-        <time datetime={data.pubDate.toISOString()}>
-          {dateFmt.format(data.pubDate)}
-        </time>
-        &middot; {data.author}
+  <section class="page-head">
+    <div class="wrap">
+      <header class="article-header">
+        <p class="eyebrow">Blog</p>
+        <h1>{data.title}</h1>
+        <p class="meta">
+          <time datetime={data.pubDate.toISOString()}>
+            {dateFmt.format(data.pubDate)}
+          </time>
+          &middot; {data.author}
+          {
+            data.updatedDate && (
+              <>
+                {' '}&middot; Updated{' '}
+                <time datetime={data.updatedDate.toISOString()}>
+                  {dateFmt.format(data.updatedDate)}
+                </time>
+              </>
+            )
+          }
+        </p>
         {
-          data.updatedDate && (
-            <>
-              {' '}&middot; Updated{' '}
-              <time datetime={data.updatedDate.toISOString()}>
-                {dateFmt.format(data.updatedDate)}
-              </time>
-            </>
+          data.tags.length > 0 && (
+            <ul class="tag-list" aria-label="Tags">
+              {data.tags.map((tag) => <li>{tag}</li>)}
+            </ul>
           )
         }
-      </p>
-      {
-        data.tags.length > 0 && (
-          <ul aria-label="Tags">
-            {data.tags.map((tag) => <li>{tag}</li>)}
-          </ul>
-        )
-      }
-    </header>
+      </header>
+    </div>
+  </section>
 
-    {data.heroImage && <img src={data.heroImage} alt="" />}
-
-    <Content />
-  </article>
-
-  <p><a href="/blog">&larr; Back to the blog</a></p>
+  <section class="section" style="padding-top: 0;">
+    <div class="wrap">
+      <article class="prose">
+        {data.heroImage && <img src={data.heroImage} alt="" />}
+        <Content />
+      </article>
+      <div class="prose">
+        <a class="back-link" href="/blog">← Back to the blog</a>
+      </div>
+    </div>
+  </section>
 </BaseLayout>

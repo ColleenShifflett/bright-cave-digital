@@ -17,27 +17,39 @@ const dateFmt = new Intl.DateTimeFormat('en-US', {
   title="Blog"
   description="Insights, guides, and updates from Brightcave Digital."
 >
-  <h1>Blog</h1>
-  <p>Insights, guides, and updates on growing your business online.</p>
+  <section class="page-head">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="eyebrow">Blog</p>
+        <h2>Insights &amp; field notes.</h2>
+        <p class="sub">Practical guidance on growing your business online.</p>
+      </div>
+    </div>
+  </section>
 
-  {posts.length === 0 && <p>No posts yet — check back soon.</p>}
+  <section class="section" style="padding-top: 0;">
+    <div class="wrap" style="max-width: 820px;">
+      {posts.length === 0 && <p style="text-align:center;color:var(--bca-fg-muted);">No posts yet — check back soon.</p>}
 
-  <ul>
-    {
-      posts.map((post) => (
-        <li>
-          <article>
-            <h2><a href={`/blog/${post.id}/`}>{post.data.title}</a></h2>
-            <p>
-              <time datetime={post.data.pubDate.toISOString()}>
-                {dateFmt.format(post.data.pubDate)}
-              </time>
-              {post.data.author && <> &middot; {post.data.author}</>}
-            </p>
-            <p>{post.data.description}</p>
-          </article>
-        </li>
-      ))
-    }
-  </ul>
+      <ul class="post-list">
+        {
+          posts.map((post) => (
+            <li>
+              <article class="card">
+                <h2><a href={`/blog/${post.id}/`}>{post.data.title}</a></h2>
+                <p class="meta">
+                  <time datetime={post.data.pubDate.toISOString()}>
+                    {dateFmt.format(post.data.pubDate)}
+                  </time>
+                  {post.data.author && <> &middot; {post.data.author}</>}
+                </p>
+                <p>{post.data.description}</p>
+                <p class="card-cta"><a href={`/blog/${post.id}/`}>Read more →</a></p>
+              </article>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
 </BaseLayout>

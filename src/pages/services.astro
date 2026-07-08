@@ -6,6 +6,7 @@ const tiers = [
     id: 'diy',
     code: 'DIY',
     name: 'Do It Yourself',
+    gem: 'gem--clarity',
     intro:
       'For the hands-on business owner who wants to learn and build independently.',
     includes: [
@@ -14,11 +15,13 @@ const tiers = [
       'A growing library of free resources',
       'Community support',
     ],
+    feature: false,
   },
   {
     id: 'dwy',
     code: 'DWY',
     name: 'Done With You',
+    gem: 'gem--glow',
     intro:
       'For teams who want expert guidance while keeping their hands on the wheel.',
     includes: [
@@ -27,11 +30,13 @@ const tiers = [
       'Reviews and feedback on your work',
       'Custom roadmaps and priorities',
     ],
+    feature: true,
   },
   {
     id: 'dfy',
     code: 'DFY',
     name: 'Done For You',
+    gem: 'gem--insight',
     intro:
       'For businesses that want results without the workload — we handle everything.',
     includes: [
@@ -40,6 +45,7 @@ const tiers = [
       'Ongoing management and reporting',
       'A dedicated point of contact',
     ],
+    feature: false,
   },
 ];
 ---
@@ -48,34 +54,57 @@ const tiers = [
   title="Services"
   description="Brightcave Digital's DIY, Done-With-You, and Done-For-You services — pick the level of support that fits how you want to work."
 >
-  <h1>Services</h1>
-  <p>
-    Every engagement starts with one question: how much do you want to do
-    yourself? Pick the tier that fits today &mdash; you can always move between
-    them as your needs change.
-  </p>
+  <section class="page-head">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="eyebrow">Services</p>
+        <h2>Three shapes of support.</h2>
+        <p class="sub">
+          Every engagement starts with one question: how much do you want to do
+          yourself? Pick the tier that fits today — you can always move between
+          them as your needs change.
+        </p>
+      </div>
+    </div>
+  </section>
 
-  {
-    tiers.map((tier) => (
-      <section id={tier.id} aria-labelledby={`${tier.id}-heading`}>
-        <h2 id={`${tier.id}-heading`}>
-          {tier.code} &mdash; {tier.name}
-        </h2>
-        <p>{tier.intro}</p>
-        <ul>
-          {tier.includes.map((item) => (
-            <li>{item}</li>
-          ))}
-        </ul>
-      </section>
-    ))
-  }
+  <section class="section" style="padding-top: 0;">
+    <div class="wrap">
+      <div class="card-grid">
+        {
+          tiers.map((tier) => (
+            <article id={tier.id} class={`card${tier.feature ? ' dark' : ''}`}>
+              {tier.feature && <span class="badge" style="align-self:flex-start;color:var(--bca-glow);border-color:rgba(255,255,255,0.3);">Most popular</span>}
+              <span class={`gem ${tier.gem}`} aria-hidden="true" />
+              <span class="tier-code">{tier.code}</span>
+              <h3>{tier.name}</h3>
+              <p>{tier.intro}</p>
+              <ul>
+                {tier.includes.map((item) => <li>{item}</li>)}
+              </ul>
+              <p class="card-cta">
+                <a
+                  class={`btn ${tier.feature ? 'btn-accent' : 'btn-ghost'}`}
+                  href="/#contact"
+                >
+                  Get started
+                </a>
+              </p>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </section>
 
-  <section aria-labelledby="cta-heading">
-    <h2 id="cta-heading">Not sure which is right?</h2>
-    <p>
-      This is placeholder copy. Add a contact form or booking link here so
-      prospects can get in touch.
-    </p>
+  <section class="cta-band" id="contact">
+    <div class="wrap">
+      <h2>Not sure which is right?</h2>
+      <p>
+        This is placeholder copy. Add a contact form or booking link here so
+        prospects can get in touch.
+      </p>
+      <a class="btn btn-primary" href="/about" style="padding:14px 24px;font-size:15px;">Learn about us →</a>
+    </div>
   </section>
 </BaseLayout>

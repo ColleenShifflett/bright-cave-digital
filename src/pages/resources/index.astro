@@ -11,30 +11,37 @@ const resources = (
   title="Resources"
   description="Free guides, templates, and tools from Brightcave Digital to help you grow — whichever way you like to work."
 >
-  <h1>Resources</h1>
-  <p>
-    Free guides, templates, checklists, and tools. Great for the DIY crowd, and
-    a handy reference no matter which tier you're on.
-  </p>
+  <section class="page-head">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="eyebrow">Resources</p>
+        <h2>Free guides &amp; templates.</h2>
+        <p class="sub">
+          Great for the DIY crowd, and a handy reference no matter which tier
+          you're on.
+        </p>
+      </div>
+    </div>
+  </section>
 
-  {resources.length === 0 && <p>No resources yet — check back soon.</p>}
+  <section class="section" style="padding-top: 0;">
+    <div class="wrap">
+      {resources.length === 0 && <p style="text-align:center;color:var(--bca-fg-muted);">No resources yet — check back soon.</p>}
 
-  <ul>
-    {
-      resources.map((resource) => (
-        <li>
-          <article>
-            <h2>
-              <a href={`/resources/${resource.id}/`}>{resource.data.title}</a>
-            </h2>
-            <p>
-              <span>{resource.data.resourceType}</span>
-              {resource.data.tier && <> &middot; {resource.data.tier}</>}
-            </p>
-            <p>{resource.data.description}</p>
-          </article>
-        </li>
-      ))
-    }
-  </ul>
+      <ul class="post-list card-grid" style="list-style:none;">
+        {
+          resources.map((resource) => (
+            <li>
+              <article class="card">
+                <span class="badge">{resource.data.resourceType}{resource.data.tier ? ` · ${resource.data.tier}` : ''}</span>
+                <h2><a href={`/resources/${resource.id}/`}>{resource.data.title}</a></h2>
+                <p>{resource.data.description}</p>
+                <p class="card-cta"><a href={`/resources/${resource.id}/`}>Open →</a></p>
+              </article>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
 </BaseLayout>

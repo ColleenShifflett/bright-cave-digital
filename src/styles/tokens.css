@@ -1,0 +1,199 @@
+/* =========================================================
+   Brightcave — Colors & Type
+   Source of truth: "Bright Cave Analytics Design System"
+   (Claude Design). Tokens are prefixed --bca-. Base typography
+   applied to html/headings so semantic markup inherits the system.
+   ========================================================= */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Geist:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&family=Caveat:wght@500;600;700&display=swap');
+
+:root {
+  /* ---------- Brand color palette ---------- */
+  --bca-glow:      #F59E0B;  /* primary accent — orange */
+  --bca-insight:   #FCD34D;  /* secondary accent — yellow */
+  --bca-clarity:   #0EA5A4;  /* teal — for charts, links */
+  --bca-depth:     #1E1E1E;  /* near-black — body text, dark surfaces */
+  --bca-stone:     #6B7280;  /* secondary text, borders */
+  --bca-fog:       #F6F6F4;  /* warm off-white — page background */
+
+  /* ---------- Extended neutrals ---------- */
+  --bca-paper:     #FFFFFF;
+  --bca-fog-2:     #ECECE8;
+  --bca-stone-2:   #9CA3AF;
+  --bca-depth-2:   #2A2D33;
+  --bca-depth-3:   #0F1115;
+
+  /* ---------- Semantic colors ---------- */
+  --bca-bg:        var(--bca-fog);
+  --bca-surface:   var(--bca-paper);
+  --bca-surface-dark: var(--bca-depth);
+  --bca-fg:        var(--bca-depth);
+  --bca-fg-muted:  var(--bca-stone);
+  --bca-fg-subtle: var(--bca-stone-2);
+  --bca-border:    #E5E5E0;
+  --bca-border-strong: #C9C9C2;
+  --bca-link:      var(--bca-clarity);
+  --bca-accent:    var(--bca-glow);
+
+  --bca-success:   var(--bca-clarity);
+  --bca-warning:   var(--bca-insight);
+  --bca-danger:    #C0463A;
+
+  /* ---------- Typography ---------- */
+  --bca-font-display: "Geist", "Inter", system-ui, sans-serif;
+  --bca-font-body:    "Inter", system-ui, sans-serif;
+  --bca-font-mono:    "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  --bca-font-hand:    "Caveat", "Kalam", "Comic Sans MS", cursive;
+
+  --bca-fs-display: 64px;
+  --bca-fs-h1:      40px;
+  --bca-fs-h2:      28px;
+  --bca-fs-h3:      20px;
+  --bca-fs-body:    16px;
+  --bca-fs-small:   14px;
+  --bca-fs-caption: 12px;
+
+  --bca-lh-tight:  1.1;
+  --bca-lh-snug:   1.25;
+  --bca-lh-normal: 1.5;
+  --bca-lh-loose:  1.65;
+
+  --bca-tracking-tight:  -0.02em;
+  --bca-tracking-normal: 0;
+  --bca-tracking-wide:   0.06em;
+  --bca-tracking-eyebrow:0.18em;
+
+  /* ---------- Spacing (4px base) ---------- */
+  --bca-space-1: 4px;
+  --bca-space-2: 8px;
+  --bca-space-3: 12px;
+  --bca-space-4: 16px;
+  --bca-space-5: 20px;
+  --bca-space-6: 24px;
+  --bca-space-8: 32px;
+  --bca-space-10: 40px;
+  --bca-space-12: 48px;
+  --bca-space-16: 64px;
+  --bca-space-20: 80px;
+  --bca-space-24: 96px;
+
+  /* ---------- Radii ---------- */
+  --bca-radius-sm: 4px;
+  --bca-radius-md: 8px;
+  --bca-radius-lg: 14px;
+  --bca-radius-xl: 20px;
+  --bca-radius-pill: 999px;
+
+  /* ---------- Shadows ---------- */
+  --bca-shadow-sm: 0 1px 2px rgba(15, 17, 21, 0.06);
+  --bca-shadow-md: 0 4px 14px -4px rgba(15, 17, 21, 0.10), 0 1px 2px rgba(15, 17, 21, 0.04);
+  --bca-shadow-lg: 0 18px 40px -16px rgba(15, 17, 21, 0.18), 0 2px 6px rgba(15, 17, 21, 0.06);
+  --bca-shadow-glow: 0 0 0 4px rgba(245, 158, 11, 0.18);
+
+  /* ---------- Borders ---------- */
+  --bca-border-thin: 1px solid var(--bca-border);
+  --bca-border-strong-rule: 1px solid var(--bca-border-strong);
+  --bca-rule-accent: 2px solid var(--bca-glow);
+
+  /* ---------- Motion ---------- */
+  --bca-ease: cubic-bezier(.2,.7,.2,1);
+  --bca-ease-out: cubic-bezier(0,.6,.2,1);
+  --bca-dur-fast: 120ms;
+  --bca-dur: 200ms;
+  --bca-dur-slow: 360ms;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  background: var(--bca-bg);
+  color: var(--bca-fg);
+  font-family: var(--bca-font-body);
+  font-size: var(--bca-fs-body);
+  line-height: var(--bca-lh-normal);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+.bca-display, h1.display {
+  font-family: var(--bca-font-display);
+  font-weight: 700;
+  font-size: var(--bca-fs-display);
+  line-height: var(--bca-lh-tight);
+  letter-spacing: var(--bca-tracking-tight);
+  color: var(--bca-fg);
+}
+
+h1, .bca-h1 {
+  font-family: var(--bca-font-display);
+  font-weight: 700;
+  font-size: var(--bca-fs-h1);
+  line-height: var(--bca-lh-tight);
+  letter-spacing: var(--bca-tracking-tight);
+  color: var(--bca-fg);
+}
+
+h2, .bca-h2 {
+  font-family: var(--bca-font-display);
+  font-weight: 600;
+  font-size: var(--bca-fs-h2);
+  line-height: var(--bca-lh-snug);
+  letter-spacing: var(--bca-tracking-tight);
+  color: var(--bca-fg);
+}
+
+h3, .bca-h3 {
+  font-family: var(--bca-font-display);
+  font-weight: 600;
+  font-size: var(--bca-fs-h3);
+  line-height: var(--bca-lh-snug);
+  color: var(--bca-fg);
+}
+
+p, .bca-p {
+  font-family: var(--bca-font-body);
+  font-size: var(--bca-fs-body);
+  line-height: var(--bca-lh-normal);
+  color: var(--bca-fg);
+  text-wrap: pretty;
+}
+
+.bca-small, small { font-size: var(--bca-fs-small); color: var(--bca-fg-muted); }
+
+.bca-caption {
+  font-size: var(--bca-fs-caption);
+  color: var(--bca-fg-muted);
+  letter-spacing: var(--bca-tracking-wide);
+}
+
+.bca-eyebrow {
+  font-family: var(--bca-font-body);
+  font-size: var(--bca-fs-caption);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: var(--bca-tracking-eyebrow);
+  color: var(--bca-fg-muted);
+}
+
+.bca-eyebrow-accent {
+  font-family: var(--bca-font-display);
+  font-size: var(--bca-fs-caption);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: var(--bca-tracking-eyebrow);
+  color: var(--bca-clarity);
+}
+
+.bca-mono, code, pre, kbd { font-family: var(--bca-font-mono); font-size: 0.92em; }
+
+.bca-hand { font-family: var(--bca-font-hand); font-weight: 400; }
+
+a {
+  color: var(--bca-link);
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: border-color var(--bca-dur) var(--bca-ease);
+}
+
+a:hover { border-bottom-color: currentColor; }

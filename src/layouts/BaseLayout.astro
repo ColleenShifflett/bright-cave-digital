@@ -4,6 +4,8 @@ import JsonLd from '../components/JsonLd.astro';
 import Analytics from '../components/Analytics.astro';
 import { organizationSchema } from '../lib/jsonld';
 import { SITE_TITLE, SITE_URL, NAV_LINKS } from '../consts';
+import '../styles/tokens.css';
+import '../styles/app.css';
 
 interface Props {
   title?: string;
@@ -23,6 +25,7 @@ const { schema = [], ...seo } = Astro.props;
 const currentPath = Astro.url.pathname;
 const isActive = (href: string) =>
   href === '/' ? currentPath === '/' : currentPath.startsWith(href);
+const year = new Date().getFullYear();
 ---
 
 <!doctype html>
@@ -53,52 +56,78 @@ const isActive = (href: string) =>
   <body>
     <a class="skip-link" href="#main">Skip to content</a>
 
-    <header>
-      <nav aria-label="Primary">
-        <a href="/" class="brand">{SITE_TITLE}</a>
-        <ul>
-          {
-            NAV_LINKS.map((link) => (
-              <li>
-                <a
-                  href={link.href}
-                  aria-current={isActive(link.href) ? 'page' : undefined}
-                >
-                  {link.label}
-                </a>
-              </li>
-            ))
-          }
-        </ul>
-      </nav>
+    <header class="site-header">
+      <div class="wrap">
+        <nav class="nav-top" aria-label="Primary">
+          <a href="/" class="brand" aria-label={`${SITE_TITLE} home`}>
+            <span class="mark" aria-hidden="true">B</span>
+            <span class="wordmark">
+              Brightcave
+              <span class="sub">Digital</span>
+            </span>
+          </a>
+          <ul class="nav-links">
+            {
+              NAV_LINKS.filter((l) => l.href !== '/').map((link) => (
+                <li>
+                  <a
+                    href={link.href}
+                    aria-current={isActive(link.href) ? 'page' : undefined}
+                  >
+                    {link.label}
+                  </a>
+                </li>
+              ))
+            }
+          </ul>
+          <div class="nav-cta">
+            <a class="btn btn-primary" href="/services">Get started</a>
+          </div>
+        </nav>
+      </div>
     </header>
 
     <main id="main">
       <slot />
     </main>
 
-    <footer>
-      <p>
-        &copy; {new Date().getFullYear()} {SITE_TITLE}. All rights reserved.
-      </p>
-      <p>
-        <a href="/blog">Blog</a> &middot;
-        <a href="/resources">Resources</a> &middot;
-        <a href="/rss.xml">RSS</a> &middot;
-        <a href="/sitemap-index.xml">Sitemap</a>
-      </p>
+    <footer class="site-footer">
+      <div class="wrap">
+        <div class="cols">
+          <div class="col">
+            <a href="/" class="brand" aria-label={`${SITE_TITLE} home`}>
+              <span class="mark" aria-hidden="true">B</span>
+              <span class="wordmark">Brightcave<span class="sub">Digital</span></span>
+            </a>
+            <p class="blurb">
+              Digital growth on your terms — Do&#8209;It&#8209;Yourself,
+              Done&#8209;With&#8209;You, or Done&#8209;For&#8209;You.
+            </p>
+          </div>
+          <div class="col">
+            <h2>Explore</h2>
+            <a href="/services">Services</a>
+            <a href="/about">About</a>
+            <a href="/blog">Blog</a>
+            <a href="/resources">Resources</a>
+          </div>
+          <div class="col">
+            <h2>Services</h2>
+            <a href="/services#diy">DIY</a>
+            <a href="/services#dwy">Done With You</a>
+            <a href="/services#dfy">Done For You</a>
+          </div>
+          <div class="col">
+            <h2>Follow</h2>
+            <a href="/rss.xml">RSS feed</a>
+            <a href="/sitemap-index.xml">Sitemap</a>
+          </div>
+        </div>
+        <div class="legal">
+          <span>&copy; {year} {SITE_TITLE}. All rights reserved.</span>
+          <span>Made with care</span>
+        </div>
+      </div>
     </footer>
-
-    <style>
-      /* Minimal, unopinionated resets only — no styling framework yet. */
-      .skip-link {
-        position: absolute;
-        left: -9999px;
-      }
-      .skip-link:focus {
-        left: 0;
-        top: 0;
-      }
-    </style>
   </body>
 </html>
