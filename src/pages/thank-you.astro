@@ -1,0 +1,31 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+// Static confirmation page. Configure your form service to redirect here
+// after a successful submission (see PUBLIC_CONTACT_ENDPOINT in .env.example).
+---
+
+<BaseLayout
+  title="Thank you"
+  description="Thanks for reaching out to Brightcave Digital — we'll be in touch shortly."
+  noindex={true}
+>
+  <section class="section">
+    <div class="wrap">
+      <div class="form-success">
+        <span class="gem gem--glow" aria-hidden="true"></span>
+        <p class="eyebrow">Message received</p>
+        <h2>Thanks — we'll be in touch.</h2>
+        <p style="color: var(--bca-fg-muted); max-width: 46ch; margin-inline: auto;">
+          We read every message and usually reply within a couple of business
+          days. In the meantime, browse the free resources or read the blog.
+        </p>
+        <div class="actions" style="display:flex;gap:14px;flex-wrap:wrap;justify-content:center;margin-top:var(--bca-space-8);">
+          <a class="btn btn-primary" href="/resources">Browse resources</a>
+          <a class="btn btn-ghost" href="/blog">Read the blog</a>
+        </div>
+        <p><a class="back-link" href="/">← Back to the homepage</a></p>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

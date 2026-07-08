@@ -137,7 +137,7 @@
 /* ---------- Gem motif (CSS diamond) ---------- */
 .gem {
   --gem-size: 44px; --gem-color: var(--bca-glow);
-  width: var(--gem-size); height: var(--gem-size); flex: none;
+  display: block; width: var(--gem-size); height: var(--gem-size); flex: none;
   background: linear-gradient(150deg, color-mix(in srgb, var(--gem-color) 78%, white), var(--gem-color) 55%, color-mix(in srgb, var(--gem-color) 60%, black));
   clip-path: polygon(50% 0, 100% 35%, 78% 100%, 22% 100%, 0 35%);
   box-shadow: var(--bca-shadow-sm);
@@ -239,3 +239,45 @@
 .skip-link:focus { left: 12px; top: 12px; z-index: 10; background: var(--bca-depth); color: #fff; padding: 8px 12px; border-radius: var(--bca-radius-md); }
 
 .back-link { display: inline-block; margin-top: var(--bca-space-8); font-weight: 600; }
+
+/* ---------- Forms (design-system spec) ---------- */
+.form-card {
+  max-width: 640px; margin: 0 auto;
+  background: var(--bca-paper); border: 1px solid var(--bca-border);
+  border-radius: var(--bca-radius-lg); box-shadow: var(--bca-shadow-md);
+  padding: var(--bca-space-10);
+}
+.form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: var(--bca-space-5) var(--bca-space-6); }
+.field { display: flex; flex-direction: column; gap: 6px; }
+.field.full { grid-column: 1 / -1; }
+.field label { font-family: var(--bca-font-body); font-weight: 600; font-size: 12px; color: var(--bca-fg); }
+.field label .req { color: var(--bca-danger); margin-left: 2px; }
+.field .help { font-size: 11px; color: var(--bca-fg-muted); }
+.field input, .field select, .field textarea {
+  font-family: var(--bca-font-body); font-size: 14px; padding: 10px 12px;
+  border-radius: var(--bca-radius-md); border: 1px solid var(--bca-border-strong);
+  background: #fff; color: var(--bca-fg); outline: none; width: 100%;
+  transition: border-color var(--bca-dur) var(--bca-ease), box-shadow var(--bca-dur) var(--bca-ease);
+}
+.field textarea { resize: vertical; min-height: 120px; }
+.field input:focus, .field select:focus, .field textarea:focus {
+  border-color: var(--bca-glow); box-shadow: var(--bca-shadow-glow);
+}
+.field .check { display: flex; gap: 8px; align-items: center; font-size: 14px; color: var(--bca-fg-muted); }
+.field .check input[type="checkbox"] { width: 16px; height: 16px; accent-color: var(--bca-glow); }
+.form-actions { grid-column: 1 / -1; display: flex; align-items: center; gap: 16px; margin-top: 4px; }
+.form-note { font-size: 13px; color: var(--bca-fg-muted); }
+.form-note a { font-weight: 600; }
+/* honeypot — hidden from humans, catches bots */
+.hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+.form-success {
+  max-width: 640px; margin: 0 auto; text-align: center;
+  background: var(--bca-paper); border: 1px solid var(--bca-border);
+  border-radius: var(--bca-radius-lg); box-shadow: var(--bca-shadow-md);
+  padding: var(--bca-space-12) var(--bca-space-10);
+}
+.form-success .gem { margin: 0 auto var(--bca-space-5); }
+@media (max-width: 640px) {
+  .form-grid { grid-template-columns: 1fr; }
+  .form-card { padding: var(--bca-space-6); }
+}

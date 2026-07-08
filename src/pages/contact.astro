@@ -1,0 +1,95 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { ORGANIZATION, SITE_URL } from '../consts';
+
+const thankYouUrl = new URL('/thank-you', SITE_URL).href;
+
+// The form posts to a form-handling service (Formspree, Web3Forms, Vercel
+// Forms, etc.). Set PUBLIC_CONTACT_ENDPOINT in your environment to that
+// service's POST URL. When unset, we fall back to a mailto: so the page is
+// never a dead end.
+const endpoint = import.meta.env.PUBLIC_CONTACT_ENDPOINT;
+const mailto = `mailto:${ORGANIZATION.email}`;
+const action = endpoint || mailto;
+const isMailto = !endpoint;
+
+const tiers = ['Not sure yet', 'DIY — Do It Yourself', 'DWY — Done With You', 'DFY — Done For You'];
+---
+
+<BaseLayout
+  title="Contact"
+  description="Get in touch with Brightcave Digital. Tell us your goal and we'll point you to the right starting tier — DIY, Done-With-You, or Done-For-You."
+>
+  <section class="page-head">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="eyebrow">Contact</p>
+        <h2>Tell us where you're headed.</h2>
+        <p class="sub">
+          Share your goal and how hands-on you want to be — we'll point you to
+          the right starting tier and next step.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" style="padding-top: 0;">
+    <div class="wrap">
+      {
+        (
+          <form
+            class="form-card"
+            action={action}
+            method={isMailto ? undefined : 'POST'}
+          >
+            <div class="form-grid">
+              <div class="field">
+                <label for="name">Name<span class="req" aria-hidden="true">*</span></label>
+                <input id="name" name="name" type="text" required autocomplete="name" />
+              </div>
+              <div class="field">
+                <label for="email">Email<span class="req" aria-hidden="true">*</span></label>
+                <input id="email" name="email" type="email" required autocomplete="email" />
+              </div>
+              <div class="field">
+                <label for="company">Company</label>
+                <input id="company" name="company" type="text" autocomplete="organization" />
+              </div>
+              <div class="field">
+                <label for="tier">Which tier fits?</label>
+                <select id="tier" name="tier">
+                  {tiers.map((t) => <option>{t}</option>)}
+                </select>
+                <div class="help">You can change tiers anytime.</div>
+              </div>
+              <div class="field full">
+                <label for="message">What are you trying to grow?<span class="req" aria-hidden="true">*</span></label>
+                <textarea id="message" name="message" rows="5" required></textarea>
+                <div class="help">A sentence or two about your goal is plenty.</div>
+              </div>
+
+              {/* Honeypot: bots fill this; humans never see it. */}
+              <div class="hp" aria-hidden="true">
+                <label for="company_url">Leave this field empty</label>
+                <input id="company_url" name="company_url" type="text" tabindex="-1" autocomplete="off" />
+              </div>
+
+              {/* Optional service fields: subject line + post-submit redirect
+                  to the static thank-you page. Field names follow Formspree
+                  (`_subject`, `_next`); adjust to your provider if different. */}
+              <input type="hidden" name="_subject" value="New enquiry — Brightcave Digital" />
+              <input type="hidden" name="_next" value={thankYouUrl} />
+
+              <div class="form-actions">
+                <button class="btn btn-accent" type="submit">Send message →</button>
+                <span class="form-note">
+                  Prefer email? <a href={mailto}>{ORGANIZATION.email}</a>
+                </span>
+              </div>
+            </div>
+          </form>
+        )
+      }
+    </div>
+  </section>
+</BaseLayout>
