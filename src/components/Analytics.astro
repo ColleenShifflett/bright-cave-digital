@@ -1,0 +1,24 @@
+---
+// Google Analytics 4 loaded off the main thread via Partytown.
+// The measurement ID is read from the GA4_MEASUREMENT_ID environment variable
+// at build time; if it's unset the whole block is skipped, so dev builds and
+// previews stay untracked without any code changes.
+const measurementId = import.meta.env.GA4_MEASUREMENT_ID;
+---
+
+{measurementId && (
+  <>
+    <script
+      type="text/partytown"
+      src={`https://www.googletagmanager.com/gtag/js?id=${measurementId}`}
+    ></script>
+    <script type="text/partytown" define:vars={{ measurementId }}>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag('js', new Date());
+      gtag('config', measurementId);
+    </script>
+  </>
+)}

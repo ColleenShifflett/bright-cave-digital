@@ -1,0 +1,11 @@
+---
+// Emits a JSON-LD <script> block. Pass any schema.org object as `schema`.
+// Serialised with a set:html script tag so Astro doesn't escape the JSON.
+interface Props {
+  schema: Record<string, unknown>;
+}
+
+const { schema } = Astro.props;
+---
+
+<script type="application/ld+json" set:html={JSON.stringify(schema)} is:inline />

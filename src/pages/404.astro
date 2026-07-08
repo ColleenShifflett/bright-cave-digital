@@ -1,0 +1,25 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { NAV_LINKS } from '../consts';
+---
+
+<BaseLayout
+  title="Page not found"
+  description="Sorry, we couldn't find that page."
+  noindex={true}
+>
+  <section>
+    <h1>404 &mdash; Page not found</h1>
+    <p>
+      The page you're looking for doesn't exist, may have moved, or the link
+      might be broken.
+    </p>
+
+    <h2>Try one of these instead</h2>
+    <ul>
+      {NAV_LINKS.map((link) => <li><a href={link.href}>{link.label}</a></li>)}
+    </ul>
+
+    <p><a href="/">&larr; Back to the homepage</a></p>
+  </section>
+</BaseLayout>

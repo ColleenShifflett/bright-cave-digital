@@ -1,0 +1,86 @@
+---
+import { getCollection, render } from 'astro:content';
+import type { CollectionEntry } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { articleSchema } from '../../lib/jsonld';
+import { DEFAULT_OG_IMAGE } from '../../consts';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog', ({ data }) => !data.draft);
+  return posts.map((post) => ({
+    params: { slug: post.id },
+    props: { post },
+  }));
+}
+
+type Props = { post: CollectionEntry<'blog'> };
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+const { data } = post;
+
+const url = new URL(Astro.url.pathname, Astro.site);
+const image = data.ogImage ?? data.heroImage ?? DEFAULT_OG_IMAGE;
+
+const schema = articleSchema({
+  title: data.title,
+  description: data.description,
+  url,
+  image: new URL(image, Astro.site),
+  publishedTime: data.pubDate,
+  modifiedTime: data.updatedDate,
+  author: data.author,
+});
+
+const dateFmt = new Intl.DateTimeFormat('en-US', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+});
+---
+
+<BaseLayout
+  title={data.title}
+  description={data.description}
+  image={image}
+  type="article"
+  publishedTime={data.pubDate}
+  modifiedTime={data.updatedDate}
+  author={data.author}
+  schema={[schema]}
+>
+  <article>
+    <header>
+      <h1>{data.title}</h1>
+      <p>
+        <time datetime={data.pubDate.toISOString()}>
+          {dateFmt.format(data.pubDate)}
+        </time>
+        &middot; {data.author}
+        {
+          data.updatedDate && (
+            <>
+              {' '}&middot; Updated{' '}
+              <time datetime={data.updatedDate.toISOString()}>
+                {dateFmt.format(data.updatedDate)}
+              </time>
+            </>
+          )
+        }
+      </p>
+      {
+        data.tags.length > 0 && (
+          <ul aria-label="Tags">
+            {data.tags.map((tag) => <li>{tag}</li>)}
+          </ul>
+        )
+      }
+    </header>
+
+    {data.heroImage && <img src={data.heroImage} alt="" />}
+
+    <Content />
+  </article>
+
+  <p><a href="/blog">&larr; Back to the blog</a></p>
+</BaseLayout>

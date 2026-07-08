@@ -1,0 +1,67 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { SITE_TAGLINE, SITE_DESCRIPTION } from '../consts';
+
+const tiers = [
+  {
+    code: 'DIY',
+    name: 'Do It Yourself',
+    summary:
+      'Guides, templates, and tools that let you build and grow on your own, at your own pace.',
+    href: '/services#diy',
+  },
+  {
+    code: 'DWY',
+    name: 'Done With You',
+    summary:
+      'Hands-on coaching and strategy sessions where we work alongside your team to get results.',
+    href: '/services#dwy',
+  },
+  {
+    code: 'DFY',
+    name: 'Done For You',
+    summary:
+      'Full-service execution — we take the work off your plate so you can focus on your business.',
+    href: '/services#dfy',
+  },
+];
+---
+
+<BaseLayout title="Home" description={SITE_DESCRIPTION}>
+  <section>
+    <h1>{SITE_TAGLINE}</h1>
+    <p>
+      Brightcave Digital meets you wherever you are. Whether you want to learn
+      the ropes yourself, get expert guidance, or hand it all over, we have a
+      path for you.
+    </p>
+    <p><a href="/services">Explore our services</a></p>
+  </section>
+
+  <section aria-labelledby="model-heading">
+    <h2 id="model-heading">Three ways to work together</h2>
+    <ul>
+      {
+        tiers.map((tier) => (
+          <li>
+            <h3>
+              <a href={tier.href}>
+                {tier.code} &mdash; {tier.name}
+              </a>
+            </h3>
+            <p>{tier.summary}</p>
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+
+  <section aria-labelledby="next-heading">
+    <h2 id="next-heading">Start here</h2>
+    <ul>
+      <li><a href="/about">Learn about Brightcave Digital</a></li>
+      <li><a href="/resources">Browse free resources</a></li>
+      <li><a href="/blog">Read the blog</a></li>
+    </ul>
+  </section>
+</BaseLayout>

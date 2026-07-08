@@ -1,0 +1,74 @@
+---
+import {
+  SITE_TITLE,
+  SITE_DESCRIPTION,
+  DEFAULT_OG_IMAGE,
+  TWITTER_HANDLE,
+} from '../consts';
+
+interface Props {
+  title?: string;
+  description?: string;
+  /** Per-page social share image. Path or absolute URL. */
+  image?: string;
+  /** 'website' for pages, 'article' for blog posts/resources. */
+  type?: 'website' | 'article';
+  /** Set to true to keep a page out of search indexes. */
+  noindex?: boolean;
+  /** Article metadata (only used when type === 'article'). */
+  publishedTime?: Date;
+  modifiedTime?: Date;
+  author?: string;
+}
+
+const {
+  title,
+  description = SITE_DESCRIPTION,
+  image = DEFAULT_OG_IMAGE,
+  type = 'website',
+  noindex = false,
+  publishedTime,
+  modifiedTime,
+  author,
+} = Astro.props;
+
+// A page title, falling back to the bare site title on the homepage.
+const pageTitle = title ? `${title} | ${SITE_TITLE}` : SITE_TITLE;
+
+// Resolve canonical + image to absolute URLs against the configured `site`.
+const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+const imageURL = new URL(image, Astro.site);
+---
+
+<!-- Primary meta tags -->
+<title>{pageTitle}</title>
+<meta name="title" content={pageTitle} />
+<meta name="description" content={description} />
+<link rel="canonical" href={canonicalURL} />
+{noindex && <meta name="robots" content="noindex, nofollow" />}
+
+<!-- Open Graph / Facebook -->
+<meta property="og:type" content={type} />
+<meta property="og:url" content={canonicalURL} />
+<meta property="og:title" content={pageTitle} />
+<meta property="og:description" content={description} />
+<meta property="og:image" content={imageURL} />
+<meta property="og:site_name" content={SITE_TITLE} />
+{type === 'article' && publishedTime && (
+  <meta property="article:published_time" content={publishedTime.toISOString()} />
+)}
+{type === 'article' && modifiedTime && (
+  <meta property="article:modified_time" content={modifiedTime.toISOString()} />
+)}
+{type === 'article' && author && (
+  <meta property="article:author" content={author} />
+)}
+
+<!-- Twitter -->
+<meta property="twitter:card" content="summary_large_image" />
+<meta property="twitter:url" content={canonicalURL} />
+<meta property="twitter:title" content={pageTitle} />
+<meta property="twitter:description" content={description} />
+<meta property="twitter:image" content={imageURL} />
+<meta name="twitter:site" content={TWITTER_HANDLE} />
+<meta name="twitter:creator" content={TWITTER_HANDLE} />

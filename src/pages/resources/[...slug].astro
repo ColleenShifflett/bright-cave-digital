@@ -1,0 +1,68 @@
+---
+import { getCollection, render } from 'astro:content';
+import type { CollectionEntry } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { articleSchema } from '../../lib/jsonld';
+import { DEFAULT_OG_IMAGE, SITE_TITLE } from '../../consts';
+
+export async function getStaticPaths() {
+  const resources = await getCollection('resources', ({ data }) => !data.draft);
+  return resources.map((resource) => ({
+    params: { slug: resource.id },
+    props: { resource },
+  }));
+}
+
+type Props = { resource: CollectionEntry<'resources'> };
+
+const { resource } = Astro.props;
+const { Content } = await render(resource);
+const { data } = resource;
+
+const url = new URL(Astro.url.pathname, Astro.site);
+const image = data.ogImage ?? DEFAULT_OG_IMAGE;
+
+const schema = articleSchema({
+  title: data.title,
+  description: data.description,
+  url,
+  image: new URL(image, Astro.site),
+  publishedTime: data.pubDate,
+  modifiedTime: data.updatedDate,
+  author: SITE_TITLE,
+});
+---
+
+<BaseLayout
+  title={data.title}
+  description={data.description}
+  image={image}
+  type="article"
+  publishedTime={data.pubDate}
+  modifiedTime={data.updatedDate}
+  schema={[schema]}
+>
+  <article>
+    <header>
+      <h1>{data.title}</h1>
+      <p>
+        <span>{data.resourceType}</span>
+        {data.tier && <> &middot; For {data.tier}</>}
+      </p>
+    </header>
+
+    <Content />
+
+    {
+      data.downloadUrl && (
+        <p>
+          <a href={data.downloadUrl} rel="noopener">
+            Download this resource
+          </a>
+        </p>
+      )
+    }
+  </article>
+
+  <p><a href="/resources">&larr; Back to resources</a></p>
+</BaseLayout>

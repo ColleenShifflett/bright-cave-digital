@@ -1,0 +1,81 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const tiers = [
+  {
+    id: 'diy',
+    code: 'DIY',
+    name: 'Do It Yourself',
+    intro:
+      'For the hands-on business owner who wants to learn and build independently.',
+    includes: [
+      'Step-by-step guides and templates',
+      'Self-paced courses and playbooks',
+      'A growing library of free resources',
+      'Community support',
+    ],
+  },
+  {
+    id: 'dwy',
+    code: 'DWY',
+    name: 'Done With You',
+    intro:
+      'For teams who want expert guidance while keeping their hands on the wheel.',
+    includes: [
+      'One-on-one strategy sessions',
+      'Coaching and accountability',
+      'Reviews and feedback on your work',
+      'Custom roadmaps and priorities',
+    ],
+  },
+  {
+    id: 'dfy',
+    code: 'DFY',
+    name: 'Done For You',
+    intro:
+      'For businesses that want results without the workload — we handle everything.',
+    includes: [
+      'Full-service strategy and execution',
+      'Content, campaigns, and creative',
+      'Ongoing management and reporting',
+      'A dedicated point of contact',
+    ],
+  },
+];
+---
+
+<BaseLayout
+  title="Services"
+  description="Brightcave Digital's DIY, Done-With-You, and Done-For-You services — pick the level of support that fits how you want to work."
+>
+  <h1>Services</h1>
+  <p>
+    Every engagement starts with one question: how much do you want to do
+    yourself? Pick the tier that fits today &mdash; you can always move between
+    them as your needs change.
+  </p>
+
+  {
+    tiers.map((tier) => (
+      <section id={tier.id} aria-labelledby={`${tier.id}-heading`}>
+        <h2 id={`${tier.id}-heading`}>
+          {tier.code} &mdash; {tier.name}
+        </h2>
+        <p>{tier.intro}</p>
+        <ul>
+          {tier.includes.map((item) => (
+            <li>{item}</li>
+          ))}
+        </ul>
+      </section>
+    ))
+  }
+
+  <section aria-labelledby="cta-heading">
+    <h2 id="cta-heading">Not sure which is right?</h2>
+    <p>
+      This is placeholder copy. Add a contact form or booking link here so
+      prospects can get in touch.
+    </p>
+  </section>
+</BaseLayout>

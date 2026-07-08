@@ -1,0 +1,40 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+const resources = (
+  await getCollection('resources', ({ data }) => !data.draft)
+).sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+---
+
+<BaseLayout
+  title="Resources"
+  description="Free guides, templates, and tools from Brightcave Digital to help you grow — whichever way you like to work."
+>
+  <h1>Resources</h1>
+  <p>
+    Free guides, templates, checklists, and tools. Great for the DIY crowd, and
+    a handy reference no matter which tier you're on.
+  </p>
+
+  {resources.length === 0 && <p>No resources yet — check back soon.</p>}
+
+  <ul>
+    {
+      resources.map((resource) => (
+        <li>
+          <article>
+            <h2>
+              <a href={`/resources/${resource.id}/`}>{resource.data.title}</a>
+            </h2>
+            <p>
+              <span>{resource.data.resourceType}</span>
+              {resource.data.tier && <> &middot; {resource.data.tier}</>}
+            </p>
+            <p>{resource.data.description}</p>
+          </article>
+        </li>
+      ))
+    }
+  </ul>
+</BaseLayout>
