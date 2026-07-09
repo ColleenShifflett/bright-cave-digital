@@ -9,10 +9,11 @@ const measurementId = import.meta.env.GA4_MEASUREMENT_ID;
 {measurementId && (
   <>
     <script
+      is:inline
       type="text/partytown"
       src={`https://www.googletagmanager.com/gtag/js?id=${measurementId}`}
     ></script>
-    <script type="text/partytown" define:vars={{ measurementId }}>
+    <script is:inline type="text/partytown" define:vars={{ measurementId }}>
       window.dataLayer = window.dataLayer || [];
       function gtag() {
         dataLayer.push(arguments);
