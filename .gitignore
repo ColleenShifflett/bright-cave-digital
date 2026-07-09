@@ -22,3 +22,6 @@ pnpm-debug.log*
 
 # macOS
 .DS_Store
+
+# personal notes
+TODO.md
