@@ -1,17 +1,14 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import { ORGANIZATION, SITE_URL } from '../consts';
+import { SITE_URL } from '../consts';
 
 const thankYouUrl = new URL('/thank-you', SITE_URL).href;
 
 // The form posts to a form-handling service (Formspree, Web3Forms, Vercel
 // Forms, etc.). Set PUBLIC_CONTACT_ENDPOINT in your environment to that
-// service's POST URL. When unset, we fall back to a mailto: so the page is
-// never a dead end.
+// service's POST URL.
 const endpoint = import.meta.env.PUBLIC_CONTACT_ENDPOINT;
-const mailto = `mailto:${ORGANIZATION.email}`;
-const action = endpoint || mailto;
-const isMailto = !endpoint;
+const action = endpoint || undefined;
 
 const tiers = ['Not sure yet', 'DIY — Do It Yourself', 'DWY — Done With You', 'DFY — Done For You'];
 ---
@@ -37,11 +34,7 @@ const tiers = ['Not sure yet', 'DIY — Do It Yourself', 'DWY — Done With You'
     <div class="wrap">
       {
         (
-          <form
-            class="form-card"
-            action={action}
-            method={isMailto ? undefined : 'POST'}
-          >
+          <form class="form-card" action={action} method="POST">
             <div class="form-grid">
               <div class="field">
                 <label for="name">Name<span class="req" aria-hidden="true">*</span></label>
@@ -82,9 +75,6 @@ const tiers = ['Not sure yet', 'DIY — Do It Yourself', 'DWY — Done With You'
 
               <div class="form-actions">
                 <button class="btn btn-accent" type="submit">Send message →</button>
-                <span class="form-note">
-                  Prefer email? <a href={mailto}>{ORGANIZATION.email}</a>
-                </span>
               </div>
             </div>
           </form>
