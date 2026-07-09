@@ -9,7 +9,7 @@ const blog = defineCollection({
     description: z.string(),
     pubDate: z.coerce.date(),
     updatedDate: z.coerce.date().optional(),
-    author: z.string().default('Brightcave Digital'),
+    author: z.string().default('Bright Cave Digital'),
     tags: z.array(z.string()).default([]),
     heroImage: z.string().optional(),
     // Per-page social share image (falls back to the site default).

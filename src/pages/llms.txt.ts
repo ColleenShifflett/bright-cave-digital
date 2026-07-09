@@ -17,7 +17,7 @@ export const GET: APIRoute = async () => {
     '',
     `> ${SITE_TAGLINE} ${SITE_DESCRIPTION}`,
     '',
-    'Brightcave Digital is a digital growth studio offering three service',
+    'Bright Cave Digital is a digital growth studio offering three service',
     'tiers: DIY (Do It Yourself), DWY (Done With You), and DFY (Done For You).',
     '',
     '## Key pages',

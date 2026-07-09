@@ -1,5 +1,5 @@
 /* =========================================================
-   Brightcave Digital — site layout & components
+   Bright Cave Digital — site layout & components
    Built on the design-system tokens in tokens.css.
    ========================================================= */
 
@@ -270,6 +270,13 @@
 .form-note a { font-weight: 600; }
 /* honeypot — hidden from humans, catches bots */
 .hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+.form-error {
+  grid-column: 1 / -1; margin: 0;
+  font-size: 13px; font-weight: 600; color: var(--bca-danger);
+  background: color-mix(in srgb, var(--bca-danger) 8%, transparent);
+  border: 1px solid color-mix(in srgb, var(--bca-danger) 30%, transparent);
+  border-radius: var(--bca-radius-md); padding: 10px 12px;
+}
 .form-success {
   max-width: 640px; margin: 0 auto; text-align: center;
   background: var(--bca-paper); border: 1px solid var(--bca-border);

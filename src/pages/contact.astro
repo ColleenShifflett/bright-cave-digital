@@ -1,21 +1,26 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import { SITE_URL } from '../consts';
 
-const thankYouUrl = new URL('/thank-you', SITE_URL).href;
+// The form posts to our own /api/contact endpoint (an on-demand serverless
+// function — see src/pages/api/contact.ts). Submissions are verified with
+// Cloudflare Turnstile, rate-limited, honeypot-checked, then emailed via Resend.
 
-// The form posts to a form-handling service (Formspree, Web3Forms, Vercel
-// Forms, etc.). Set PUBLIC_CONTACT_ENDPOINT in your environment to that
-// service's POST URL.
-const endpoint = import.meta.env.PUBLIC_CONTACT_ENDPOINT;
-const action = endpoint || undefined;
+// Turnstile *site* key is public by design (it is rendered into the HTML). This
+// page is prerendered, so the value is read at build time and baked in. Set
+// TURNSTILE_SITE_KEY in the build environment.
+const turnstileSiteKey = import.meta.env.TURNSTILE_SITE_KEY;
 
-const tiers = ['Not sure yet', 'DIY — Do It Yourself', 'DWY — Done With You', 'DFY — Done For You'];
+// The Interest options. The first is a disabled placeholder.
+const interests = [
+  'Freelance Work (Waitlist)',
+  'Project Consultation',
+  'Something Else',
+];
 ---
 
 <BaseLayout
   title="Contact"
-  description="Get in touch with Brightcave Digital. Tell us your goal and we'll point you to the right starting tier — DIY, Done-With-You, or Done-For-You."
+  description="Get in touch with Bright Cave Digital. Tell us your goal and how we can help — freelance work, a project consultation, or something else."
 >
   <section class="page-head">
     <div class="wrap">
@@ -23,8 +28,8 @@ const tiers = ['Not sure yet', 'DIY — Do It Yourself', 'DWY — Done With You'
         <p class="eyebrow">Contact</p>
         <h2>Tell us where you're headed.</h2>
         <p class="sub">
-          Share your goal and how hands-on you want to be — we'll point you to
-          the right starting tier and next step.
+          Share your goal and how we can help — we'll point you to the right
+          next step.
         </p>
       </div>
     </div>
@@ -32,54 +37,116 @@ const tiers = ['Not sure yet', 'DIY — Do It Yourself', 'DWY — Done With You'
 
   <section class="section" style="padding-top: 0;">
     <div class="wrap">
-      {
-        (
-          <form class="form-card" action={action} method="POST">
-            <div class="form-grid">
-              <div class="field">
-                <label for="name">Name<span class="req" aria-hidden="true">*</span></label>
-                <input id="name" name="name" type="text" required autocomplete="name" />
-              </div>
-              <div class="field">
-                <label for="email">Email<span class="req" aria-hidden="true">*</span></label>
-                <input id="email" name="email" type="email" required autocomplete="email" />
-              </div>
-              <div class="field">
-                <label for="company">Company</label>
-                <input id="company" name="company" type="text" autocomplete="organization" />
-              </div>
-              <div class="field">
-                <label for="tier">Which tier fits?</label>
-                <select id="tier" name="tier">
-                  {tiers.map((t) => <option>{t}</option>)}
-                </select>
-                <div class="help">You can change tiers anytime.</div>
-              </div>
+      <form id="contact-form" class="form-card" action="/api/contact" method="POST">
+        <div class="form-grid">
+          <div class="field">
+            <label for="name">Name<span class="req" aria-hidden="true">*</span></label>
+            <input id="name" name="name" type="text" required autocomplete="name" />
+          </div>
+          <div class="field">
+            <label for="email">Email<span class="req" aria-hidden="true">*</span></label>
+            <input id="email" name="email" type="email" required autocomplete="email" />
+          </div>
+          <div class="field full">
+            <label for="interest">What are you interested in?<span class="req" aria-hidden="true">*</span></label>
+            <select id="interest" name="interest" required>
+              <option value="" disabled selected>Select an option…</option>
+              {interests.map((i) => <option value={i}>{i}</option>)}
+            </select>
+          </div>
+          <div class="field full">
+            <label for="message">Message<span class="req" aria-hidden="true">*</span></label>
+            <textarea id="message" name="message" rows="5" required></textarea>
+            <div class="help">A sentence or two about your goal is plenty.</div>
+          </div>
+
+          {/* Honeypot: bots fill this; humans never see it. */}
+          <div class="hp" aria-hidden="true">
+            <label for="company_url">Leave this field empty</label>
+            <input id="company_url" name="company_url" type="text" tabindex="-1" autocomplete="off" />
+          </div>
+
+          {/* Cloudflare Turnstile. The widget injects a `cf-turnstile-response`
+              hidden input into this form when solved; we verify it server-side. */}
+          {
+            turnstileSiteKey ? (
               <div class="field full">
-                <label for="message">What are you trying to grow?<span class="req" aria-hidden="true">*</span></label>
-                <textarea id="message" name="message" rows="5" required></textarea>
-                <div class="help">A sentence or two about your goal is plenty.</div>
+                <div class="cf-turnstile" data-sitekey={turnstileSiteKey} data-theme="auto" />
               </div>
-
-              {/* Honeypot: bots fill this; humans never see it. */}
-              <div class="hp" aria-hidden="true">
-                <label for="company_url">Leave this field empty</label>
-                <input id="company_url" name="company_url" type="text" tabindex="-1" autocomplete="off" />
+            ) : (
+              <div class="field full">
+                <div class="help" style="color: var(--bca-danger);">
+                  Turnstile is not configured — set <code>TURNSTILE_SITE_KEY</code>.
+                </div>
               </div>
+            )
+          }
 
-              {/* Optional service fields: subject line + post-submit redirect
-                  to the static thank-you page. Field names follow Formspree
-                  (`_subject`, `_next`); adjust to your provider if different. */}
-              <input type="hidden" name="_subject" value="New enquiry — Brightcave Digital" />
-              <input type="hidden" name="_next" value={thankYouUrl} />
+          <p id="form-error" class="form-error" role="alert" hidden></p>
 
-              <div class="form-actions">
-                <button class="btn btn-accent" type="submit">Send message →</button>
-              </div>
-            </div>
-          </form>
-        )
-      }
+          <div class="form-actions">
+            <button id="contact-submit" class="btn btn-accent" type="submit">Send message →</button>
+          </div>
+        </div>
+      </form>
     </div>
   </section>
+
+  {turnstileSiteKey && (
+    <script is:inline src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+  )}
+
+  <script>
+    // Progressive enhancement: submit via fetch so we can show inline errors
+    // and keep the visitor on-page. Without JS the form still POSTs natively to
+    // /api/contact, which redirects to /thank-you on success.
+    const form = document.getElementById('contact-form') as HTMLFormElement | null;
+    const errorEl = document.getElementById('form-error');
+    const submitBtn = document.getElementById('contact-submit') as HTMLButtonElement | null;
+
+    form?.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      if (!form || !submitBtn) return;
+
+      if (errorEl) {
+        errorEl.hidden = true;
+        errorEl.textContent = '';
+      }
+      const originalLabel = submitBtn.textContent;
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Sending…';
+
+      try {
+        const res = await fetch(form.action, {
+          method: 'POST',
+          headers: { Accept: 'application/json' },
+          body: new FormData(form),
+        });
+        const data = await res.json().catch(() => ({}));
+
+        if (res.ok && data.ok) {
+          window.location.href = '/thank-you';
+          return;
+        }
+
+        if (errorEl) {
+          errorEl.textContent =
+            data.error || 'Something went wrong. Please try again.';
+          errorEl.hidden = false;
+        }
+        // Reset the Turnstile widget so the visitor can get a fresh token.
+        (window as any).turnstile?.reset?.();
+      } catch {
+        if (errorEl) {
+          errorEl.textContent =
+            'Network error — please check your connection and try again.';
+          errorEl.hidden = false;
+        }
+        (window as any).turnstile?.reset?.();
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.textContent = originalLabel;
+      }
+    });
+  </script>
 </BaseLayout>

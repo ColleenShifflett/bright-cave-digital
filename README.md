@@ -1,7 +1,7 @@
-# Brightcave Digital
+# Bright Cave Digital
 
-Marketing site for Brightcave Digital, built with [Astro](https://astro.build)
-and deployed to [Vercel](https://vercel.com). Brightcave offers digital growth
+Marketing site for Bright Cave Digital, built with [Astro](https://astro.build)
+and deployed to [Vercel](https://vercel.com). Bright Cave offers digital growth
 services across three tiers: **DIY** (Do It Yourself), **DWY** (Done With You),
 and **DFY** (Done For You).
 

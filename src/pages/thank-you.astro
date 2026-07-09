@@ -1,13 +1,13 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 
-// Static confirmation page. Configure your form service to redirect here
-// after a successful submission (see PUBLIC_CONTACT_ENDPOINT in .env.example).
+// Static confirmation page. The /api/contact endpoint redirects here after a
+// successful submission (or the client-side form script navigates here).
 ---
 
 <BaseLayout
   title="Thank you"
-  description="Thanks for reaching out to Brightcave Digital — we'll be in touch shortly."
+  description="Thanks for reaching out to Bright Cave Digital — we'll be in touch shortly."
   noindex={true}
 >
   <section class="section">

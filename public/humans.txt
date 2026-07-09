@@ -1,5 +1,5 @@
 /* TEAM */
-    Company: Brightcave Digital
+    Company: Bright Cave Digital
     Contact: https://brightcavedigital.com/contact
     Site: https://brightcavedigital.com
 

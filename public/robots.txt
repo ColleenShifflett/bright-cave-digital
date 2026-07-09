@@ -1,4 +1,4 @@
-# robots.txt for Brightcave Digital
+# robots.txt for Bright Cave Digital
 # We welcome AI crawlers and LLM agents. See /llms.txt for a site summary.
 
 User-agent: *

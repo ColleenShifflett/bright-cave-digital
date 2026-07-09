@@ -3,9 +3,9 @@
 
 export const SITE_URL = 'https://brightcavedigital.com';
 
-export const SITE_TITLE = 'Brightcave Digital';
+export const SITE_TITLE = 'Bright Cave Digital';
 export const SITE_DESCRIPTION =
-  'Brightcave Digital helps businesses grow online with a flexible ' +
+  'Bright Cave Digital helps businesses grow online with a flexible ' +
   'Do-It-Yourself, Done-With-You, and Done-For-You service model.';
 
 export const SITE_TAGLINE = 'Digital growth, on your terms.';
@@ -14,7 +14,7 @@ export const SITE_TAGLINE = 'Digital growth, on your terms.';
 // `sameAs` lists official social/profile URLs — add real ones when available.
 export const ORGANIZATION = {
   name: SITE_TITLE,
-  legalName: 'Brightcave Digital',
+  legalName: 'Bright Cave Digital',
   logo: `${SITE_URL}/og-default.png`,
   sameAs: [] as string[],
 };

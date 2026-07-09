@@ -1,12 +1,12 @@
 ---
-title: 'Welcome to Brightcave Digital'
-description: 'An introduction to Brightcave Digital and our DIY, Done-With-You, and Done-For-You approach to digital growth.'
+title: 'Welcome to Bright Cave Digital'
+description: 'An introduction to Bright Cave Digital and our DIY, Done-With-You, and Done-For-You approach to digital growth.'
 pubDate: 2026-07-01
-author: 'Brightcave Digital'
+author: 'Bright Cave Digital'
 tags: ['announcements', 'getting-started']
 ---
 
-Welcome to the Brightcave Digital blog. This is a placeholder post to
+Welcome to the Bright Cave Digital blog. This is a placeholder post to
 demonstrate the blog content collection, RSS feed, and article structured data.
 
 ## Why we exist
