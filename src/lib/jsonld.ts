@@ -12,7 +12,6 @@ export function organizationSchema() {
     url: SITE_URL,
     logo: ORGANIZATION.logo,
     description: SITE_DESCRIPTION,
-    email: ORGANIZATION.email,
     sameAs: ORGANIZATION.sameAs,
   };
 }

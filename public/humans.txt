@@ -1,6 +1,6 @@
 /* TEAM */
     Company: Brightcave Digital
-    Contact: hello [at] brightcavedigital.com
+    Contact: https://brightcavedigital.com/contact
     Site: https://brightcavedigital.com
 
 /* THANKS */

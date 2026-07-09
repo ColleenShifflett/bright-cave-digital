@@ -14,7 +14,6 @@ export const SITE_TAGLINE = 'Digital growth, on your terms.';
 export const ORGANIZATION = {
   name: SITE_TITLE,
   legalName: 'Brightcave Digital',
-  email: 'hello@brightcavedigital.com',
   logo: `${SITE_URL}/og-default.png`,
   sameAs: [
     'https://www.linkedin.com/company/brightcave-digital',
