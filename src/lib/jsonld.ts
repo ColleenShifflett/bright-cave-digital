@@ -12,7 +12,8 @@ export function organizationSchema() {
     url: SITE_URL,
     logo: ORGANIZATION.logo,
     description: SITE_DESCRIPTION,
-    sameAs: ORGANIZATION.sameAs,
+    // Only include sameAs when there are real profile URLs to list.
+    ...(ORGANIZATION.sameAs.length > 0 ? { sameAs: ORGANIZATION.sameAs } : {}),
   };
 }
 
