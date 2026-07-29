@@ -268,8 +268,9 @@ def gen_coverage(rows, guides, written, root) -> str:
         lines += [f"- `{g}`" for g in ghosts]
         lines.append("")
     if orphans:
-        lines.append(f"**{len(orphans)} atoms referenced by no guide.** Do "
-                     "not write these until a manifest claims them.")
+        lines.append(f"**{len(orphans)} atoms not referenced by the shipped "
+                     "manifest.** See `docs/guide-plan/` for the full intended "
+                     "outline.")
         lines.append("")
         lines += [f"- `{o}`" for o in orphans]
     else:

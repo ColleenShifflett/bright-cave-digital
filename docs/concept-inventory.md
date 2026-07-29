@@ -197,17 +197,77 @@ exist yet. Attachment policy lives in `NOTICE_RULES` in `validate_content.py`.
 ## Guide coverage
 
 <!-- gen:coverage -->
-**6 atoms referenced by no guide.** Do not write these until a manifest claims them.
+**69 atoms not referenced by the shipped manifest.** See `docs/guide-plan/` for the full intended outline.
 
+- `attribution-is-heuristic`
+- `attribution-models-windows`
+- `behavioral-feature-engineering`
+- `behavioral-feature-layer`
+- `bots-and-blockers`
+- `bq-export-structure`
+- `build-vs-buy`
+- `business-model-metrics`
+- `channel-taxonomy-utm`
+- `choosing-unit-of-analysis`
+- `client-id-vs-user-id`
+- `client-vs-server-side`
+- `consent-infrastructure`
+- `consent-mechanics`
+- `conversion-rate-denominators`
+- `cookie-lifespan-itp`
+- `cross-device-cross-domain`
+- `data-is-manufactured`
+- `decision-precision-fit`
 - `deletion-residency-dpa`
 - `direct-traffic-problem`
+- `event-model`
+- `funnel-and-lifecycle`
+- `ga4-vs-universal-model`
+- `late-duplicate-hits`
+- `marketing-decision-cadence`
+- `misleading-engagement-metrics`
+- `missing-population-questions`
+- `mmm-and-incrementality`
+- `modeled-gap-filled-data`
+- `modeled-vs-observed-metrics`
+- `nested-repeated-unnesting`
+- `no-schema-contract`
 - `organic-attribution-problem`
 - `owned-channels`
 - `paid-media-mechanics`
+- `peeking-novelty-interference`
+- `pii-leakage`
+- `platform-reported-conversions`
+- `platform-vs-analytics-reconciliation`
+- `product-analytics-vendors`
+- `provenance-questions`
+- `pseudonymization-hashing`
+- `qualitative-replay-tools`
+- `randomization-vs-analysis-unit`
+- `reading-an-implementation`
+- `regulatory-map`
+- `request-driven-drift`
+- `retention-limits`
+- `sample-ratio-mismatch`
+- `sampling-and-cardinality`
+- `scope-event-session-user`
 - `sector-specific-rules`
-
-**Repeated within a single guide.** Permitted by the schema, but the renderer will emit duplicate anchor ids and a broken table of contents:
-- `choosing-unit-of-analysis` appears twice in `data-scientist`
+- `seo-fundamentals`
+- `sessionization-as-modeling`
+- `strengths-and-blind-spots`
+- `tag-manager-datalayer`
+- `thresholding-suppression`
+- `timezone-date-boundaries`
+- `tracking-bug-vs-behavior-change`
+- `traffic-as-constraint`
+- `ui-is-not-source-of-truth`
+- `unique-user-counting`
+- `unit-economics`
+- `vendor-evaluation-dimensions`
+- `warehouse-native-pipelines`
+- `warehouse-ui-reconciliation`
+- `web-analytics-vendors`
+- `web-data-use-cases`
 <!-- /gen:coverage -->
 
 ## Implementation status
