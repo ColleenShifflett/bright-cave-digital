@@ -1,0 +1,59 @@
+---
+title: A session is a rule, not a behavior
+summary: Sessions group events into visits according to a configurable timeout, which makes them a reporting artifact rather than an observed unit of behavior.
+domain: data-model
+depth: foundation
+volatility: stable
+# Trimmed to ids that exist on disk. Restore as these atoms are written:
+#   prerequisites: [event-model]
+#   related: [scope-event-session-user, choosing-unit-of-analysis, sessionization-as-modeling]
+prerequisites: []
+related: []
+status: draft
+owner: colleen
+contributors: []
+lastVerified: 2026-07-29
+notices: []
+revisions:
+  - date: 2026-07-29
+    kind: created
+    note: Initial draft covering timeout mechanics and secondary session boundaries.
+    by: colleen
+reviews: []
+sources:
+  - title: "[GA4] About sessions"
+    url: https://support.google.com/analytics/answer/9191807
+    publisher: Google
+    accessed: 2026-07-29
+    primary: true
+openQuestions:
+  - Confirm the current GA4 default timeout and the configurable range before publishing.
+  - Decide whether to name specific vendor timeout defaults, which will need quarterly checking, or describe the mechanism only.
+---
+
+A session groups a series of events from one visitor into something the
+reporting layer calls a visit. The grouping is produced by a rule, most
+commonly a timeout: events belong to the same session as long as no more
+than a set period of inactivity separates them.
+
+Because the boundary is a configured value, the same underlying events can
+produce different session counts under different settings. Changing the
+timeout changes the count without anything changing about what people did.
+Some platforms add secondary boundaries, restarting a session at midnight in
+the reporting timezone, or when a visitor arrives from a new campaign, which
+can split one continuous visit into several rows.
+
+The consequences follow from this directly:
+
+- Session counts are not comparable across platforms, or across
+  configuration changes within one platform, unless the rules match.
+- Any metric with sessions in its denominator inherits the arbitrariness of
+  the boundary.
+- A single episode of human attention can span multiple sessions, and a
+  single session can span multiple episodes of attention if a device sits
+  idle below the timeout threshold.
+
+The event stream is the record of what happened. The session is one
+interpretation layered on top of it. Systems that expose the raw event
+stream allow that interpretation to be redefined; systems that expose only
+sessions do not.

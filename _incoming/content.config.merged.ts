@@ -1,5 +1,24 @@
-import { glob } from 'astro/loaders';
+// src/content.config.ts  (MERGED)
+//
+// IMPORTANT: the `blog` and `resources` definitions below are RECONSTRUCTED
+// from a field report, not read from your actual file. Diff this against your
+// real src/content.config.ts rather than overwriting it. Anything your file
+// has that the report did not mention — transforms, refinements, custom error
+// messages, extra optional fields — is missing here and would be lost.
+//
+// Astro 5.12, Content Layer API, glob loader.
+//
+// Seven collections:
+//   blog       existing
+//   resources  existing (now also the home for paid kits)
+//   atoms      canonical concept explanations, audience-neutral, written once
+//   lenses     short audience-specific wrappers around an atom
+//   exclusives sections that belong to exactly one guide, no reuse
+//   notices    disclaimers and standing legal text, reused like atoms
+//   guides     manifests that assemble the above into a readable document
+
 import { defineCollection, reference, z } from 'astro:content';
+import { glob } from 'astro/loaders';
 
 /* ================================================================== */
 /* Shared vocabularies                                                 */
@@ -77,7 +96,58 @@ export const REVIEW_ROLES = ['editorial', 'technical', 'legal'] as const;
 export const TIERS = ['DIY', 'DWY', 'DFY'] as const;
 
 /* ================================================================== */
-/* Shared helper schemas                                               */
+/* EXISTING COLLECTIONS — reconstructed, verify against your file       */
+/* ================================================================== */
+
+const blog = defineCollection({
+  loader: glob({ pattern: '**/*.{md,mdx}', base: './src/content/blog' }),
+  schema: z.object({
+    title: z.string(),
+    description: z.string(),
+    pubDate: z.coerce.date(),
+    updatedDate: z.coerce.date().optional(),
+    author: z.string().default('Bright Cave Digital'),
+    tags: z.array(z.string()).default([]),
+    heroImage: z.string().optional(),
+    ogImage: z.string().optional(),
+    draft: z.boolean().default(false),
+  }),
+});
+
+const resources = defineCollection({
+  loader: glob({ pattern: '**/*.{md,mdx}', base: './src/content/resources' }),
+  schema: z.object({
+    title: z.string(),
+    description: z.string(),
+    pubDate: z.coerce.date(),
+    updatedDate: z.coerce.date().optional(),
+
+    // CHANGED: 'guide' removed. Long-form guides are their own collection now,
+    // and keeping the value here means guessing which system owns a thing.
+    // MIGRATION: grep src/content/resources for `resourceType: guide` and
+    // repoint those entries before building, or the build will fail.
+    // Default changed from 'guide' to 'template' for the same reason.
+    resourceType: z
+      .enum(['template', 'checklist', 'tool', 'ebook', 'kit'])
+      .default('template'),
+
+    tier: z.enum(TIERS).optional(),
+    downloadUrl: z.string().url().optional(),
+
+    // Kits derived from guide content. Declaring the dependency is what makes
+    // "your resources stay current" a computed claim rather than a promise:
+    // when a referenced atom gets a revision, this resource is stale and the
+    // build can say so.
+    derivedFrom: z.array(reference('atoms')).default([]),
+    pairedGuide: reference('guides').optional(),
+
+    ogImage: z.string().optional(),
+    draft: z.boolean().default(false),
+  }),
+});
+
+/* ================================================================== */
+/* GUIDE SERIES COLLECTIONS — new                                      */
 /* ================================================================== */
 
 const source = z.object({
@@ -124,52 +194,6 @@ const provenance = {
   // The build gates status: 'published' on this being empty.
   openQuestions: z.array(z.string()).default([]),
 };
-
-/* ================================================================== */
-/* EXISTING COLLECTIONS                                                */
-/* ================================================================== */
-
-// Blog posts: dated, author-attributed articles.
-const blog = defineCollection({
-  loader: glob({ pattern: '**/*.{md,mdx}', base: './src/content/blog' }),
-  schema: z.object({
-    title: z.string(),
-    description: z.string(),
-    pubDate: z.coerce.date(),
-    updatedDate: z.coerce.date().optional(),
-    author: z.string().default('Bright Cave Digital'),
-    tags: z.array(z.string()).default([]),
-    heroImage: z.string().optional(),
-    // Per-page social share image (falls back to the site default).
-    ogImage: z.string().optional(),
-    draft: z.boolean().default(false),
-  }),
-});
-
-// Resources: templates, checklists, tools, ebooks, and paid kits. Optionally
-// categorised by the DIY / DWY / DFY tier they best support.
-const resources = defineCollection({
-  loader: glob({ pattern: '**/*.{md,mdx}', base: './src/content/resources' }),
-  schema: z.object({
-    title: z.string(),
-    description: z.string(),
-    pubDate: z.coerce.date(),
-    updatedDate: z.coerce.date().optional(),
-    // 'guide' removed: long-form guides are their own collection now, so a
-    // resource can no longer claim to be one. 'kit' added for paid downloads.
-    resourceType: z
-      .enum(['template', 'checklist', 'tool', 'ebook', 'kit'])
-      .default('template'),
-    tier: z.enum(['DIY', 'DWY', 'DFY']).optional(),
-    downloadUrl: z.string().url().optional(),
-    ogImage: z.string().optional(),
-    draft: z.boolean().default(false),
-  }),
-});
-
-/* ================================================================== */
-/* GUIDE SERIES COLLECTIONS                                            */
-/* ================================================================== */
 
 const notices = defineCollection({
   loader: glob({ pattern: '**/*.{md,mdx}', base: './src/content/notices' }),

@@ -2,6 +2,7 @@
 import { defineConfig } from 'astro/config';
 import sitemap from '@astrojs/sitemap';
 import partytown from '@astrojs/partytown';
+import mdx from '@astrojs/mdx';
 import vercel from '@astrojs/vercel';
 
 import { SITE_URL } from './src/consts';
@@ -34,5 +35,9 @@ export default defineConfig({
         forward: ['dataLayer.push', 'gtag'],
       },
     }),
+    // Registers the .mdx entry type for the content layer so atoms, lenses,
+    // and notices load and render. Order is irrelevant here — no integration
+    // modifies markdown config for it to inherit.
+    mdx(),
   ],
 });

@@ -1,0 +1,237 @@
+# Reference implementation of the manifest shape: the approved Data
+# Scientist's Guide outline expressed as atom references.
+#
+# This will not build until the referenced atoms exist, which is the point.
+# The schema refuses to assemble a guide out of content nobody has written.
+
+title: The Data Scientist's Guide to Web Analytics
+subtitle: What the data means before you model it
+description: >-
+  Web data isn't observed, it's manufactured. What a data scientist needs to
+  understand about how web analytics data gets created, before modeling it.
+audience: data-scientist
+thesis: >-
+  Web data is manufactured, not observed. Every row exists because someone
+  wrote code to create it, and that single fact determines what you are
+  allowed to conclude from it.
+status: draft
+owner: colleen
+contributors: []
+
+license: all-rights-reserved
+citation: >-
+  Shifflett, C. "The Data Scientist's Guide to Web Analytics."
+  Brightcave Digital.
+
+# Manifest-level changes only: parts added, reordered, or removed. The
+# displayed "last updated" is computed across this plus every atom, lens,
+# and exclusive included below.
+revisions:
+  - date: 2026-07-29
+    kind: created
+    note: Initial manifest mapping the approved fourteen-part outline.
+    by: colleen
+
+# Guide-level notices. Content-level notices come from the atoms and are
+# gathered automatically, so nothing about the privacy sections needs
+# declaring here.
+notices: []
+
+# Nothing to diff against yet. As sibling guides publish, add them here and
+# the skim map renders automatically.
+skimAgainst: []
+
+parts:
+  - title: Why web data breaks your assumptions
+    entries:
+      - kind: exclusive
+        section: ds-how-to-read-this
+      - kind: atom
+        atom: data-is-manufactured
+      - kind: atom
+        atom: no-schema-contract
+        transition: >-
+          The absence of a contract is not an oversight. It follows directly
+          from who owns the collection layer.
+      - kind: atom
+        atom: ui-is-not-source-of-truth
+
+  - title: The business system you are measuring
+    intro: >-
+      Foundation tier only. The mechanics of bid strategy and content decay
+      are somebody else's job. What matters here is knowing which number the
+      business is actually steering by.
+    entries:
+      - kind: atom
+        atom: funnel-and-lifecycle
+      - kind: atom
+        atom: business-model-metrics
+      - kind: atom
+        atom: unit-economics
+      - kind: atom
+        atom: channel-taxonomy-utm
+      - kind: atom
+        atom: seo-fundamentals
+      - kind: atom
+        atom: platform-reported-conversions
+      - kind: atom
+        atom: marketing-decision-cadence
+      - kind: atom
+        atom: request-driven-drift
+
+  - title: The data model
+    entries:
+      - kind: atom
+        atom: event-model
+      - kind: atom
+        atom: session-construct
+      - kind: atom
+        atom: scope-event-session-user
+      - kind: atom
+        atom: ga4-vs-universal-model
+
+  - title: The vendor landscape
+    entries:
+      - kind: atom
+        atom: vendor-evaluation-dimensions
+        transition: >-
+          Read the tools through these five dimensions rather than their
+          feature lists. The feature lists converge; the data models do not.
+      - kind: atom
+        atom: web-analytics-vendors
+      - kind: atom
+        atom: product-analytics-vendors
+      - kind: atom
+        atom: warehouse-native-pipelines
+      - kind: atom
+        atom: qualitative-replay-tools
+      - kind: atom
+        atom: consent-infrastructure
+      - kind: atom
+        atom: build-vs-buy
+
+  - title: Identity and the unit of analysis
+    entries:
+      - kind: atom
+        atom: client-id-vs-user-id
+      - kind: atom
+        atom: unique-user-counting
+      - kind: atom
+        atom: cross-device-cross-domain
+      - kind: atom
+        atom: cookie-lifespan-itp
+      - kind: atom
+        atom: choosing-unit-of-analysis
+
+  - title: The collection layer
+    entries:
+      - kind: atom
+        atom: tag-manager-datalayer
+      - kind: atom
+        atom: tracking-bug-vs-behavior-change
+      - kind: atom
+        atom: client-vs-server-side
+      - kind: atom
+        atom: reading-an-implementation
+
+  - title: Privacy, consent, and regulation
+    entries:
+      - kind: atom
+        atom: regulatory-map
+      - kind: atom
+        atom: consent-mechanics
+      - kind: atom
+        atom: modeled-gap-filled-data
+      - kind: atom
+        atom: pii-leakage
+      - kind: atom
+        atom: pseudonymization-hashing
+      - kind: atom
+        atom: retention-limits
+        transition: >-
+          Retention is the one privacy constraint that shows up directly in
+          your training window, which is why it belongs in a modeling guide
+          rather than a compliance appendix.
+
+  - title: Data quality failure modes
+    entries:
+      - kind: atom
+        atom: bots-and-blockers
+      - kind: atom
+        atom: sampling-and-cardinality
+      - kind: atom
+        atom: thresholding-suppression
+      - kind: atom
+        atom: late-duplicate-hits
+      - kind: atom
+        atom: timezone-date-boundaries
+
+  - title: Metrics that do not mean what they sound like
+    entries:
+      - kind: atom
+        atom: misleading-engagement-metrics
+      - kind: atom
+        atom: conversion-rate-denominators
+      - kind: atom
+        atom: modeled-vs-observed-metrics
+
+  - title: Attribution
+    entries:
+      - kind: atom
+        atom: attribution-is-heuristic
+      - kind: atom
+        atom: attribution-models-windows
+      - kind: atom
+        atom: platform-vs-analytics-reconciliation
+      - kind: atom
+        atom: mmm-and-incrementality
+
+  - title: Experimentation on the web
+    entries:
+      - kind: atom
+        atom: traffic-as-constraint
+      - kind: atom
+        atom: randomization-vs-analysis-unit
+      - kind: atom
+        atom: sample-ratio-mismatch
+      - kind: atom
+        atom: peeking-novelty-interference
+
+  - title: Getting web data into the warehouse
+    entries:
+      - kind: atom
+        atom: bq-export-structure
+      - kind: atom
+        atom: nested-repeated-unnesting
+      - kind: atom
+        atom: warehouse-ui-reconciliation
+      - kind: atom
+        atom: sessionization-as-modeling
+      - kind: atom
+        atom: behavioral-feature-layer
+
+  - title: What you can actually model with this
+    entries:
+      - kind: atom
+        atom: strengths-and-blind-spots
+      - kind: atom
+        atom: web-data-use-cases
+      - kind: atom
+        atom: behavioral-feature-engineering
+      - kind: exclusive
+        section: ds-worked-example
+
+  - title: A pre-modeling checklist
+    intro: >-
+      Four questions, asked before the first query rather than after the
+      first stakeholder challenge.
+    entries:
+      - kind: atom
+        atom: provenance-questions
+      - kind: atom
+        atom: missing-population-questions
+      - kind: atom
+        atom: choosing-unit-of-analysis
+        lens: false
+      - kind: atom
+        atom: decision-precision-fit

@@ -1,0 +1,47 @@
+# SHIPPED manifest. Trimmed to the atoms that currently exist on disk so the
+# build's reference() validation passes. The full 14-part plan of record lives
+# in docs/guide-plan/data-scientist.yaml; add parts back here as their atoms
+# are written and promoted into src/content/atoms/.
+
+title: The Data Scientist's Guide to Web Analytics
+subtitle: What the data means before you model it
+description: >-
+  Web data isn't observed, it's manufactured. What a data scientist needs to
+  understand about how web analytics data gets created, before modeling it.
+audience: data-scientist
+thesis: >-
+  Web data is manufactured, not observed. Every row exists because someone
+  wrote code to create it, and that single fact determines what you are
+  allowed to conclude from it.
+status: draft
+owner: colleen
+contributors: []
+
+license: all-rights-reserved
+citation: >-
+  Shifflett, C. "The Data Scientist's Guide to Web Analytics."
+  Brightcave Digital.
+
+# Manifest-level changes only: parts added, reordered, or removed. The
+# displayed "last updated" is computed across this plus every atom, lens,
+# and exclusive included below.
+revisions:
+  - date: 2026-07-29
+    kind: created
+    note: Initial manifest mapping the approved fourteen-part outline.
+    by: colleen
+
+# Guide-level notices. Content-level notices come from the atoms and are
+# gathered automatically, so nothing about the privacy sections needs
+# declaring here.
+notices: []
+
+# Nothing to diff against yet. As sibling guides publish, add them here and
+# the skim map renders automatically.
+skimAgainst: []
+
+parts:
+  - title: The data model
+    entries:
+      - kind: atom
+        atom: session-construct

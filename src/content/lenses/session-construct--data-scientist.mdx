@@ -1,0 +1,55 @@
+---
+atom: session-construct
+audience: data-scientist
+hook: If your model has a session-level grain, you have adopted somebody else's configuration decision as a modeling assumption without reviewing it.
+status: draft
+owner: colleen
+contributors: []
+lastVerified: 2026-07-29
+notices: []
+revisions:
+  - date: 2026-07-29
+    kind: created
+    note: Initial draft. Covers feature drift, session-scoped joins, and comparison disputes.
+    by: colleen
+reviews: []
+sources: []
+openQuestions: []
+---
+
+You are used to grains that come from the domain. An order is an order. A
+claim is a claim. A session is neither of those. It is a setting in an
+interface that somebody chose, possibly before you joined, and probably
+without knowing you would build on top of it.
+
+This matters most in three places.
+
+**Your feature definitions.** Sessions per user, events per session, and
+average session duration all move when the timeout moves. If you train on a
+period that spans a configuration change, you have a covariate shift with no
+corresponding change in behavior and nothing in the data to flag it. Check
+for boundary changes before you trust a trend in any session-derived
+feature.
+
+**Your joins.** Session-scoped properties are assigned once per session, so
+joining them onto events assumes the property held for the whole span. When
+a session is split by a campaign boundary, the same visit can carry two
+different acquisition sources, and a naive join will attribute events to the
+wrong one.
+
+**Your comparisons.** When someone hands you a session count from one
+platform and asks why it does not match another, the honest first answer is
+usually that the two systems are not measuring the same object. That is not
+a data quality problem to solve. It is a definitional difference to
+document.
+
+The move that saves you the most trouble: if you have access to the event
+stream, define your own sessionization in the warehouse and treat the
+vendor's version as one more reported metric rather than as your grain. You
+then own the rule, you can hold it constant across your training window, and
+you can change it deliberately when the analysis calls for it.
+
+If you do not have event-level access, write the vendor's timeout and any
+secondary boundaries into your model documentation as an explicit
+assumption. It will be the first thing you need when a number gets
+challenged.
