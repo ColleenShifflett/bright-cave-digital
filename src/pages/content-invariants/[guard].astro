@@ -1,0 +1,15 @@
+---
+import { assertContentInvariants } from '../../lib/contentInvariants';
+
+// Build-time content invariant. This deliberately lives OUTSIDE the guides
+// route. `astro build` invokes getStaticPaths for every dynamic route
+// regardless of how many pages it ultimately emits, so this assertion runs on
+// every build even when all guides are drafts and the guides route emits
+// nothing. Returning [] means this route itself emits no pages: it exists only
+// to run the check, so an empty content store fails the build here rather than
+// slipping through because no page happened to render.
+export async function getStaticPaths() {
+  await assertContentInvariants();
+  return [];
+}
+---

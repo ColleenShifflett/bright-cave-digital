@@ -1,0 +1,362 @@
+---
+import { getCollection, getEntry, render } from 'astro:content';
+import type { CollectionEntry } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { articleSchema } from '../../lib/jsonld';
+import { DEFAULT_OG_IMAGE, SITE_TITLE } from '../../consts';
+
+export async function getStaticPaths() {
+  // Published guides in a production build; every status when running dev, so
+  // drafts are reviewable locally without shipping.
+  const guides = await getCollection(
+    'guides',
+    ({ data }) => import.meta.env.DEV || data.status === 'published'
+  );
+  return guides.map((guide) => ({
+    params: { slug: guide.id },
+    props: { guide },
+  }));
+}
+
+type Props = { guide: CollectionEntry<'guides'> };
+
+const { guide } = Astro.props;
+const { data } = guide;
+
+// An unresolvable reference in a PUBLISHED guide is a hard build failure — a
+// guide is a manifest of references and shipping one with a dangling entry is
+// exactly the silent-empty-page failure this route must not produce. In a
+// DRAFT it warns loudly instead, so work in progress does not hard-fail during
+// authoring, but nothing is ever dropped silently.
+const published = data.status === 'published';
+function onMissingRef(kind: 'atom' | 'section' | 'notice', id: string): void {
+  const message =
+    `Guide "${guide.id}" (audience: ${data.audience}) references ${kind} "${id}", ` +
+    `which did not resolve to a content entry.`;
+  if (published) throw new Error(message);
+  console.warn(
+    `[guides] WARNING: ${message} The guide is a draft, so this entry is ` +
+      `skipped in the render rather than failing the build.`
+  );
+}
+
+// Optional-resolution lookups. Loading the collections up front keeps lens and
+// notice resolution a safe map lookup rather than a throwing getEntry.
+const lensById = new Map((await getCollection('lenses')).map((l) => [l.id, l]));
+const noticeById = new Map(
+  (await getCollection('notices')).map((n) => [n.id, n])
+);
+
+// Every revision date we encounter, for the derived published/updated dates.
+const revisionDates: Date[] = [];
+const collectRevisions = (revs?: { date: Date }[]) => {
+  for (const r of revs ?? []) revisionDates.push(r.date);
+};
+collectRevisions(data.revisions);
+
+// Notices are declared on atoms (and optionally guide-level) and deduped here,
+// so a notice attached to several included atoms renders once.
+const noticeIds = new Set<string>(data.notices.map((n) => n.id));
+
+// Assemble the parts in manifest order, pre-rendering each body to a component.
+type Renderable = Awaited<ReturnType<typeof render>>['Content'];
+type ResolvedEntry =
+  | {
+      kind: 'atom';
+      id: string;
+      title: string;
+      summary: string;
+      transition?: string;
+      Body: Renderable;
+      Lens?: Renderable;
+      lensHook?: string;
+    }
+  | {
+      kind: 'exclusive';
+      id: string;
+      title: string;
+      transition?: string;
+      Body: Renderable;
+    };
+
+const parts: { title: string; intro?: string; entries: ResolvedEntry[] }[] = [];
+
+for (const part of data.parts) {
+  const entries: ResolvedEntry[] = [];
+  for (const entry of part.entries) {
+    if (entry.kind === 'atom') {
+      const atom = await getEntry(entry.atom);
+      if (!atom) {
+        onMissingRef('atom', entry.atom.id);
+        continue; // published already threw above; drafts warned, then skip
+      }
+      collectRevisions(atom.data.revisions);
+      for (const n of atom.data.notices) noticeIds.add(n.id);
+      const { Content: Body } = await render(atom);
+
+      let Lens: Renderable | undefined;
+      let lensHook: string | undefined;
+      if (entry.lens !== false) {
+        const lens = lensById.get(`${atom.id}--${data.audience}`);
+        if (lens) {
+          collectRevisions(lens.data.revisions);
+          lensHook = lens.data.hook;
+          Lens = (await render(lens)).Content;
+        }
+      }
+
+      entries.push({
+        kind: 'atom',
+        id: atom.id,
+        title: atom.data.title,
+        summary: atom.data.summary,
+        transition: entry.transition,
+        Body,
+        Lens,
+        lensHook,
+      });
+    } else {
+      const section = await getEntry(entry.section);
+      if (!section) {
+        onMissingRef('section', entry.section.id);
+        continue; // published already threw above; drafts warned, then skip
+      }
+      collectRevisions(section.data.revisions);
+      const { Content: Body } = await render(section);
+      entries.push({
+        kind: 'exclusive',
+        id: section.id,
+        title: section.data.title,
+        transition: entry.transition,
+        Body,
+      });
+    }
+  }
+  parts.push({ title: part.title, intro: part.intro, entries });
+}
+
+// Derived dates. datePublished/dateModified are computed from revisions across
+// the manifest and everything it includes; dateModified is the displayed "last
+// updated". An assembled document never carries a hand-maintained date.
+const times = revisionDates.map((d) => d.getTime());
+const datePublished = new Date(Math.min(...times));
+const dateModified = new Date(Math.max(...times));
+
+// Resolve and bucket the deduped notices by placement.
+const resolvedNotices = [];
+for (const id of noticeIds) {
+  const notice = noticeById.get(id);
+  if (!notice) {
+    onMissingRef('notice', id);
+    continue; // published already threw above; drafts warned, then skip
+  }
+  const { Content: Body } = await render(notice);
+  resolvedNotices.push({
+    id,
+    placement: notice.data.placement,
+    severity: notice.data.severity,
+    title: notice.data.title,
+    Body,
+  });
+}
+const frontNotices = resolvedNotices.filter((n) => n.placement === 'guide-front');
+const backNotices = resolvedNotices.filter((n) => n.placement === 'guide-back');
+// section-head / inline are per-section placements; after dedup to guide scope
+// they render once at the top of the body.
+const flowNotices = resolvedNotices.filter(
+  (n) => n.placement === 'section-head' || n.placement === 'inline'
+);
+
+// Table of contents from atom summaries; anchor id is the atom id.
+const toc = parts.flatMap((p) =>
+  p.entries
+    .filter((e): e is Extract<ResolvedEntry, { kind: 'atom' }> => e.kind === 'atom')
+    .map((e) => ({ id: e.id, title: e.title, summary: e.summary }))
+);
+
+const image = data.ogImage ?? DEFAULT_OG_IMAGE;
+const url = new URL(Astro.url.pathname, Astro.site);
+const schema = articleSchema({
+  title: data.title,
+  description: data.description,
+  url,
+  image: new URL(image, Astro.site),
+  publishedTime: datePublished,
+  modifiedTime: dateModified,
+  author: SITE_TITLE,
+});
+
+const dateFmt = new Intl.DateTimeFormat('en-US', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+});
+---
+
+<BaseLayout
+  title={data.title}
+  description={data.description}
+  image={image}
+  type="article"
+  publishedTime={datePublished}
+  modifiedTime={dateModified}
+  author={SITE_TITLE}
+  schema={[schema]}
+>
+  <section class="page-head">
+    <div class="wrap">
+      <header class="article-header">
+        <p class="eyebrow">Guide</p>
+        <h1>{data.title}</h1>
+        {data.subtitle && <p class="lede">{data.subtitle}</p>}
+        <p class="meta">
+          Updated{' '}
+          <time datetime={dateModified.toISOString()}>
+            {dateFmt.format(dateModified)}
+          </time>
+          {' '}&middot; First published{' '}
+          <time datetime={datePublished.toISOString()}>
+            {dateFmt.format(datePublished)}
+          </time>
+        </p>
+      </header>
+    </div>
+  </section>
+
+  <section class="section" style="padding-top: 0;">
+    <div class="wrap">
+      <article class="prose">
+        {
+          frontNotices.map((n) => (
+            <aside class:list={['guide-notice', n.severity]} aria-label={n.title}>
+              <n.Body />
+            </aside>
+          ))
+        }
+        {
+          flowNotices.map((n) => (
+            <aside class:list={['guide-notice', n.severity]} aria-label={n.title}>
+              <n.Body />
+            </aside>
+          ))
+        }
+
+        {
+          toc.length > 0 && (
+            <nav class="guide-toc" aria-label="Contents">
+              <h2>Contents</h2>
+              <ol>
+                {toc.map((item) => (
+                  <li>
+                    <a href={`#${item.id}`}>{item.title}</a>
+                    <span class="toc-summary">{item.summary}</span>
+                  </li>
+                ))}
+              </ol>
+            </nav>
+          )
+        }
+
+        {
+          parts.map((part) => (
+            <section class="guide-part">
+              <h2>{part.title}</h2>
+              {part.intro && <p class="part-intro">{part.intro}</p>}
+              {part.entries.map((entry) => (
+                <>
+                  {entry.transition && (
+                    <p class="transition">{entry.transition}</p>
+                  )}
+                  {entry.kind === 'atom' ? (
+                    <section id={entry.id} class="guide-atom">
+                      {entry.Lens && (
+                        <aside class="lens-callout">
+                          {entry.lensHook && <p class="lens-hook">{entry.lensHook}</p>}
+                          <entry.Lens />
+                        </aside>
+                      )}
+                      <h3>{entry.title}</h3>
+                      <entry.Body />
+                    </section>
+                  ) : (
+                    <section id={entry.id} class="guide-exclusive">
+                      <h3>{entry.title}</h3>
+                      <entry.Body />
+                    </section>
+                  )}
+                </>
+              ))}
+            </section>
+          ))
+        }
+
+        {
+          backNotices.map((n) => (
+            <aside class:list={['guide-notice', n.severity]} aria-label={n.title}>
+              <n.Body />
+            </aside>
+          ))
+        }
+      </article>
+
+      <div class="prose">
+        <a class="back-link" href="/">← Back home</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .lede {
+    font-size: 1.15rem;
+    opacity: 0.85;
+  }
+  .guide-toc {
+    border: 1px solid var(--border, #e5e7eb);
+    border-radius: 0.5rem;
+    padding: 1rem 1.25rem;
+    margin: 1.5rem 0 2.5rem;
+  }
+  .guide-toc ol {
+    margin: 0;
+  }
+  .guide-toc li {
+    margin-bottom: 0.5rem;
+  }
+  .toc-summary {
+    display: block;
+    font-size: 0.9rem;
+    opacity: 0.7;
+  }
+  .guide-part {
+    margin-top: 2.5rem;
+  }
+  .part-intro {
+    font-style: italic;
+    opacity: 0.85;
+  }
+  .transition {
+    opacity: 0.9;
+  }
+  .lens-callout {
+    border-left: 3px solid var(--accent, #6366f1);
+    background: color-mix(in srgb, var(--accent, #6366f1) 6%, transparent);
+    padding: 0.75rem 1rem;
+    margin: 1rem 0 1.5rem;
+    border-radius: 0 0.375rem 0.375rem 0;
+  }
+  .lens-hook {
+    font-weight: 600;
+    margin-top: 0;
+  }
+  .guide-notice {
+    border: 1px solid var(--border, #e5e7eb);
+    border-left-width: 4px;
+    padding: 0.75rem 1rem;
+    margin: 1.5rem 0;
+    border-radius: 0.375rem;
+  }
+  .guide-notice.important {
+    border-left-color: #d97706;
+  }
+</style>

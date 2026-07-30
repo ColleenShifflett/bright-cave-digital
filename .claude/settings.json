@@ -1,0 +1,36 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(python3 tools/validate_content.py:*)",
+      "Read(//**)",
+      "WebSearch",
+      "WebFetch"
+    ],
+    "deny": [
+      "Edit(src/content/atoms/**)",
+      "Write(src/content/atoms/**)",
+      "Edit(src/content/lenses/**)",
+      "Write(src/content/lenses/**)",
+      "Edit(src/content/exclusives/**)",
+      "Write(src/content/exclusives/**)",
+      "Edit(src/content/notices/**)",
+      "Write(src/content/notices/**)",
+      "Edit(src/content/guides/**)",
+      "Write(src/content/guides/**)",
+      "Bash(git mv:*)"
+    ]
+  },
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "test -d drafts && python3 tools/validate_content.py drafts 2>&1 | tail -20 || true"
+          }
+        ]
+      }
+    ]
+  }
+}
