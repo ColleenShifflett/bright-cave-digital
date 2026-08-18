@@ -14,6 +14,17 @@ export function organizationSchema() {
     description: SITE_DESCRIPTION,
     // Only include sameAs when there are real profile URLs to list.
     ...(ORGANIZATION.sameAs.length > 0 ? { sameAs: ORGANIZATION.sameAs } : {}),
+    // The founder is a distinct entity; their profiles verify the person, and
+    // the founder edge is what ties that verified person back to the studio.
+    ...(ORGANIZATION.founder.sameAs.length > 0
+      ? {
+          founder: {
+            '@type': 'Person',
+            name: ORGANIZATION.founder.name,
+            sameAs: ORGANIZATION.founder.sameAs,
+          },
+        }
+      : {}),
   };
 }
 

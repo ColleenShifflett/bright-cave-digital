@@ -5,18 +5,25 @@ export const SITE_URL = 'https://brightcavedigital.com';
 
 export const SITE_TITLE = 'Bright Cave Digital';
 export const SITE_DESCRIPTION =
-  'Bright Cave Digital helps businesses grow online with a flexible ' +
-  'Do-It-Yourself, Done-With-You, and Done-For-You service model.';
+  'Web strategy and analytics for small and mighty teams. Get found by ' +
+  "today's AI-driven buyers — and get the measurement to prove what's working.";
 
-export const SITE_TAGLINE = 'Digital growth, on your terms.';
+export const SITE_TAGLINE = 'Evolve with the agentic web.';
 
 // Used for the Organization JSON-LD and humans/llms metadata.
-// `sameAs` lists official social/profile URLs — add real ones when available.
+// `sameAs` lists profile URLs for the ORGANISATION itself (a LinkedIn company
+// page, GitHub org, directory listing) — not personal profiles. A person's URL
+// belongs on `founder.sameAs`, which links the human to the studio without
+// claiming they are the same entity.
 export const ORGANIZATION = {
   name: SITE_TITLE,
   legalName: 'Bright Cave Digital',
   logo: `${SITE_URL}/og-default.png`,
   sameAs: [] as string[],
+  founder: {
+    name: 'Colleen Shifflett',
+    sameAs: ['https://www.linkedin.com/in/colleenshifflett/'],
+  },
 };
 
 // Twitter/X handle for Twitter card metadata (e.g. '@yourhandle').
