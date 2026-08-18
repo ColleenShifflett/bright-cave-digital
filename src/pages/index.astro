@@ -35,17 +35,24 @@ const steps = [
   { num: '03 / DO', title: 'Do the work', body: 'You run with it, we guide you, or we execute it for you. Your call, and it can change.' },
   { num: '04 / GROW', title: 'Measure & adjust', body: 'We track what matters and refine, so momentum compounds instead of fizzling out.' },
 ];
+
+const refusals = [
+  'A 6-month redesign that never launches',
+  'A dozen more SaaS subscriptions',
+  "A retainer you can't get out of",
+];
 ---
 
-<BaseLayout title="Home" description={SITE_DESCRIPTION}>
+<BaseLayout title="AI-Era Web Strategy & Analytics" description={SITE_DESCRIPTION}>
   <section class="hero">
     <div class="wrap grid">
       <div>
-        <p class="eyebrow">Digital growth studio</p>
-        <h1>Digital growth, <span class="accent">on your terms.</span></h1>
+        <p class="eyebrow">AI-era web strategy and analytics</p>
+        <h1>Your website, <span class="accent">ready for today's buyers.</span></h1>
         <p class="lead">
-          Most agencies sell you one way of working. We meet you where you are —
-          learn it yourself, get a guide alongside you, or hand it all over.
+          Buyers now start with AI assistants and instant answers, not ten blue
+          links. We get your site found in that world — and your analytics able
+          to prove it. You choose how hands-on to be.
         </p>
         <div class="actions">
           <a class="btn btn-primary" href="/services">Explore our services →</a>
@@ -117,27 +124,28 @@ const steps = [
     </div>
   </section>
 
-  <section class="quote">
+  <section class="statement">
     <div class="wrap grid">
       <div>
-        <blockquote>
-          Bright Cave gave us the playbook to start, then stepped in to run the
-          parts we couldn't. It felt like a partner, not a vendor.
-        </blockquote>
-        <div class="who">
-          <div class="av" aria-hidden="true">AR</div>
-          <div>
-            <strong>Placeholder testimonial</strong>
-            <span>Swap in a real client quote</span>
-          </div>
-        </div>
+        <p>
+          Small and mighty teams don't need more tools.
+          <span class="accent">They need a system that holds together.</span>
+        </p>
       </div>
-      <div class="stats">
-        <div class="stat"><div class="num">3</div><div class="lbl">Ways to work with us</div></div>
-        <div class="stat"><div class="num">0</div><div class="lbl">Long-term lock-in required</div></div>
-        <div class="stat"><div class="num">1:1</div><div class="lbl">Guidance in every tier</div></div>
-        <div class="stat"><div class="num">∞</div><div class="lbl">Free resources, always</div></div>
-      </div>
+      <ul class="refusals">
+        {
+          refusals.map((r) => (
+            <li class="no">
+              <span class="mark" aria-hidden="true">✕</span>
+              <span><span class="sr-only">Without: </span>{r}</span>
+            </li>
+          ))
+        }
+        <li class="yes">
+          <span class="mark" aria-hidden="true">✓</span>
+          <span><span class="sr-only">Instead: </span>One system, and the skills to run it</span>
+        </li>
+      </ul>
     </div>
   </section>
 

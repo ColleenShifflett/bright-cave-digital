@@ -25,3 +25,6 @@ pnpm-debug.log*
 
 # personal notes
 TODO.md
+
+# Fonts fetched locally for tools/make_og_image.py
+.fonts/
