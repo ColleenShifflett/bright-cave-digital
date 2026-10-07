@@ -4,6 +4,9 @@ description: 'An introduction to Bright Cave Digital and our DIY, Done-With-You,
 pubDate: 2026-07-01
 author: 'Bright Cave Digital'
 tags: ['announcements', 'getting-started']
+# Placeholder post in the retired three-tier, "we" voice. Unpublished
+# until it is rewritten or deleted.
+draft: true
 ---
 
 Welcome to the Bright Cave Digital blog. This is a placeholder post to
@@ -14,9 +17,9 @@ demonstrate the blog content collection, RSS feed, and article structured data.
 Not every business needs the same kind of help. That's why everything we do is
 organised around three tiers:
 
-- **DIY (Do It Yourself)** — learn and build on your own with our guides and templates.
-- **DWY (Done With You)** — get expert coaching while keeping your hands on the wheel.
-- **DFY (Done For You)** — hand it over and let us execute.
+- **DIY (Do It Yourself):** learn and build on your own with our guides and templates.
+- **DWY (Done With You):** get expert coaching while keeping your hands on the wheel.
+- **DFY (Done For You):** hand it over and let us execute.
 
 ## What to expect here
 

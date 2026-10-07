@@ -12,7 +12,7 @@ export const SITE_TAGLINE = 'A website that gets better on a schedule.';
 
 // Used for the Organization JSON-LD and humans/llms metadata.
 // `sameAs` lists profile URLs for the ORGANISATION itself (a LinkedIn company
-// page, GitHub org, directory listing) — not personal profiles. A person's URL
+// page, GitHub org, directory listing), not personal profiles. A person's URL
 // belongs on `founder.sameAs`, which links the human to the studio without
 // claiming they are the same entity.
 export const ORGANIZATION = {
@@ -27,7 +27,7 @@ export const ORGANIZATION = {
 };
 
 // Twitter/X handle for Twitter card metadata (e.g. '@yourhandle').
-// Empty until a real account exists — Twitter cards omit attribution when blank.
+// Empty until a real account exists. Twitter cards omit attribution when blank.
 export const TWITTER_HANDLE = '';
 
 // Default social share image (place a 1200x630 PNG at public/og-default.png).

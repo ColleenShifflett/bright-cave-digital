@@ -23,7 +23,7 @@ export async function assertContentInvariants(): Promise<void> {
     throw new Error(
       `Content invariant failed: collection(s) [${empty.join(', ')}] loaded 0 ` +
         `entries but are declared non-empty. The files may exist on disk yet ` +
-        `never entered the content store — check that the loader/renderer for ` +
+        `never entered the content store. Check that the loader/renderer for ` +
         `their file type is installed (e.g. @astrojs/mdx for .mdx). Build ` +
         `aborted to avoid shipping empty content.`
     );

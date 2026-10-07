@@ -40,7 +40,7 @@ export default defineConfig({
       },
     }),
     // Registers the .mdx entry type for the content layer so atoms, lenses,
-    // and notices load and render. Order is irrelevant here — no integration
+    // and notices load and render. Order is irrelevant here: no integration
     // modifies markdown config for it to inherit.
     mdx(),
   ],

@@ -23,7 +23,7 @@ type Props = { guide: CollectionEntry<'guides'> };
 const { guide } = Astro.props;
 const { data } = guide;
 
-// An unresolvable reference in a PUBLISHED guide is a hard build failure — a
+// An unresolvable reference in a PUBLISHED guide is a hard build failure: a
 // guide is a manifest of references and shipping one with a dangling entry is
 // exactly the silent-empty-page failure this route must not produce. In a
 // DRAFT it warns loudly instead, so work in progress does not hard-fail during

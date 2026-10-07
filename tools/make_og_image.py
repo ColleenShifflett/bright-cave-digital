@@ -1,4 +1,4 @@
-"""Generate public/og-default.png — the default Open Graph share card.
+"""Generate public/og-default.png, the default Open Graph share card.
 
 Colours and type mirror src/styles/tokens.css, so the card matches the site.
 Re-run this whenever the hero copy, brand name, or palette changes.
@@ -46,7 +46,7 @@ inter_url = ImageFont.truetype(f"{FONTS}/Inter-Medium.ttf", 24)
 
 
 def radial_glow(w, h, cx, cy, rx, ry, colour, peak):
-    """Elliptical glow, computed small and upscaled — cheap and smooth."""
+    """Elliptical glow, computed small and upscaled: cheap and smooth."""
     s = 160
     mask = Image.new("L", (s, s))
     px = mask.load()
@@ -79,7 +79,7 @@ d = ImageDraw.Draw(img)
 
 tracked(d, (PAD, PAD), EYEBROW, inter_eyebrow, CLARITY, 2.6)
 
-# Headline — the accent phrase carries the glow, as it does in the hero.
+# Headline: the accent phrase carries the glow, as it does in the hero.
 y = PAD + 74
 d.text((PAD, y), HEADLINE, font=geist_bold, fill=WHITE)
 d.text((PAD, y + 88), HEADLINE_ACCENT, font=geist_bold, fill=GLOW)

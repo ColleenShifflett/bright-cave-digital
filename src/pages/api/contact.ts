@@ -144,8 +144,8 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
   const definition = FORMS[rawType];
   returnPath = definition.returnPath;
 
-  // 1. Honeypot — if the hidden field is filled, it's a bot. Pretend success so
-  //    we don't tip off the bot, but send nothing.
+  // 1. Honeypot: if the hidden field is filled, it's a bot. Pretend success so
+  //    the bot gets no signal, but send nothing.
   if (get('company_url') !== '') {
     return ok();
   }

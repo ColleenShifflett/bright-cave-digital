@@ -1,5 +1,5 @@
 /* =========================================================
-   Bright Cave Digital — site layout & components
+   Bright Cave Digital: site layout and components
    Built on the design-system tokens in tokens.css.
    ========================================================= */
 
@@ -69,7 +69,7 @@
   text-transform: uppercase; letter-spacing: var(--bca-tracking-eyebrow);
   color: var(--bca-fg-muted); margin: 0 0 var(--bca-space-4);
 }
-/* :not(.brand) — the brand lockup is a flex row and must not be forced to
+/* :not(.brand): the brand lockup is a flex row and must not be forced to
    display:block, which would stack the mark above the wordmark. */
 .site-footer .col a:not(.brand) { display: block; color: var(--bca-fg); font-size: 14px; padding: 4px 0; border-bottom: none; }
 .site-footer .col a:hover { color: var(--bca-clarity); }
@@ -292,7 +292,7 @@ main > .scorecard-cta:last-child { border-bottom: none; }
 .form-actions { grid-column: 1 / -1; display: flex; align-items: center; gap: 16px; margin-top: 4px; }
 .form-note { font-size: 13px; color: var(--bca-fg-muted); }
 .form-note a { font-weight: 600; }
-/* honeypot — hidden from humans, catches bots */
+/* honeypot: hidden from humans, catches bots */
 .hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
 .form-error {
   grid-column: 1 / -1; margin: 0;

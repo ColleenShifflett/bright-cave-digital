@@ -1,7 +1,7 @@
 // Builders for schema.org structured data used with the <JsonLd> component.
 import { SITE_URL, SITE_DESCRIPTION, ORGANIZATION } from '../consts';
 
-/** Organization schema — render this once, sitewide (in the base layout). */
+/** Organization schema. Render this once, sitewide (in the base layout). */
 export function organizationSchema() {
   return {
     '@context': 'https://schema.org',
@@ -38,7 +38,7 @@ interface ArticleInput {
   author: string;
 }
 
-/** Article schema — render on each blog post / resource detail page. */
+/** Article schema. Render on each blog post / resource detail page. */
 export function articleSchema(input: ArticleInput) {
   return {
     '@context': 'https://schema.org',
