@@ -1,0 +1,51 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const principles = [
+  {
+    title: 'Discoverable, actionable, relatable.',
+    body: "That's the whole job of a website. People with the problems you solve, and the machines they ask, should be able to find you, act on what they find, and see themselves in it. SEO and GEO are tactics for the first part.",
+  },
+  {
+    title: 'Content is data.',
+    body: "How your words are written, structured, and labeled matters more than how your site looks, because that's what both people and AI systems actually read. If you know your site doesn't fully represent you, fix that first. You don't need a report to tell you what you already know.",
+  },
+  {
+    title: 'Use more data than you think you have.',
+    body: 'Your content, your search data, your business data, and your GA4 data all belong in the picture.',
+  },
+  {
+    title: 'Measure accurately, not perfectly.',
+    body: "A trustworthy data foundation, usually GA4, is essential. Chasing perfect attribution is expensive and stalls work that's already working.",
+  },
+  {
+    title: 'Governance is non-negotiable.',
+    body: 'How things get imagined, written, published, tagged, and labeled should be decided once and followed every time.',
+  },
+  {
+    title: 'Right-sized beats sophisticated.',
+    body: 'Strategy should be holistic, sane, and sized to the team you actually have, especially if that team is you.',
+  },
+];
+---
+
+<BaseLayout
+  title="How I Work"
+  description="Six working principles behind every engagement: discoverable, actionable, relatable, and right-sized."
+>
+  <section class="page-head">
+    <div class="wrap">
+      <article class="prose">
+        <p class="eyebrow">Approach</p>
+        <h1>How I work</h1>
+        {
+          principles.map((p) => (
+            <p>
+              <strong>{p.title}</strong> {p.body}
+            </p>
+          ))
+        }
+      </article>
+    </div>
+  </section>
+</BaseLayout>
