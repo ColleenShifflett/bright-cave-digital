@@ -1,5 +1,5 @@
 /* =========================================================
-   Bright Cave — Colors & Type
+   Bright Cave: Colors and Type
    Source of truth: "Bright Cave Analytics Design System"
    (Claude Design). Tokens are prefixed --bca-. Base typography
    applied to html/headings so semantic markup inherits the system.
@@ -9,12 +9,12 @@
 
 :root {
   /* ---------- Brand color palette ---------- */
-  --bca-glow:      #F59E0B;  /* primary accent — orange */
-  --bca-insight:   #FCD34D;  /* secondary accent — yellow */
-  --bca-clarity:   #0EA5A4;  /* teal — for charts, links */
-  --bca-depth:     #1E1E1E;  /* near-black — body text, dark surfaces */
+  --bca-glow:      #F59E0B;  /* primary accent: orange */
+  --bca-insight:   #FCD34D;  /* secondary accent: yellow */
+  --bca-clarity:   #0EA5A4;  /* teal: for charts, links */
+  --bca-depth:     #1E1E1E;  /* near-black: body text, dark surfaces */
   --bca-stone:     #6B7280;  /* secondary text, borders */
-  --bca-fog:       #F6F6F4;  /* warm off-white — page background */
+  --bca-fog:       #F6F6F4;  /* warm off-white: page background */
 
   /* ---------- Extended neutrals ---------- */
   --bca-paper:     #FFFFFF;

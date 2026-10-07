@@ -1,0 +1,24 @@
+---
+interface Props {
+  name: string;
+  line: string;
+  href: string;
+  /** Show an availability badge (services overview). */
+  availability?: 'open' | 'waitlist';
+}
+
+const { name, line, href, availability } = Astro.props;
+---
+
+<article class="card stage-card">
+  {
+    availability && (
+      <span class={`badge${availability === 'open' ? ' badge-open' : ''}`}>
+        {availability === 'open' ? 'Open now' : 'Waiting list'}
+      </span>
+    )
+  }
+  <h3><a href={href}>{name}</a></h3>
+  <p>{line}</p>
+  <p class="card-cta"><a href={href}>Learn about {name} →</a></p>
+</article>

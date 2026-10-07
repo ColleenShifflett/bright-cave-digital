@@ -1,0 +1,150 @@
+---
+import { FORMS, type FormType } from '../lib/forms';
+
+// Posts to the /api/contact endpoint (an on-demand serverless function, see
+// src/pages/api/contact.ts). Submissions are verified with Cloudflare
+// Turnstile, rate-limited, honeypot-checked, then emailed via Resend. The
+// hidden form_type field tells the endpoint which field set to validate.
+
+interface Props {
+  type: FormType;
+  submitLabel?: string;
+}
+
+const { type, submitLabel = 'Send →' } = Astro.props;
+const { fields } = FORMS[type];
+
+// Turnstile *site* key is public by design (it is rendered into the HTML).
+// Pages are prerendered, so the value is read at build time and baked in. Set
+// TURNSTILE_SITE_KEY in the build environment.
+const turnstileSiteKey = import.meta.env.TURNSTILE_SITE_KEY;
+const id = (name: string) => `${type}-${name}`;
+---
+
+<form class="form-card lead-form" action="/api/contact" method="POST">
+  <input type="hidden" name="form_type" value={type} />
+  <div class="form-grid">
+    {
+      fields.map((f) => (
+        <div class={`field${f.full ? ' full' : ''}`}>
+          <label for={id(f.name)}>
+            {f.label}
+            {f.required ? (
+              <span class="req" aria-hidden="true">*</span>
+            ) : (
+              <span class="optional"> (optional)</span>
+            )}
+          </label>
+          {f.kind === 'select' ? (
+            <select id={id(f.name)} name={f.name} required={f.required}>
+              <option value="" disabled selected>Select an option…</option>
+              {f.options?.map((o) => <option value={o}>{o}</option>)}
+            </select>
+          ) : f.kind === 'textarea' ? (
+            <textarea id={id(f.name)} name={f.name} rows="5" required={f.required} />
+          ) : (
+            <input
+              id={id(f.name)}
+              name={f.name}
+              type={f.kind === 'email' ? 'email' : 'text'}
+              inputmode={f.kind === 'website' ? 'url' : undefined}
+              placeholder={f.kind === 'website' ? 'example.com' : undefined}
+              required={f.required}
+              autocomplete={f.autocomplete}
+            />
+          )}
+          {f.help && <div class="help">{f.help}</div>}
+        </div>
+      ))
+    }
+
+    {/* Honeypot: bots fill this; humans never see it. */}
+    <div class="hp" aria-hidden="true">
+      <label for={id('company_url')}>Leave this field empty</label>
+      <input id={id('company_url')} name="company_url" type="text" tabindex="-1" autocomplete="off" />
+    </div>
+
+    {/* Cloudflare Turnstile. The widget injects a `cf-turnstile-response`
+        hidden input into this form when solved; it is verified server-side. */}
+    {
+      turnstileSiteKey ? (
+        <div class="field full">
+          <div class="cf-turnstile" data-sitekey={turnstileSiteKey} data-theme="auto" />
+        </div>
+      ) : (
+        <div class="field full">
+          <div class="help" style="color: var(--bca-danger);">
+            Turnstile is not configured. Set <code>TURNSTILE_SITE_KEY</code>.
+          </div>
+        </div>
+      )
+    }
+
+    <p class="form-error" role="alert" hidden></p>
+
+    <div class="form-actions">
+      <button class="btn btn-accent" type="submit">{submitLabel}</button>
+    </div>
+  </div>
+</form>
+
+{turnstileSiteKey && (
+  <script is:inline src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+)}
+
+<script>
+  // Progressive enhancement: submit via fetch so errors show inline and the
+  // visitor stays on the page. Without JS the form still POSTs natively to
+  // /api/contact, which redirects to /thank-you on success or back here with
+  // ?error= on failure.
+  for (const form of document.querySelectorAll<HTMLFormElement>('form.lead-form')) {
+    const errorEl = form.querySelector<HTMLElement>('.form-error');
+    const submitBtn = form.querySelector<HTMLButtonElement>('button[type="submit"]');
+
+    const showError = (message: string) => {
+      if (!errorEl) return;
+      errorEl.textContent = message;
+      errorEl.hidden = false;
+    };
+
+    const queryError = new URLSearchParams(window.location.search).get('error');
+    if (queryError) showError(queryError);
+
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      if (!submitBtn) return;
+
+      if (errorEl) {
+        errorEl.hidden = true;
+        errorEl.textContent = '';
+      }
+      const originalLabel = submitBtn.textContent;
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Sending…';
+
+      try {
+        const res = await fetch(form.action, {
+          method: 'POST',
+          headers: { Accept: 'application/json' },
+          body: new FormData(form),
+        });
+        const data = await res.json().catch(() => ({}));
+
+        if (res.ok && data.ok) {
+          window.location.href = '/thank-you';
+          return;
+        }
+
+        showError(data.error || 'Something went wrong. Please try again.');
+        // Reset the Turnstile widget so the visitor can get a fresh token.
+        (window as any).turnstile?.reset?.();
+      } catch {
+        showError('Network error. Please check your connection and try again.');
+        (window as any).turnstile?.reset?.();
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.textContent = originalLabel;
+      }
+    });
+  }
+</script>

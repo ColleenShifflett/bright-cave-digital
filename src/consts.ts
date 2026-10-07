@@ -5,14 +5,14 @@ export const SITE_URL = 'https://brightcavedigital.com';
 
 export const SITE_TITLE = 'Bright Cave Digital';
 export const SITE_DESCRIPTION =
-  'Web strategy and analytics for small and mighty teams. Get found by ' +
-  "today's AI-driven buyers — and get the measurement to prove what's working.";
+  'AI-era web strategy and analytics for busy teams with big dreams. Start ' +
+  'with a free scorecard of how well people and AI can find your site.';
 
-export const SITE_TAGLINE = 'Evolve with the agentic web.';
+export const SITE_TAGLINE = 'A website that gets better on a schedule.';
 
 // Used for the Organization JSON-LD and humans/llms metadata.
 // `sameAs` lists profile URLs for the ORGANISATION itself (a LinkedIn company
-// page, GitHub org, directory listing) — not personal profiles. A person's URL
+// page, GitHub org, directory listing), not personal profiles. A person's URL
 // belongs on `founder.sameAs`, which links the human to the studio without
 // claiming they are the same entity.
 export const ORGANIZATION = {
@@ -27,7 +27,7 @@ export const ORGANIZATION = {
 };
 
 // Twitter/X handle for Twitter card metadata (e.g. '@yourhandle').
-// Empty until a real account exists — Twitter cards omit attribution when blank.
+// Empty until a real account exists. Twitter cards omit attribution when blank.
 export const TWITTER_HANDLE = '';
 
 // Default social share image (place a 1200x630 PNG at public/og-default.png).
@@ -35,10 +35,26 @@ export const DEFAULT_OG_IMAGE = '/og-default.png';
 
 // Primary navigation shown in the site header.
 export const NAV_LINKS = [
-  { href: '/', label: 'Home' },
   { href: '/about', label: 'About' },
   { href: '/services', label: 'Services' },
+  { href: '/scorecard', label: 'Scorecard' },
   { href: '/blog', label: 'Blog' },
   { href: '/resources', label: 'Resources' },
-  { href: '/contact', label: 'Contact' },
 ];
+
+// Footer "Explore" links.
+export const FOOTER_LINKS = [
+  { href: '/core-beliefs', label: 'Core beliefs' },
+  { href: '/about', label: 'About' },
+  { href: '/approach', label: 'Approach' },
+  { href: '/services', label: 'Services' },
+  { href: '/scorecard', label: 'Scorecard' },
+  { href: '/fixing-it-in-public', label: 'Fixing it in public' },
+  { href: '/work-with-us', label: 'Work with us' },
+  { href: '/now', label: 'Now' },
+  { href: '/blog', label: 'Blog' },
+  { href: '/resources', label: 'Resources' },
+];
+
+// Free scorecards offered per week.
+export const SCORECARDS_PER_WEEK = '10';

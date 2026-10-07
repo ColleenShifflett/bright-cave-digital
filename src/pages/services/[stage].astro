@@ -1,0 +1,76 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { STAGES, stageBySlug, type Stage } from '../../data/stages';
+
+export function getStaticPaths() {
+  return STAGES.map((stage) => ({ params: { stage: stage.slug }, props: { stage } }));
+}
+
+type Props = { stage: Stage };
+const { stage } = Astro.props;
+
+const nextStages = stage.next
+  .map((slug) => stageBySlug(slug))
+  .filter((s): s is Stage => Boolean(s));
+---
+
+<BaseLayout title={`${stage.name}: ${stage.subtitle}`} description={stage.description}>
+  <section class="page-head">
+    <div class="wrap">
+      <article class="prose">
+        <p class="eyebrow"><a href="/services">Services</a></p>
+        <h1>{stage.name}: {stage.subtitle}</h1>
+
+        <h2>You are here</h2>
+        <p>{stage.youAreHere}</p>
+
+        <h2>What happens</h2>
+        <p>{stage.whatHappens}</p>
+
+        <h2>You leave with</h2>
+        <p>{stage.youLeaveWith}</p>
+
+        <h2>Choose how hands-on to be</h2>
+        <ul class="hands-on">
+          {
+            stage.handsOn.map((h) => (
+              <li>
+                <span class="level">{h.levels}</span>
+                {h.href ? <a href={h.href}>{h.text}</a> : h.text}
+              </li>
+            ))
+          }
+        </ul>
+
+        <h2>Availability</h2>
+        <div class="stage-meta">
+          <span class={`badge${stage.availability === 'open' ? ' badge-open' : ''}`}>
+            {stage.availability === 'open' ? 'Open now' : 'Waiting list'}
+          </span>
+          {stage.price && <span>Price: {stage.price}</span>}
+          <a href="/work-with-us">
+            {stage.availability === 'open' ? 'Get started →' : 'Join the waiting list →'}
+          </a>
+        </div>
+
+        <h2>Next stage</h2>
+        <p>
+          {
+            nextStages.length === 0 ? (
+              <>
+                You're set. Come back to <a href="/services/diagnose">Diagnose</a> in a year.
+              </>
+            ) : (
+              nextStages.map((s, i) => (
+                <>
+                  {i > 0 && ' or '}
+                  <a href={`/services/${s.slug}`}>{s.name}</a>
+                </>
+              ))
+            )
+          }
+        </p>
+      </article>
+    </div>
+  </section>
+</BaseLayout>

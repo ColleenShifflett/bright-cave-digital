@@ -1,0 +1,34 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import BeliefList from '../components/BeliefList.astro';
+---
+
+<BaseLayout
+  title="Core Beliefs"
+  description="What we believe about websites in the AI era, and why every website can get better."
+>
+  <section class="page-head">
+    <div class="wrap">
+      <article class="prose">
+        <p class="eyebrow">Core beliefs</p>
+        <h1>What we believe about websites</h1>
+      </article>
+    </div>
+  </section>
+
+  <section class="section" style="padding-top: 0;">
+    <div class="wrap">
+      <BeliefList variant="full" />
+      <div class="prose" style="margin-top: var(--bca-space-12);">
+        <p>
+          That is Bright Cave Digital. Free and paid resources for anyone who
+          wants to do this themselves, and services for teams who want help.
+        </p>
+        <div class="link-row">
+          <a class="btn btn-ghost" href="/approach">How we work</a>
+          <a class="btn btn-primary" href="/scorecard">Get your free scorecard →</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

@@ -1,6 +1,6 @@
 ---
 title: 'Digital Growth Starter Checklist'
-description: 'A simple checklist to audit your online presence and find your next win — perfect for the DIY tier.'
+description: 'A simple checklist to audit your online presence and find your next win. A good fit if you want to do it yourself.'
 pubDate: 2026-07-01
 resourceType: 'checklist'
 tier: 'DIY'

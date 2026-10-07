@@ -1,68 +1,24 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-
-const tiers = [
-  {
-    id: 'diy',
-    code: 'DIY',
-    name: 'Do It Yourself',
-    gem: 'gem--clarity',
-    intro:
-      'For the hands-on business owner who wants to learn and build independently.',
-    includes: [
-      'Step-by-step guides and templates',
-      'Self-paced courses and playbooks',
-      'A growing library of free resources',
-      'Community support',
-    ],
-    feature: false,
-  },
-  {
-    id: 'dwy',
-    code: 'DWY',
-    name: 'Done With You',
-    gem: 'gem--glow',
-    intro:
-      'For teams who want expert guidance while keeping their hands on the wheel.',
-    includes: [
-      'One-on-one strategy sessions',
-      'Coaching and accountability',
-      'Reviews and feedback on your work',
-      'Custom roadmaps and priorities',
-    ],
-    feature: true,
-  },
-  {
-    id: 'dfy',
-    code: 'DFY',
-    name: 'Done For You',
-    gem: 'gem--insight',
-    intro:
-      'For businesses that want results without the workload — we handle everything.',
-    includes: [
-      'Full-service strategy and execution',
-      'Content, campaigns, and creative',
-      'Ongoing management and reporting',
-      'A dedicated point of contact',
-    ],
-    feature: false,
-  },
-];
+import StageCard from '../components/StageCard.astro';
+import { STAGES } from '../data/stages';
 ---
 
 <BaseLayout
   title="Services"
-  description="Web strategy and analytics support at three levels — DIY, Done-With-You, and Done-For-You. Pick the one that fits how you want to work."
+  description="Six stages of web strategy and analytics. Start where you are, stop when you're ready, and choose how hands-on to be."
 >
   <section class="page-head">
     <div class="wrap">
       <div class="section-head">
         <p class="eyebrow">Services</p>
-        <h2>Three shapes of support.</h2>
+        <h1 class="h2-size">We'll meet you where you are.</h1>
         <p class="sub">
-          Every engagement starts with one question: how much do you want to do
-          yourself? Pick the tier that fits today — you can always move between
-          them as your needs change.
+          Every engagement is a stage, and each one is complete on its own.
+          Start at the one that fits, stop when you're ready, or keep going. At
+          every stage you choose how hands-on to be: do it yourself with our
+          guides and templates, do it with us through coaching and working
+          sessions, or have us do it.
         </p>
       </div>
     </div>
@@ -72,36 +28,35 @@ const tiers = [
     <div class="wrap">
       <div class="card-grid">
         {
-          tiers.map((tier) => (
-            <article id={tier.id} class={`card${tier.feature ? ' dark' : ''}`}>
-              {tier.feature && <span class="badge" style="align-self:flex-start;color:var(--bca-glow);border-color:rgba(255,255,255,0.3);">Most popular</span>}
-              <span class={`gem ${tier.gem}`} aria-hidden="true" />
-              <span class="tier-code">{tier.code}</span>
-              <h3>{tier.name}</h3>
-              <p>{tier.intro}</p>
-              <ul>
-                {tier.includes.map((item) => <li>{item}</li>)}
-              </ul>
-              <p class="card-cta">
-                <a
-                  class={`btn ${tier.feature ? 'btn-accent' : 'btn-ghost'}`}
-                  href="/contact"
-                >
-                  Get started
-                </a>
-              </p>
-            </article>
+          STAGES.map((s) => (
+            <StageCard
+              name={s.name}
+              line={s.line}
+              href={`/services/${s.slug}`}
+              availability={s.availability}
+            />
           ))
         }
       </div>
-    </div>
-  </section>
 
-  <section class="cta-band" id="contact">
-    <div class="wrap">
-      <h2>Not sure which is right?</h2>
-      <p>Tell us your goal and we'll point you to the right starting tier.</p>
-      <a class="btn btn-primary" href="/contact" style="padding:14px 24px;font-size:15px;">Get in touch →</a>
+      <div class="prose" style="margin-top: var(--bca-space-16);">
+        <h2>Add-ons, available at any stage</h2>
+        <ul>
+          <li>
+            Content-first redesign oversight: we own the inventory, structure,
+            labels, governance, and measurement plan while your designer or
+            developer builds.
+          </li>
+          <li>Martech vendor selection.</li>
+        </ul>
+
+        <h2>Availability</h2>
+        <p>
+          Diagnose and Roadmap are open now. Foundation, Content, Optimize, and
+          Enable run on a waiting list.
+          <a href="/work-with-us">See availability →</a>
+        </p>
+      </div>
     </div>
   </section>
 </BaseLayout>

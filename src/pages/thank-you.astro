@@ -2,20 +2,22 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 
 // Static confirmation page. The /api/contact endpoint redirects here after a
-// successful submission (or the client-side form script navigates here).
+// successful submission (or the client-side form script navigates here). It
+// skips the closing scorecard CTA: most visitors here just requested one.
 ---
 
 <BaseLayout
   title="Thank you"
-  description="Thanks for reaching out to Bright Cave Digital — we'll be in touch shortly."
+  description="Thanks for reaching out to Bright Cave Digital. We'll be in touch shortly."
   noindex={true}
+  scorecardCta={false}
 >
   <section class="section">
     <div class="wrap">
       <div class="form-success">
         <span class="gem gem--glow" aria-hidden="true"></span>
         <p class="eyebrow">Message received</p>
-        <h2>Thanks — we'll be in touch.</h2>
+        <h2>Thanks. We'll be in touch.</h2>
         <p style="color: var(--bca-fg-muted); max-width: 46ch; margin-inline: auto;">
           We read every message and usually reply within a couple of business
           days. In the meantime, browse the free resources or read the blog.

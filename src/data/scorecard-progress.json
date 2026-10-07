@@ -1,0 +1,11 @@
+{
+  "history": [
+    { "date": "[October 2026]", "score": 77, "change": "Baseline scan." }
+  ],
+  "metrics": [
+    { "name": "AI assistant visits", "baseline": "Not yet measured", "latest": "Not yet measured" },
+    { "name": "Organic leads", "baseline": "Not yet measured", "latest": "Not yet measured" },
+    { "name": "Discovery calls", "baseline": "Not yet measured", "latest": "Not yet measured" }
+  ],
+  "currentFocus": "[Current focus, e.g., publishing the core pages and first posts]"
+}

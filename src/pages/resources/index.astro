@@ -5,20 +5,22 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 const resources = (
   await getCollection('resources', ({ data }) => !data.draft)
 ).sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+
+const comingSoon = ['Roadmap template', 'Content model template', 'DIY scorecard checklist'];
 ---
 
 <BaseLayout
-  title="Resources"
-  description="Free guides, templates, and tools from Bright Cave Digital to help you grow — whichever way you like to work."
+  title="Free Resources"
+  description="Guides and templates for teams who want to do it themselves."
 >
   <section class="page-head">
     <div class="wrap">
       <div class="section-head">
         <p class="eyebrow">Resources</p>
-        <h2>Free guides &amp; templates.</h2>
+        <h1 class="h2-size">Do it yourself</h1>
         <p class="sub">
-          Great for the DIY crowd, and a handy reference no matter which tier
-          you're on.
+          Not everyone needs a consultant. These are the same guides and
+          templates we use, free for anyone who wants to run with them.
         </p>
       </div>
     </div>
@@ -26,9 +28,18 @@ const resources = (
 
   <section class="section" style="padding-top: 0;">
     <div class="wrap">
-      {resources.length === 0 && <p style="text-align:center;color:var(--bca-fg-muted);">No resources yet — check back soon.</p>}
-
       <ul class="post-list card-grid" style="list-style:none;">
+        <li>
+          <article class="card">
+            <span class="badge">guide · template</span>
+            <h2>Tracking Governance Guide and Template</h2>
+            <p>
+              A practical guide to naming, tagging, and documenting your
+              analytics, with a ready-to-use spreadsheet template.
+            </p>
+            <p class="card-cta"><span class="badge">Coming soon</span></p>
+          </article>
+        </li>
         {
           resources.map((resource) => (
             <li>
@@ -42,6 +53,13 @@ const resources = (
           ))
         }
       </ul>
+
+      <div class="prose" style="margin-top: var(--bca-space-16);">
+        <h2>Coming soon</h2>
+        <ul>
+          {comingSoon.map((item) => <li>{item}</li>)}
+        </ul>
+      </div>
     </div>
   </section>
 </BaseLayout>

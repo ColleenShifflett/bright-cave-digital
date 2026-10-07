@@ -1,0 +1,60 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+// Add a row to `history` after each rescan. No markup changes needed.
+import progress from '../data/scorecard-progress.json';
+---
+
+<BaseLayout
+  title="Fixing It in Public"
+  description="We ran our own scorecard on our own site. Here's our score, what we're changing, and what happens next."
+>
+  <section class="page-head">
+    <div class="wrap">
+      <article class="prose">
+        <p class="eyebrow">Fixing it in public</p>
+        <h1>Fixing it in public</h1>
+        <p class="lead-text">
+          Before we ran our scorecard on anyone else's site, we ran it on ours.
+          It scored a 77: great with AI, thin on substance. The technical setup
+          was solid. The content wasn't there yet. This page tracks what we change
+          and what happens, one rescan at a time.
+        </p>
+
+        <h2>Score history</h2>
+        <div class="table-scroll">
+          <table class="data-table">
+            <thead>
+              <tr><th scope="col">Date</th><th scope="col">Score</th><th scope="col">What changed</th></tr>
+            </thead>
+            <tbody>
+              {
+                progress.history.map((row) => (
+                  <tr><td>{row.date}</td><td>{row.score}</td><td>{row.change}</td></tr>
+                ))
+              }
+            </tbody>
+          </table>
+        </div>
+
+        <h2>The numbers that matter</h2>
+        <div class="table-scroll">
+          <table class="data-table">
+            <thead>
+              <tr><th scope="col">Metric</th><th scope="col">Baseline</th><th scope="col">Latest</th></tr>
+            </thead>
+            <tbody>
+              {
+                progress.metrics.map((m) => (
+                  <tr><th scope="row">{m.name}</th><td>{m.baseline}</td><td>{m.latest}</td></tr>
+                ))
+              }
+            </tbody>
+          </table>
+        </div>
+
+        <h2>What we're working on now</h2>
+        <p>{progress.currentFocus}</p>
+      </article>
+    </div>
+  </section>
+</BaseLayout>

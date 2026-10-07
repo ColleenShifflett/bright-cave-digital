@@ -71,9 +71,9 @@ export const CHANGE_KINDS = [
 export const REVIEW_ROLES = ['editorial', 'technical', 'legal'] as const;
 
 // Existing service taxonomy, reused for the content funnel:
-//   DIY  free — guides, blog
-//   DWY  paid one-time — kits
-//   DFY  engagement — workshop
+//   DIY  free: guides, blog
+//   DWY  paid one-time: kits
+//   DFY  engagement: workshop
 export const TIERS = ['DIY', 'DWY', 'DFY'] as const;
 
 /* ================================================================== */

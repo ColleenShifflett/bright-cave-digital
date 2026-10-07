@@ -28,7 +28,11 @@ export default defineConfig({
   }),
 
   integrations: [
-    sitemap(),
+    sitemap({
+      // Keep utility pages out of the sitemap: they are noindex and have no
+      // search value.
+      filter: (page) => !/\/(thank-you|404)\/?$/.test(new URL(page).pathname),
+    }),
     partytown({
       // Forward the GA4 dataLayer/gtag calls to the Partytown web worker.
       config: {
@@ -36,7 +40,7 @@ export default defineConfig({
       },
     }),
     // Registers the .mdx entry type for the content layer so atoms, lenses,
-    // and notices load and render. Order is irrelevant here — no integration
+    // and notices load and render. Order is irrelevant here: no integration
     // modifies markdown config for it to inherit.
     mdx(),
   ],
