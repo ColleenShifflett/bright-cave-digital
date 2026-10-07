@@ -1,0 +1,24 @@
+---
+import { SCORECARDS_PER_WEEK } from '../consts';
+
+interface Props {
+  heading?: string;
+  line?: string;
+  label?: string;
+}
+
+const {
+  heading = 'See where your site stands.',
+  line = `I run ${SCORECARDS_PER_WEEK} free scorecards a week. Send me your URL, and I'll walk you through what I find.`,
+  label = 'Get your free scorecard',
+} = Astro.props;
+---
+
+<section class="cta-band scorecard-cta">
+  <div class="wrap">
+    <h2>{heading}</h2>
+    <p>{line}</p>
+    <a class="btn btn-accent btn-lg" href="/scorecard">{label} →</a>
+    <slot />
+  </div>
+</section>

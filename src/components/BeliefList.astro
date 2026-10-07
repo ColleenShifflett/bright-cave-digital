@@ -1,0 +1,24 @@
+---
+import { BELIEFS } from '../data/beliefs';
+
+interface Props {
+  /** 'short' for the homepage summary, 'full' for the manifesto. */
+  variant?: 'short' | 'full';
+}
+
+const { variant = 'short' } = Astro.props;
+---
+
+<ol class="belief-list">
+  {
+    BELIEFS.map((b) => (
+      <li>
+        <span class="gem gem--sm gem--glow" aria-hidden="true" />
+        <p>
+          <strong>{b.headline}</strong>
+          {b[variant] && <> {b[variant]}</>}
+        </p>
+      </li>
+    ))
+  }
+</ol>

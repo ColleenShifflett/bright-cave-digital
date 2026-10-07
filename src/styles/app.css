@@ -58,9 +58,10 @@
 }
 
 /* ---------- Footer ---------- */
-.site-footer { background: var(--bca-paper); border-top: 1px solid var(--bca-border); margin-top: var(--bca-space-24); }
+/* No top margin: every page ends with the full-bleed scorecard CTA band. */
+.site-footer { background: var(--bca-paper); border-top: 1px solid var(--bca-border); }
 .site-footer .cols {
-  display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: var(--bca-space-12);
+  display: grid; grid-template-columns: 2fr 2fr 1fr; gap: var(--bca-space-12);
   padding: var(--bca-space-16) 0 var(--bca-space-10);
 }
 .site-footer h2 {
@@ -79,8 +80,10 @@
   font-size: 12px; color: var(--bca-fg-muted);
 }
 .site-footer .legal a { color: var(--bca-fg-muted); border-bottom: none; }
+.site-footer .link-cols { columns: 2; column-gap: var(--bca-space-8); }
 @media (max-width: 860px) {
   .site-footer .cols { grid-template-columns: 1fr 1fr; gap: var(--bca-space-8); }
+  .site-footer .col:first-child { grid-column: 1 / -1; }
 }
 @media (max-width: 520px) {
   .site-footer .cols { grid-template-columns: 1fr; }
@@ -209,7 +212,12 @@
 /* ---------- CTA band ---------- */
 .cta-band { padding: var(--bca-space-20) 0; text-align: center; background: var(--bca-fog-2); border-top: 1px solid var(--bca-border); border-bottom: 1px solid var(--bca-border); }
 .cta-band h2 { font-size: 44px; letter-spacing: -0.02em; margin: 0 0 14px; }
-.cta-band p { font-size: 17px; color: var(--bca-fg-muted); margin: 0 0 26px; }
+.cta-band p { font-size: 17px; color: var(--bca-fg-muted); margin: 0 auto 26px; max-width: 60ch; }
+.cta-band .cta-extra { margin: var(--bca-space-8) auto 0; font-size: 15px; }
+.btn-lg { padding: 14px 24px; font-size: 15px; }
+@media (max-width: 640px) { .cta-band h2 { font-size: 32px; } }
+/* The footer supplies the rule below the closing CTA band. */
+main > .scorecard-cta:last-child { border-bottom: none; }
 
 /* ---------- Prose (articles / about) ---------- */
 .prose { max-width: 720px; margin: 0 auto; }
@@ -304,3 +312,31 @@
   .form-grid { grid-template-columns: 1fr; }
   .form-card { padding: var(--bca-space-6); }
 }
+
+/* ---------- Beliefs ---------- */
+.belief-list { list-style: none; margin: 0 auto; padding: 0; max-width: 760px; display: grid; gap: var(--bca-space-6); }
+.belief-list li { display: grid; grid-template-columns: auto 1fr; gap: var(--bca-space-4); align-items: start; }
+.belief-list .gem { margin-top: 2px; }
+.belief-list p { margin: 0; font-size: 17px; line-height: 1.6; color: var(--bca-fg-muted); }
+.belief-list strong { color: var(--bca-fg); }
+
+/* ---------- Stage cards ---------- */
+.stage-card h3 a { color: inherit; border-bottom: none; }
+.stage-card h3 a:hover { color: var(--bca-clarity); }
+.stage-card .badge { align-self: flex-start; }
+.badge-open { color: var(--bca-depth); background: color-mix(in srgb, var(--bca-glow) 22%, transparent); border-color: transparent; }
+
+/* ---------- Simple data tables ---------- */
+.data-table { width: 100%; border-collapse: collapse; font-size: 15px; }
+.data-table th, .data-table td { text-align: left; padding: 10px 12px; border-bottom: 1px solid var(--bca-border); vertical-align: top; }
+.data-table th { font-size: 12px; text-transform: uppercase; letter-spacing: var(--bca-tracking-wide); color: var(--bca-fg-muted); }
+.table-scroll { overflow-x: auto; }
+
+/* ---------- Stage page ---------- */
+.stage-meta { display: flex; flex-wrap: wrap; gap: var(--bca-space-3); align-items: center; }
+.hands-on { list-style: none; padding: 0 !important; display: grid; gap: var(--bca-space-3); }
+.hands-on li { padding: var(--bca-space-4); background: var(--bca-paper); border: 1px solid var(--bca-border); border-radius: var(--bca-radius-md); }
+.hands-on .level { display: block; font-family: var(--bca-font-mono); font-size: 12px; font-weight: 700; color: var(--bca-clarity); letter-spacing: var(--bca-tracking-wide); margin-bottom: 4px; }
+
+/* ---------- Two-up action rows inside prose ---------- */
+.link-row { display: flex; flex-wrap: wrap; gap: 14px; align-items: center; }
