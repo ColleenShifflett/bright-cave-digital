@@ -28,7 +28,11 @@ export default defineConfig({
   }),
 
   integrations: [
-    sitemap(),
+    sitemap({
+      // Keep utility pages out of the sitemap: they are noindex and have no
+      // search value.
+      filter: (page) => !/\/(thank-you|404)\/?$/.test(new URL(page).pathname),
+    }),
     partytown({
       // Forward the GA4 dataLayer/gtag calls to the Partytown web worker.
       config: {
