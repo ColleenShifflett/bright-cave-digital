@@ -24,7 +24,8 @@ export type Stage = {
   handsOn: HandsOn[];
   availability: 'open' | 'waitlist';
   price?: string;
-  next: { text: string; slugs: string[] };
+  /** Slugs of the stage(s) that usually follow. Empty for the last stage. */
+  next: string[];
 };
 
 export const STAGES: Stage[] = [
@@ -47,7 +48,7 @@ export const STAGES: Stage[] = [
     ],
     availability: 'open',
     price: '[price]',
-    next: { text: 'Roadmap', slugs: ['roadmap'] },
+    next: ['roadmap'],
   },
   {
     slug: 'roadmap',
@@ -68,7 +69,7 @@ export const STAGES: Stage[] = [
     ],
     availability: 'open',
     price: '[$4,500]',
-    next: { text: 'Foundation or Content', slugs: ['foundation', 'content'] },
+    next: ['foundation', 'content'],
   },
   {
     slug: 'foundation',
@@ -91,7 +92,7 @@ export const STAGES: Stage[] = [
       { levels: 'DWY and DFY', text: 'The full reset.' },
     ],
     availability: 'waitlist',
-    next: { text: 'Optimize', slugs: ['optimize'] },
+    next: ['optimize'],
   },
   {
     slug: 'content',
@@ -112,7 +113,7 @@ export const STAGES: Stage[] = [
       { levels: 'DWY and DFY', text: 'Available.' },
     ],
     availability: 'waitlist',
-    next: { text: 'Optimize', slugs: ['optimize'] },
+    next: ['optimize'],
   },
   {
     slug: 'optimize',
@@ -131,7 +132,7 @@ export const STAGES: Stage[] = [
       { levels: 'DFY', text: 'I run it and your team ships.' },
     ],
     availability: 'waitlist',
-    next: { text: 'Enable', slugs: ['enable'] },
+    next: ['enable'],
   },
   {
     slug: 'enable',
@@ -151,7 +152,7 @@ export const STAGES: Stage[] = [
       { levels: 'DFY', text: 'Not offered at this stage.' },
     ],
     availability: 'waitlist',
-    next: { text: "You're set. Come back to Diagnose in a year.", slugs: ['diagnose'] },
+    next: [],
   },
 ];
 
