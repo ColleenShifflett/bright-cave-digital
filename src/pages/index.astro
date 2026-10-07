@@ -1,9 +1,34 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import BeliefList from '../components/BeliefList.astro';
-import StageCard from '../components/StageCard.astro';
 import ScorecardCTA from '../components/ScorecardCTA.astro';
-import { STAGES } from '../data/stages';
+
+const paths = [
+  {
+    label: 'Products',
+    title: 'Our self-guided tour.',
+    body: "Free and premium guides, templates, and tools for teams who'd rather do it themselves. Start with a free scorecard of your site.",
+    cta: 'Browse products',
+    href: '/resources',
+    gem: 'gem--clarity',
+  },
+  {
+    label: 'Solutions',
+    title: 'Guided tours with a goal.',
+    body: "Six defined routes tailored to you, from a first diagnosis to a website that gets better on a schedule. Start where you are, stop when you're ready, and leave with your team owning the system.",
+    cta: 'See the six stages',
+    href: '/services',
+    gem: 'gem--glow',
+  },
+  {
+    label: 'Freelance',
+    title: 'How it all started.',
+    body: 'Hands-on, embedded analytics coverage for your team when you need an extra set of senior hands, not another hire.',
+    cta: 'Join the waitlist',
+    href: '/work-with-me#waiting-list',
+    gem: 'gem--insight',
+  },
+];
 
 const refusals = [
   'A six-month redesign that never launches',
@@ -114,24 +139,24 @@ const refusals = [
     </div>
   </section>
 
-  <section class="section">
+  <section class="section" aria-labelledby="paths-heading">
     <div class="wrap">
-      <div class="section-head">
-        <h2>I'll meet you where you are.</h2>
-        <p class="sub">
-          Every engagement is a stage. Start at the one that fits, stop when
-          you're ready, or keep going. At each stage, you choose how hands-on to
-          be: do it yourself, do it with me, or have me do it.
-        </p>
-      </div>
+      <h2 id="paths-heading" class="sr-only">Ways to work with me</h2>
       <div class="card-grid">
         {
-          STAGES.map((s) => (
-            <StageCard name={s.name} line={s.line} href={`/services/${s.slug}`} />
+          paths.map((p) => (
+            <article class="card path-card">
+              <span class={`gem ${p.gem}`} aria-hidden="true" />
+              <span class="tier-code">{p.label}</span>
+              <h3>{p.title}</h3>
+              <p>{p.body}</p>
+              <p class="card-cta">
+                <a class="btn btn-ghost" href={p.href}>{p.cta}</a>
+              </p>
+            </article>
           ))
         }
       </div>
-      <p class="center-link"><a href="/services">See all services →</a></p>
     </div>
   </section>
 

@@ -92,10 +92,10 @@ export const FORMS: Record<FormType, FormDefinition> = {
       WEBSITE,
       {
         name: 'stage',
-        label: 'Which stage interests you?',
+        label: 'What are you interested in?',
         kind: 'select',
         required: true,
-        options: ['Foundation', 'Content', 'Optimize', 'Enable', 'Not sure'],
+        options: ['Foundation', 'Content', 'Optimize', 'Enable', 'Freelance analytics', 'Not sure'],
         full: true,
       },
       {
