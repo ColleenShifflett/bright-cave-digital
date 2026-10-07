@@ -13,7 +13,7 @@ export const BELIEFS = [
     short:
       "You don't have to act on it, but you should understand what it means for you.",
     full:
-      "You don't have to act on it, but you should understand what it means for you.",
+      "You don't have to act on it, but you should understand what it means for you and the people you serve. Your website should remain relevant without chasing fads.",
   },
   {
     headline: 'Optimizing for machines is optimizing for humans.',
@@ -26,6 +26,6 @@ export const BELIEFS = [
     headline: 'Improvement comes from a focused program you can actually sustain.',
     short: '',
     full:
-      'A clear analytics and optimization practice, sized to the resources you have, is what turns feedback into progress.',
+      "A clear analytics and optimization practice, sized to the resources you have, is what turns feedback into progress. The key is a data foundation that's manageable and meaningful.",
   },
 ];
