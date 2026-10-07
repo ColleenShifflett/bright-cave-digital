@@ -56,6 +56,12 @@
 @media (max-width: 860px) {
   .nav-links { display: none; }
 }
+/* Keep the brand and the header button on one line each at phone width. */
+@media (max-width: 420px) {
+  .nav-top { gap: var(--bca-space-3); }
+  .brand .wordmark { white-space: nowrap; }
+  .nav-cta .btn { padding: 9px 12px; font-size: 13px; white-space: nowrap; }
+}
 
 /* ---------- Footer ---------- */
 /* No top margin: every page ends with the full-bleed scorecard CTA band. */
