@@ -29,7 +29,7 @@ export const GET: APIRoute = async () => {
     `- [Scorecard](${SITE_URL}/scorecard): Free website discoverability scorecard.`,
     `- [Services](${SITE_URL}/services): The six stages and add-ons.`,
     `- [Work with us](${SITE_URL}/work-with-us): What is open now and the waiting list.`,
-    `- [Manifesto](${SITE_URL}/manifesto): What we believe about websites in the AI era.`,
+    `- [Core beliefs](${SITE_URL}/core-beliefs): What we believe about websites in the AI era.`,
     `- [Approach](${SITE_URL}/approach): Six working principles.`,
     `- [About](${SITE_URL}/about): Background and experience.`,
     `- [Fixing it in public](${SITE_URL}/fixing-it-in-public): Our own scorecard results over time.`,

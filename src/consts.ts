@@ -44,7 +44,7 @@ export const NAV_LINKS = [
 
 // Footer "Explore" links.
 export const FOOTER_LINKS = [
-  { href: '/manifesto', label: 'Manifesto' },
+  { href: '/core-beliefs', label: 'Core beliefs' },
   { href: '/about', label: 'About' },
   { href: '/approach', label: 'Approach' },
   { href: '/services', label: 'Services' },

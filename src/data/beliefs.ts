@@ -1,5 +1,5 @@
-// The four manifesto beliefs. `short` renders on the homepage, `full` on the
-// manifesto. Same order and headline in both places.
+// The four core beliefs. `short` renders on the homepage, `full` on the
+// core beliefs page. Same order and headline in both places.
 export const BELIEFS = [
   {
     headline: 'Every website can get better.',
