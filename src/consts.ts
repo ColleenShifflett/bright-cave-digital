@@ -50,7 +50,7 @@ export const FOOTER_LINKS = [
   { href: '/services', label: 'Services' },
   { href: '/scorecard', label: 'Scorecard' },
   { href: '/fixing-it-in-public', label: 'Fixing it in public' },
-  { href: '/work-with-me', label: 'Work with me' },
+  { href: '/work-with-us', label: 'Work with us' },
   { href: '/now', label: 'Now' },
   { href: '/blog', label: 'Blog' },
   { href: '/resources', label: 'Resources' },

@@ -85,7 +85,7 @@ export const FORMS: Record<FormType, FormDefinition> = {
   waitlist: {
     subjectLabel: 'Waiting list',
     subjectField: 'stage',
-    returnPath: '/work-with-me',
+    returnPath: '/work-with-us',
     fields: [
       NAME,
       EMAIL,
@@ -100,7 +100,7 @@ export const FORMS: Record<FormType, FormDefinition> = {
       },
       {
         name: 'message',
-        label: 'Anything I should know?',
+        label: 'Anything we should know?',
         kind: 'textarea',
         required: false,
         full: true,

@@ -5,10 +5,10 @@ import ScorecardCTA from '../components/ScorecardCTA.astro';
 
 const paths = [
   {
-    label: 'Products',
+    label: 'Resources',
     title: 'Our self-guided tour.',
     body: "Free and premium guides, templates, and tools for teams who'd rather do it themselves. Start with a free scorecard of your site.",
-    cta: 'Browse products',
+    cta: 'Browse resources',
     href: '/resources',
     gem: 'gem--clarity',
   },
@@ -25,7 +25,7 @@ const paths = [
     title: 'How it all started.',
     body: 'Hands-on, embedded analytics coverage for your team when you need an extra set of senior hands, not another hire.',
     cta: 'Join the waitlist',
-    href: '/work-with-me#waiting-list',
+    href: '/work-with-us#waiting-list',
     gem: 'gem--insight',
   },
 ];
@@ -53,7 +53,7 @@ const refusals = [
       </p>
       <div class="actions">
         <a class="btn btn-primary btn-lg" href="/scorecard">Get your free scorecard →</a>
-        <a class="btn btn-ghost btn-lg" href="/approach">How I work</a>
+        <a class="btn btn-ghost btn-lg" href="/approach">How we work</a>
       </div>
     </div>
   </section>
@@ -61,19 +61,19 @@ const refusals = [
   <section class="section">
     <div class="wrap">
       <div class="section-head">
-        <h2>There's the back end, the front end, and then there's my end.</h2>
+        <h2>There's the back end, the front end, and then there's our end.</h2>
       </div>
       <div class="prose">
         <p>
           The back end keeps your site running. The front end makes it look
-          good. My end decides whether it actually works: whether people and AI
+          good. Our end decides whether it actually works: whether people and AI
           can find you, act on what they find, and see themselves in it.
         </p>
         <p>
           That's information design, content design, and experiment design.
           How your site is organized, what it says, and how you learn what's
           working. It's a layer most teams never think about, and it's usually
-          where the time and money quietly leak out. I bring it into view.
+          where the time and money quietly leak out. We bring it into view.
         </p>
       </div>
     </div>
@@ -87,18 +87,18 @@ const refusals = [
       </div>
       <div class="prose">
         <p>
-          My scorecard checks how discoverable your site is to search engines
+          Our scorecard checks how discoverable your site is to search engines
           and AI assistants, then ranks the few fixes that matter most. You get
           a plain-language report and a walkthrough, not a sales pitch.
         </p>
         <p>
-          Before I ran it on anyone else, I ran it on my own site. It scored a
-          77: great with AI, thin on substance. I'm fixing it in public, one
+          Before we ran it on anyone else, we ran it on our own site. It scored
+          a 77: great with AI, thin on substance. We're fixing it in public, one
           rescan at a time.
         </p>
         <div class="link-row">
           <a class="btn btn-primary" href="/scorecard">Get your free scorecard →</a>
-          <a class="btn btn-ghost" href="/fixing-it-in-public">See my score and progress</a>
+          <a class="btn btn-ghost" href="/fixing-it-in-public">See our score and progress</a>
         </div>
       </div>
     </div>
@@ -107,7 +107,7 @@ const refusals = [
   <section class="section">
     <div class="wrap">
       <div class="section-head">
-        <h2>What I believe</h2>
+        <h2>What we believe</h2>
       </div>
       <BeliefList variant="short" />
       <p class="center-link"><a href="/manifesto">Read the manifesto →</a></p>
@@ -141,7 +141,7 @@ const refusals = [
 
   <section class="section" aria-labelledby="paths-heading">
     <div class="wrap">
-      <h2 id="paths-heading" class="sr-only">Ways to work with me</h2>
+      <h2 id="paths-heading" class="sr-only">Ways to work with us</h2>
       <div class="card-grid">
         {
           paths.map((p) => (
@@ -180,7 +180,7 @@ const refusals = [
     <p class="cta-extra">
       Want more hands-on help? Diagnose and Roadmap engagements are open now.
       Longer projects run on a waiting list.
-      <a href="/work-with-me">Join the list →</a>
+      <a href="/work-with-us">Join the list →</a>
     </p>
   </ScorecardCTA>
 </BaseLayout>

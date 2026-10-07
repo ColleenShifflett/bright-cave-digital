@@ -102,8 +102,6 @@ export const STAGES: Stage[] = [
     description: 'Make your site say what you actually do, for people and for machines.',
     youAreHere:
       "Your site doesn't fully represent what you do, or people and AI systems aren't finding or understanding you.",
-    // "We" here means the owner and the client together. Approved exception
-    // to the first person singular rule.
     whatHappens:
       'Content gap analysis, information architecture, labeling and taxonomy, and discoverability work for search, AI answers, and agents. We flesh out what you already know is missing.',
     youLeaveWith:
@@ -128,8 +126,8 @@ export const STAGES: Stage[] = [
     youLeaveWith: 'A working improvement loop and a record of what you learned.',
     handsOn: [
       { levels: 'DIY', text: 'Not offered at this stage.' },
-      { levels: 'DWY', text: 'I run the cycle with your team.' },
-      { levels: 'DFY', text: 'I run it and your team ships.' },
+      { levels: 'DWY', text: 'We run the cycle with your team.' },
+      { levels: 'DFY', text: 'We run it and your team ships.' },
     ],
     availability: 'waitlist',
     next: ['enable'],
@@ -145,7 +143,7 @@ export const STAGES: Stage[] = [
     whatHappens:
       'Workshops, training plans, and SOP development, plus training a named internal owner for your program.',
     youLeaveWith:
-      'A team that runs it without me. Optional quarterly check-ins keep a light connection.',
+      'A team that runs it without us.Optional quarterly check-ins keep a light connection.',
     handsOn: [
       { levels: 'DIY', text: 'Guides and resources.', href: '/resources' },
       { levels: 'DWY', text: 'Workshops and coaching.' },

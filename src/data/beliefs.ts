@@ -4,7 +4,7 @@ export const BELIEFS = [
   {
     headline: 'Every website can get better.',
     short:
-      "Big or small, there's room to improve, and real return in getting moving. What I won't do is guarantee revenue, because the rest of your business still matters.",
+      "Big or small, there's room to improve, and real return in getting moving. What we won't do is guarantee revenue, because the rest of your business still matters.",
     full:
       "Big or small, for any business, there is room to improve, and there is real return in getting moving: faster feedback, fewer wasted tools and hours, clearer decisions. What optimization can't do is guarantee revenue. Product-market fit and the rest of your business still matter.",
   },
