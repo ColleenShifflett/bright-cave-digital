@@ -47,7 +47,6 @@ export const STAGES: Stage[] = [
       { levels: 'DWY and DFY', text: 'The full assessment, done with or for you.' },
     ],
     availability: 'open',
-    price: '[price]',
     next: ['roadmap'],
   },
   {
@@ -63,12 +62,11 @@ export const STAGES: Stage[] = [
     youLeaveWith:
       'A measurement charter and a prioritized fix queue within 48 hours, sized to your team.',
     handsOn: [
-      { levels: 'DIY', text: '[roadmap template, coming soon]' },
+      { levels: 'DIY', text: 'Roadmap template, coming soon.' },
       { levels: 'DWY', text: 'The workshop.' },
       { levels: 'DFY', text: 'Not offered at this stage.' },
     ],
     availability: 'open',
-    price: '[$4,500]',
     next: ['foundation', 'content'],
   },
   {
@@ -107,7 +105,7 @@ export const STAGES: Stage[] = [
     youLeaveWith:
       'A site whose content and structure work for both people and machines, plus a content model your team can maintain.',
     handsOn: [
-      { levels: 'DIY', text: '[content model template, coming soon]' },
+      { levels: 'DIY', text: 'Content model template, coming soon.' },
       { levels: 'DWY and DFY', text: 'Available.' },
     ],
     availability: 'waitlist',

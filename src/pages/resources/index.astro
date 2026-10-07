@@ -6,7 +6,7 @@ const resources = (
   await getCollection('resources', ({ data }) => !data.draft)
 ).sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
 
-const comingSoon = ['[Roadmap template]', '[Content model template]', '[DIY scorecard checklist]'];
+const comingSoon = ['Roadmap template', 'Content model template', 'DIY scorecard checklist'];
 ---
 
 <BaseLayout
@@ -37,7 +37,7 @@ const comingSoon = ['[Roadmap template]', '[Content model template]', '[DIY scor
               A practical guide to naming, tagging, and documenting your
               analytics, with a ready-to-use spreadsheet template.
             </p>
-            <p class="card-cta">Link: [resource URL]</p>
+            <p class="card-cta"><span class="badge">Coming soon</span></p>
           </article>
         </li>
         {

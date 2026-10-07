@@ -56,5 +56,5 @@ export const FOOTER_LINKS = [
   { href: '/resources', label: 'Resources' },
 ];
 
-// Free scorecards offered per week. Placeholder until the owner confirms.
-export const SCORECARDS_PER_WEEK = '[five]';
+// Free scorecards offered per week.
+export const SCORECARDS_PER_WEEK = '10';
