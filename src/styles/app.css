@@ -340,3 +340,10 @@ main > .scorecard-cta:last-child { border-bottom: none; }
 
 /* ---------- Two-up action rows inside prose ---------- */
 .link-row { display: flex; flex-wrap: wrap; gap: 14px; align-items: center; }
+
+/* ---------- Page bands and small helpers ---------- */
+.band-paper { background: var(--bca-paper); border-block: 1px solid var(--bca-border); }
+.hero--solo .wrap > * { max-width: 760px; }
+.hero--solo .lead { max-width: 620px; }
+.center-link { text-align: center; margin-top: var(--bca-space-10); font-weight: 600; }
+.prose .link-row { margin-top: var(--bca-space-8); }
