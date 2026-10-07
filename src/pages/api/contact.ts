@@ -1,5 +1,6 @@
 import type { APIRoute } from 'astro';
 import { Resend } from 'resend';
+import { FORMS, isFormType, type FormField } from '../../lib/forms';
 
 // On-demand (serverless) route. The rest of the site is static; this endpoint
 // runs on each request so it can verify Turnstile, rate-limit, and send email.
@@ -9,12 +10,8 @@ export const prerender = false;
 // in Resend for delivery to succeed.
 const FROM_ADDRESS = 'Bright Cave Digital <colleen@brightcavedigital.com>';
 
+// Contact-form interest that marks a submission as a waitlist request.
 const INTEREST_WAITLIST = 'Freelance Work (Waitlist)';
-const VALID_INTERESTS = new Set([
-  INTEREST_WAITLIST,
-  'Project Consultation',
-  'Something Else',
-]);
 
 // ---------------------------------------------------------------------------
 // Rate limiting: max 5 submissions per IP per hour.
@@ -83,6 +80,24 @@ function escapeHtml(value: string): string {
 }
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+// Lenient: accepts example.com or https://example.com/page.
+const WEBSITE_RE = /^(https?:\/\/)?[^\s/]+\.[^\s]+$/i;
+
+// Returns an error message for an invalid value, or null when it is fine.
+function validateField(field: FormField, value: string): string | null {
+  if (!value) return field.required ? 'Please fill in all required fields.' : null;
+  if (value.length > 5000) return `${field.label} is too long.`;
+  if (field.kind === 'email' && !EMAIL_RE.test(value)) {
+    return 'Please enter a valid email address.';
+  }
+  if (field.kind === 'website' && (value.length > 300 || !WEBSITE_RE.test(value))) {
+    return 'Please enter a valid website URL.';
+  }
+  if (field.kind === 'select' && !field.options?.includes(value)) {
+    return `Please choose a valid option for "${field.label}".`;
+  }
+  return null;
+}
 
 export const POST: APIRoute = async ({ request, clientAddress }) => {
   const wantsJson = (request.headers.get('accept') || '').includes(
@@ -98,6 +113,9 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
         })
       : new Response(null, { status: 303, headers: { Location: '/thank-you' } });
 
+  // Resolved once the form is parsed; a no-JS failure returns to this page.
+  let returnPath = FORMS.contact.returnPath;
+
   const fail = (status: number, error: string) =>
     wantsJson
       ? new Response(JSON.stringify({ ok: false, error }), {
@@ -106,7 +124,7 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
         })
       : new Response(null, {
           status: 303,
-          headers: { Location: `/contact?error=${encodeURIComponent(error)}` },
+          headers: { Location: `${returnPath}?error=${encodeURIComponent(error)}` },
         });
 
   let form: FormData;
@@ -117,6 +135,14 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
   }
 
   const get = (key: string) => (form.get(key) ?? '').toString().trim();
+
+  // Older cached pages post without form_type, so it defaults to contact.
+  const rawType = get('form_type') || 'contact';
+  if (!isFormType(rawType)) {
+    return fail(400, 'Invalid form submission.');
+  }
+  const definition = FORMS[rawType];
+  returnPath = definition.returnPath;
 
   // 1. Honeypot — if the hidden field is filled, it's a bot. Pretend success so
   //    we don't tip off the bot, but send nothing.
@@ -133,21 +159,15 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
     return fail(429, 'Too many submissions. Please try again later.');
   }
 
-  // 3. Validate fields.
-  const name = get('name');
-  const email = get('email');
-  const interest = get('interest');
-  const message = get('message');
-
-  if (!name || !email || !interest || !message) {
-    return fail(400, 'Please fill in all required fields.');
+  // 3. Validate fields against this form's definition.
+  const values: Record<string, string> = {};
+  for (const field of definition.fields) {
+    const value = get(field.name);
+    const error = validateField(field, value);
+    if (error) return fail(400, error);
+    values[field.name] = value;
   }
-  if (!EMAIL_RE.test(email)) {
-    return fail(400, 'Please enter a valid email address.');
-  }
-  if (!VALID_INTERESTS.has(interest)) {
-    return fail(400, 'Please choose a valid interest option.');
-  }
+  const { name, email } = values;
 
   // 4. Verify Turnstile server-side.
   const turnstileSecret = import.meta.env.TURNSTILE_SECRET_KEY;
@@ -170,33 +190,40 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
     return fail(500, 'Email delivery is not configured.');
   }
 
-  const isWaitlist = interest === INTEREST_WAITLIST;
-  const subject = isWaitlist
-    ? `Waitlist submission — Freelance Work — ${name}`
-    : `New contact — ${interest} — ${name}`;
+  const isWaitlist =
+    rawType === 'waitlist' || values.interest === INTEREST_WAITLIST;
+  const subjectValue = definition.subjectField ? values[definition.subjectField] : '';
+  const subject = [definition.subjectLabel, subjectValue, name]
+    .filter(Boolean)
+    .join(': ');
+
+  // Every submitted field, in form order, skipping empty optional ones.
+  const rows = definition.fields
+    .map((f) => ({ label: f.label, value: values[f.name], long: f.kind === 'textarea' }))
+    .filter((r) => r.value);
 
   const textBody = [
-    `Interest: ${interest}${isWaitlist ? '  (WAITLIST)' : ''}`,
+    `Form: ${definition.subjectLabel}${isWaitlist ? '  (WAITLIST)' : ''}`,
     '',
-    `Name: ${name}`,
-    `Email: ${email}`,
-    '',
-    'Message:',
-    message,
+    ...rows.map((r) => (r.long ? `${r.label}\n${r.value}\n` : `${r.label}: ${r.value}`)),
   ].join('\n');
+
+  const htmlRows = rows
+    .map((r) =>
+      r.long
+        ? `<p style="margin: 20px 0 4px; color:#6b7280;">${escapeHtml(r.label)}</p>
+           <p style="margin: 0; white-space: pre-wrap;">${escapeHtml(r.value)}</p>`
+        : `<p style="margin: 0 0 6px;"><span style="color:#6b7280;">${escapeHtml(r.label)}:</span> <strong>${escapeHtml(r.value)}</strong></p>`,
+    )
+    .join('');
 
   const htmlBody = `
     <div style="font-family: -apple-system, Segoe UI, Roboto, sans-serif; color: #1a1a1a; line-height: 1.5;">
-      <p style="margin: 0 0 4px; font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: #6b7280;">Interest</p>
+      <p style="margin: 0 0 4px; font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: #6b7280;">Form</p>
       <p style="margin: 0 0 20px; font-size: 18px; font-weight: 700;">
-        ${escapeHtml(interest)}${isWaitlist ? ' <span style="color:#b45309;">(Waitlist)</span>' : ''}
+        ${escapeHtml(definition.subjectLabel)}${isWaitlist ? ' <span style="color:#b45309;">(Waitlist)</span>' : ''}
       </p>
-      <table style="border-collapse: collapse;">
-        <tr><td style="padding: 4px 16px 4px 0; color:#6b7280;">Name</td><td style="padding: 4px 0; font-weight:600;">${escapeHtml(name)}</td></tr>
-        <tr><td style="padding: 4px 16px 4px 0; color:#6b7280;">Email</td><td style="padding: 4px 0;"><a href="mailto:${escapeHtml(email)}">${escapeHtml(email)}</a></td></tr>
-      </table>
-      <p style="margin: 20px 0 4px; color:#6b7280;">Message</p>
-      <p style="margin: 0; white-space: pre-wrap;">${escapeHtml(message)}</p>
+      ${htmlRows}
     </div>
   `;
 

@@ -1,0 +1,74 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import LeadForm from '../components/LeadForm.astro';
+import { SCORECARDS_PER_WEEK } from '../consts';
+---
+
+<BaseLayout
+  title="Free Website Discoverability Scorecard"
+  description="See how discoverable your site is to search engines and AI assistants, with the few fixes that matter most, ranked."
+  scorecardCta={false}
+>
+  <section class="page-head">
+    <div class="wrap">
+      <article class="prose">
+        <p class="eyebrow">Free scorecard</p>
+        <h1>How discoverable is your website?</h1>
+        <p class="lead-text">
+          My scorecard checks how well search engines and AI assistants can
+          find, read, and understand your site, then ranks the few fixes that
+          matter most. It's free, and I walk you through the results myself.
+        </p>
+        <p><a class="btn btn-primary" href="#request">Request your scorecard →</a></p>
+
+        <h2>What it checks</h2>
+        <p>Results are grouped under the three things every website needs to be:</p>
+        <ul>
+          <li>
+            <strong>Discoverable:</strong> findability, AI readiness, and how
+            your pages look when shared.
+          </li>
+          <li><strong>Actionable:</strong> whether visitors have a clear next step.</li>
+          <li>
+            <strong>Relatable:</strong> whether your content has the depth to
+            show people, and AI, what you actually do.
+          </li>
+        </ul>
+        <p class="note">
+          This version focuses on discoverability from the outside. It doesn't
+          need access to your accounts. Analytics and competitive context are
+          coming in future versions.
+        </p>
+
+        <h2>What you get</h2>
+        <ul>
+          <li>A score, with what's working and what isn't</li>
+          <li>Your top fixes, ranked by impact and effort</li>
+          <li>A walkthrough call where I explain what I found</li>
+        </ul>
+
+        <h2>How it works</h2>
+        <ol>
+          <li>Send me your URL.</li>
+          <li>I run the scorecard and review the results myself.</li>
+          <li>We walk through it together on a short call.</li>
+        </ol>
+
+        <h2>I tried it on myself first</h2>
+        <p>
+          My own site scored a 77.
+          <a href="/fixing-it-in-public">See my score and what I'm fixing →</a>
+        </p>
+
+        <h2 id="request">Request your scorecard</h2>
+        <p>I run {SCORECARDS_PER_WEEK} scorecards a week, first come, first served.</p>
+      </article>
+    </div>
+  </section>
+
+  <section class="section" style="padding-top: var(--bca-space-6);">
+    <div class="wrap">
+      <LeadForm type="scorecard" submitLabel="Request my scorecard →" />
+    </div>
+  </section>
+</BaseLayout>

@@ -1,0 +1,49 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import LeadForm from '../components/LeadForm.astro';
+import ScorecardCTA from '../components/ScorecardCTA.astro';
+---
+
+<BaseLayout
+  title="Work With Me"
+  description="What's open now, what's on the waiting list, and how to get started."
+  scorecardCta={false}
+>
+  <section class="page-head">
+    <div class="wrap">
+      <article class="prose">
+        <p class="eyebrow">Availability</p>
+        <h1>Work with me</h1>
+        <p class="lead-text">
+          I keep my client load small on purpose. Some work is open now, and
+          longer projects run on a waiting list so every engagement gets my
+          full attention.
+        </p>
+
+        <h2>Open now</h2>
+        <ul>
+          <li><strong><a href="/scorecard">Free scorecard.</a></strong> [Five] a week.</li>
+          <li><strong><a href="/services/diagnose">Diagnose.</a></strong></li>
+          <li><strong><a href="/services/roadmap">Roadmap.</a></strong></li>
+        </ul>
+
+        <h2 id="waiting-list">Waiting list</h2>
+        <p>
+          Foundation, Content, Optimize, and Enable engagements. Join the list
+          and I'll reach out with honest timing when a spot opens.
+        </p>
+      </article>
+    </div>
+  </section>
+
+  <section class="section" style="padding-top: var(--bca-space-6);">
+    <div class="wrap">
+      <LeadForm type="waitlist" submitLabel="Join the waiting list →" />
+    </div>
+  </section>
+
+  <ScorecardCTA
+    heading="Not sure where to start?"
+    line="Start with the scorecard. It's the fastest way to see which stage fits."
+  />
+</BaseLayout>

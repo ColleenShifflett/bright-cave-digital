@@ -348,3 +348,6 @@ main > .scorecard-cta:last-child { border-bottom: none; }
 .center-link { text-align: center; margin-top: var(--bca-space-10); font-weight: 600; }
 .prose .link-row { margin-top: var(--bca-space-8); }
 .page-head .section-head h1.h2-size { font-size: 44px; line-height: 1.1; letter-spacing: -0.02em; margin: 12px 0 14px; text-wrap: balance; }
+.prose .lead-text { font-size: 19px; line-height: 1.55; color: var(--bca-fg-muted); }
+.prose .note { font-size: 14px; color: var(--bca-fg-muted); border-left: var(--bca-rule-accent); padding-left: var(--bca-space-4); }
+.field label .optional { font-weight: 400; color: var(--bca-fg-muted); }
