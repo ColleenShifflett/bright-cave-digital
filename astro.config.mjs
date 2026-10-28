@@ -14,6 +14,26 @@ export default defineConfig({
 
   output: 'static',
 
+  // Permanent redirects for pages retired in the October 2026 site reset. The
+  // Vercel adapter turns these into real 301s rather than meta-refresh pages.
+  redirects: {
+    '/scorecard': { status: 301, destination: '/web-strategy' },
+    '/approach': { status: 301, destination: '/about' },
+    '/core-beliefs': { status: 301, destination: '/about' },
+    '/now': { status: 301, destination: '/about' },
+    '/work-with-us': { status: 301, destination: '/services#freelance' },
+    '/fixing-it-in-public': { status: 301, destination: '/resources/fixing-it-in-public' },
+    '/blog': { status: 301, destination: '/resources' },
+    '/blog/[...slug]': { status: 301, destination: '/resources/[...slug]' },
+    '/resources/digital-growth-starter-checklist': { status: 301, destination: '/resources' },
+    '/services/diagnose': { status: 301, destination: '/services' },
+    '/services/roadmap': { status: 301, destination: '/services' },
+    '/services/foundation': { status: 301, destination: '/services' },
+    '/services/content': { status: 301, destination: '/services' },
+    '/services/optimize': { status: 301, destination: '/services' },
+    '/services/enable': { status: 301, destination: '/services' },
+  },
+
   // Disable Astro's origin-check CSRF guard. It rejects the /api/contact form
   // POST when the domain's non-www → www redirect drops the Origin header
   // ("Cross-site POST form submissions are forbidden"). This endpoint has no

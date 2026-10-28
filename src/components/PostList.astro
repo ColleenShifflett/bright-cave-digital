@@ -1,0 +1,41 @@
+---
+import { type Post, postUrl, dateFmt } from '../lib/posts';
+import { areaBySlug } from '../data/areas';
+
+interface Props {
+  posts: Post[];
+}
+
+const { posts } = Astro.props;
+// Area tags link to their tag page; free tags are plain labels.
+const tagLabel = (tag: string) => areaBySlug(tag)?.name ?? tag.replace(/-/g, ' ');
+---
+
+<ul class="post-list">
+  {
+    posts.map((post) => (
+      <li>
+        <article class="card">
+          <h2><a href={postUrl(post)}>{post.data.title}</a></h2>
+          <p class="meta">
+            <time datetime={post.data.pubDate.toISOString()}>
+              {dateFmt.format(post.data.pubDate)}
+            </time>
+          </p>
+          <p>{post.data.description}</p>
+          {
+            post.data.tags.length > 0 && (
+              <ul class="tag-list tag-list--start" aria-label="Tags">
+                {post.data.tags.map((tag) => (
+                  <li>
+                    {areaBySlug(tag) ? <a href={`/resources/tags/${tag}/`}>{tagLabel(tag)}</a> : tagLabel(tag)}
+                  </li>
+                ))}
+              </ul>
+            )
+          }
+        </article>
+      </li>
+    ))
+  }
+</ul>

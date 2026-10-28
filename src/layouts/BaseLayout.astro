@@ -2,7 +2,7 @@
 import SEO from '../components/SEO.astro';
 import JsonLd from '../components/JsonLd.astro';
 import Analytics from '../components/Analytics.astro';
-import ScorecardCTA from '../components/ScorecardCTA.astro';
+import CallCTA from '../components/CallCTA.astro';
 import { organizationSchema } from '../lib/jsonld';
 import { SITE_TITLE, SITE_URL, SITE_TAGLINE, NAV_LINKS, FOOTER_LINKS } from '../consts';
 import '../styles/tokens.css';
@@ -20,13 +20,13 @@ interface Props {
   /** Extra schema.org objects to embed (e.g. Article schema). */
   schema?: Record<string, unknown>[];
   /**
-   * Every page ends with the scorecard call to action. Set false on the
-   * scorecard page itself, or on a page that renders its own ScorecardCTA.
+   * Every page ends with the discovery call CTA. Set false on the contact page
+   * itself, or on a page that renders its own CallCTA.
    */
-  scorecardCta?: boolean;
+  callCta?: boolean;
 }
 
-const { schema = [], scorecardCta = true, ...seo } = Astro.props;
+const { schema = [], callCta = true, ...seo } = Astro.props;
 
 const currentPath = Astro.url.pathname;
 const isActive = (href: string) =>
@@ -89,7 +89,27 @@ const year = new Date().getFullYear();
             }
           </ul>
           <div class="nav-cta">
-            <a class="btn btn-primary" href="/scorecard">Get your scorecard</a>
+            <a class="btn btn-primary" href="/contact">
+              <span>Book a<span class="long"> discovery</span> call</span>
+            </a>
+            {/* Below the desktop breakpoint the links move into this menu. */}
+            <details class="nav-menu">
+              <summary>Menu</summary>
+              <ul>
+                {
+                  NAV_LINKS.map((link) => (
+                    <li>
+                      <a
+                        href={link.href}
+                        aria-current={isActive(link.href) ? 'page' : undefined}
+                      >
+                        {link.label}
+                      </a>
+                    </li>
+                  ))
+                }
+              </ul>
+            </details>
           </div>
         </nav>
       </div>
@@ -97,7 +117,7 @@ const year = new Date().getFullYear();
 
     <main id="main">
       <slot />
-      {scorecardCta && <ScorecardCTA />}
+      {callCta && <CallCTA />}
     </main>
 
     <footer class="site-footer">
@@ -106,7 +126,7 @@ const year = new Date().getFullYear();
           <div class="col">
             <a href="/" class="brand" aria-label={`${SITE_TITLE} home`}>
               <img class="mark" src="/brand/logo-mark-64.png" alt="" width="55" height="32" />
-              <span class="wordmark">Bright Cave<span class="sub">Digital</span></span>
+              <span class="wordmark">Bright Cave <span class="sub">Digital</span></span>
             </a>
             <p class="blurb">{SITE_TAGLINE}</p>
           </div>

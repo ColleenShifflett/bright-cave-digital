@@ -26,7 +26,11 @@ const id = (name: string) => `${type}-${name}`;
   <div class="form-grid">
     {
       fields.map((f) => (
-        <div class={`field${f.full ? ' full' : ''}`}>
+        <div
+          class={`field${f.full ? ' full' : ''}`}
+          data-show-field={f.showWhen?.field}
+          data-show-value={f.showWhen?.value}
+        >
           <label for={id(f.name)}>
             {f.label}
             {f.required ? (
@@ -36,7 +40,13 @@ const id = (name: string) => `${type}-${name}`;
             )}
           </label>
           {f.kind === 'select' ? (
-            <select id={id(f.name)} name={f.name} required={f.required}>
+            <select
+              id={id(f.name)}
+              name={f.name}
+              required={f.required}
+              data-param={f.param?.name}
+              data-param-values={f.param && JSON.stringify(f.param.values)}
+            >
               <option value="" disabled selected>Select an option…</option>
               {f.options?.map((o) => <option value={o}>{o}</option>)}
             </select>
@@ -107,8 +117,40 @@ const id = (name: string) => `${type}-${name}`;
       errorEl.hidden = false;
     };
 
-    const queryError = new URLSearchParams(window.location.search).get('error');
+    const params = new URLSearchParams(window.location.search);
+    const queryError = params.get('error');
     if (queryError) showError(queryError);
+
+    // Prefill selects from query params, e.g. ?type=diagnostic&area=web-strategy.
+    for (const select of form.querySelectorAll<HTMLSelectElement>('select[data-param]')) {
+      const values = JSON.parse(select.dataset.paramValues || '{}');
+      const label = values[params.get(select.dataset.param!) ?? ''];
+      if (label) select.value = label;
+    }
+
+    // Conditional fields: shown, and required, only while the controlling
+    // field has the given value. Without JS they stay visible.
+    const conditional = [...form.querySelectorAll<HTMLElement>('[data-show-field]')];
+    // A prefilled conditional field implies its controlling value, so
+    // ?area=web-strategy alone selects a diagnostic.
+    for (const wrapper of conditional) {
+      const control = form.elements.namedItem(wrapper.dataset.showField!) as HTMLSelectElement | null;
+      if (control && !control.value && wrapper.querySelector<HTMLSelectElement>('select')?.value) {
+        control.value = wrapper.dataset.showValue!;
+      }
+    }
+    const sync = () => {
+      for (const wrapper of conditional) {
+        const control = form.elements.namedItem(wrapper.dataset.showField!) as HTMLSelectElement | null;
+        const applies = control?.value === wrapper.dataset.showValue;
+        wrapper.hidden = !applies;
+        for (const input of wrapper.querySelectorAll<HTMLSelectElement | HTMLInputElement>('select, input, textarea')) {
+          input.disabled = !applies;
+        }
+      }
+    };
+    form.addEventListener('change', sync);
+    sync();
 
     form.addEventListener('submit', async (event) => {
       event.preventDefault();

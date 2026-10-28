@@ -1,0 +1,39 @@
+---
+import AreaPage from '../layouts/AreaPage.astro';
+import { areaBySlug } from '../data/areas';
+
+const area = areaBySlug('ai-strategy')!;
+---
+
+<AreaPage area={area}>
+  <Fragment slot="before-diagnostic">
+    <h2>Three things we focus on</h2>
+    <h3>1. Cost efficiency</h3>
+    <p>
+      Find out where your AI spend goes. Match the right model to each task, so
+      you're not paying top-tier prices for simple work. Track cost per task, so
+      spending follows value.
+    </p>
+    <h3>2. Governance</h3>
+    <p>
+      Set clear, right-sized rules for which tools are approved, what data can go
+      into them, and how usage is tracked. They should be simple enough that
+      people follow them, and firm enough to protect you.
+    </p>
+    <h3>3. Employee empowerment</h3>
+    <p>
+      Training and ready-to-use workflows, so people across the team use AI with
+      confidence. Not just the technical few.
+    </p>
+  </Fragment>
+
+  <Fragment slot="after-next">
+    <h2>Why work with me</h2>
+    <p>
+      I've spent ten years helping teams make sense of their data, and I've
+      trained more than 500 non-technical professionals along the way. Good AI
+      adoption works the same way as good analytics: start with what's real,
+      keep it right-sized, and leave the team able to run it on their own.
+    </p>
+  </Fragment>
+</AreaPage>
