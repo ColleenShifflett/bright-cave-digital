@@ -3,6 +3,7 @@ title: 'The ROI of getting moving'
 description: 'Standing still has a cost. Here is the honest return on motion, and what optimization can and cannot promise.'
 pubDate: 2026-10-06
 author: 'Colleen Shifflett'
+tags: ['web-strategy']
 draft: true
 ---
 

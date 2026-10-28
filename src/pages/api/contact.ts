@@ -1,6 +1,6 @@
 import type { APIRoute } from 'astro';
 import { Resend } from 'resend';
-import { FORMS, isFormType, type FormField } from '../../lib/forms';
+import { FORMS, REQUEST_FREELANCE, isFormType, type FormField } from '../../lib/forms';
 
 // On-demand (serverless) route. The rest of the site is static; this endpoint
 // runs on each request so it can verify Turnstile, rate-limit, and send email.
@@ -9,9 +9,6 @@ export const prerender = false;
 // Verified Resend sender. The domain (brightcavedigital.com) must be verified
 // in Resend for delivery to succeed.
 const FROM_ADDRESS = 'Bright Cave Digital <colleen@brightcavedigital.com>';
-
-// Contact-form interest that marks a submission as a waitlist request.
-const INTEREST_WAITLIST = 'Freelance Work (Waitlist)';
 
 // ---------------------------------------------------------------------------
 // Rate limiting: max 5 submissions per IP per hour.
@@ -159,9 +156,15 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
     return fail(429, 'Too many submissions. Please try again later.');
   }
 
-  // 3. Validate fields against this form's definition.
+  // 3. Validate fields against this form's definition. A conditional field
+  //    that does not apply is skipped, so a stale value never reaches the email.
   const values: Record<string, string> = {};
   for (const field of definition.fields) {
+    const { showWhen } = field;
+    if (showWhen && values[showWhen.field] !== showWhen.value) {
+      values[field.name] = '';
+      continue;
+    }
     const value = get(field.name);
     const error = validateField(field, value);
     if (error) return fail(400, error);
@@ -190,8 +193,7 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
     return fail(500, 'Email delivery is not configured.');
   }
 
-  const isWaitlist =
-    rawType === 'waitlist' || values.interest === INTEREST_WAITLIST;
+  const isWaitlist = values.request === REQUEST_FREELANCE;
   const subjectValue = definition.subjectField ? values[definition.subjectField] : '';
   const subject = [definition.subjectLabel, subjectValue, name]
     .filter(Boolean)

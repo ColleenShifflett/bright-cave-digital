@@ -3,6 +3,7 @@ title: "There's the development layer, the presentation layer, and then there's 
 description: 'The three layers of a website, and why the intelligence layer, where information, content, and experiment design meet, is where time and money leak.'
 pubDate: 2026-10-06
 author: 'Colleen Shifflett'
+tags: ['web-strategy']
 draft: true
 ---
 

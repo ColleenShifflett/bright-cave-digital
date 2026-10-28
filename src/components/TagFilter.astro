@@ -1,0 +1,24 @@
+---
+import { AREAS } from '../data/areas';
+
+interface Props {
+  /** The active area tag, or undefined on the full index. */
+  current?: string;
+}
+
+const { current } = Astro.props;
+---
+
+<nav class="filter-row" aria-label="Filter by area">
+  <a href="/resources/" aria-current={current ? undefined : 'page'}>All</a>
+  {
+    AREAS.map((area) => (
+      <a
+        href={`/resources/tags/${area.slug}/`}
+        aria-current={current === area.slug ? 'page' : undefined}
+      >
+        {area.name}
+      </a>
+    ))
+  }
+</nav>

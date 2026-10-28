@@ -1,0 +1,8 @@
+---
+import AreaPage from '../layouts/AreaPage.astro';
+import { areaBySlug } from '../data/areas';
+
+const area = areaBySlug('web-analytics')!;
+---
+
+<AreaPage area={area} />

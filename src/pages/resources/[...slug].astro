@@ -1,26 +1,29 @@
 ---
 import { getCollection, render } from 'astro:content';
 import type { CollectionEntry } from 'astro:content';
+import { dateFmt } from '../../lib/posts';
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import { areaBySlug } from '../../data/areas';
 import { articleSchema } from '../../lib/jsonld';
-import { DEFAULT_OG_IMAGE, SITE_TITLE } from '../../consts';
+import { DEFAULT_OG_IMAGE } from '../../consts';
 
 export async function getStaticPaths() {
-  const resources = await getCollection('resources', ({ data }) => !data.draft);
-  return resources.map((resource) => ({
-    params: { slug: resource.id },
-    props: { resource },
+  // Drafts get a page in dev so they can be previewed, never in a build.
+  const posts = await getCollection('blog', ({ data }) => import.meta.env.DEV || !data.draft);
+  return posts.map((post) => ({
+    params: { slug: post.id },
+    props: { post },
   }));
 }
 
-type Props = { resource: CollectionEntry<'resources'> };
+type Props = { post: CollectionEntry<'blog'> };
 
-const { resource } = Astro.props;
-const { Content } = await render(resource);
-const { data } = resource;
+const { post } = Astro.props;
+const { Content } = await render(post);
+const { data } = post;
 
 const url = new URL(Astro.url.pathname, Astro.site);
-const image = data.ogImage ?? DEFAULT_OG_IMAGE;
+const image = data.ogImage ?? data.heroImage ?? DEFAULT_OG_IMAGE;
 
 const schema = articleSchema({
   title: data.title,
@@ -29,8 +32,10 @@ const schema = articleSchema({
   image: new URL(image, Astro.site),
   publishedTime: data.pubDate,
   modifiedTime: data.updatedDate,
-  author: SITE_TITLE,
+  author: data.author,
 });
+
+const tagLabel = (tag: string) => areaBySlug(tag)?.name ?? tag.replace(/-/g, ' ');
 ---
 
 <BaseLayout
@@ -40,14 +45,41 @@ const schema = articleSchema({
   type="article"
   publishedTime={data.pubDate}
   modifiedTime={data.updatedDate}
+  author={data.author}
   schema={[schema]}
 >
   <section class="page-head">
     <div class="wrap">
       <header class="article-header">
-        <span class="badge">{data.resourceType}{data.tier ? ` · For ${data.tier}` : ''}</span>
+        <p class="eyebrow"><a href="/resources/">Resources</a></p>
         <h1>{data.title}</h1>
-        <p class="meta">{data.description}</p>
+        <p class="meta">
+          <time datetime={data.pubDate.toISOString()}>
+            {dateFmt.format(data.pubDate)}
+          </time>
+          &middot; {data.author}
+          {
+            data.updatedDate && (
+              <>
+                {' '}&middot; Updated{' '}
+                <time datetime={data.updatedDate.toISOString()}>
+                  {dateFmt.format(data.updatedDate)}
+                </time>
+              </>
+            )
+          }
+        </p>
+        {
+          data.tags.length > 0 && (
+            <ul class="tag-list" aria-label="Tags">
+              {data.tags.map((tag) => (
+                <li>
+                  {areaBySlug(tag) ? <a href={`/resources/tags/${tag}/`}>{tagLabel(tag)}</a> : tagLabel(tag)}
+                </li>
+              ))}
+            </ul>
+          )
+        }
       </header>
     </div>
   </section>
@@ -55,19 +87,11 @@ const schema = articleSchema({
   <section class="section" style="padding-top: 0;">
     <div class="wrap">
       <article class="prose">
+        {data.heroImage && <img src={data.heroImage} alt="" />}
         <Content />
-        {
-          data.downloadUrl && (
-            <p>
-              <a class="btn btn-accent" href={data.downloadUrl} rel="noopener">
-                Download this resource
-              </a>
-            </p>
-          )
-        }
       </article>
       <div class="prose">
-        <a class="back-link" href="/resources">← Back to resources</a>
+        <a class="back-link" href="/resources/">← Back to Resources</a>
       </div>
     </div>
   </section>

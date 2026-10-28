@@ -1,0 +1,15 @@
+---
+import AreaPage from '../layouts/AreaPage.astro';
+import { areaBySlug } from '../data/areas';
+
+const area = areaBySlug('web-strategy')!;
+---
+
+<AreaPage area={area}>
+  <h2>We tried it on ourselves first</h2>
+  <p>
+    Before we ran the scorecard on anyone else's site, we ran it on ours. It
+    scored a 77: great with AI, thin on substance.
+    <a href="/resources/fixing-it-in-public/">See our score and what we're fixing →</a>
+  </p>
+</AreaPage>

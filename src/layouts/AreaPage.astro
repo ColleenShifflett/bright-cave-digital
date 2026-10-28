@@ -1,0 +1,114 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import PostList from '../components/PostList.astro';
+import { DIAGNOSTICS_PER_WEEK } from '../consts';
+import type { Area } from '../data/areas';
+import { getPublishedPosts } from '../lib/posts';
+
+// One template for all three area pages. Page-specific sections go in slots:
+// "before-diagnostic" after Who this is for, the default slot after the
+// diagnostic, and "after-next" at the end.
+
+interface Props {
+  area: Area;
+}
+
+const { area } = Astro.props;
+const bookHref = `/contact?type=diagnostic&area=${area.slug}`;
+const DEFAULT_WHAT_YOU_GET = [
+  "A score or a set of findings, with what's working and what isn't",
+  'Your top fixes, ranked by impact and effort',
+  'A walkthrough on your discovery call',
+];
+const related = (await getPublishedPosts()).filter((p) => p.data.tags.includes(area.slug));
+---
+
+<BaseLayout title={`${area.name}: ${area.diagnostic}`} description={area.description}>
+  <section class="hero hero--solo">
+    <div class="wrap">
+      <p class="eyebrow">{area.diagnostic}</p>
+      <h1>{area.name}</h1>
+      <p class="lead">{area.problem}</p>
+      {area.intro && <p class="lead">{area.intro}</p>}
+      <div class="actions">
+        <a class="btn btn-primary btn-lg" href={bookHref}>Get your {area.diagnostic} →</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <article class="prose">
+        <h2>Who this is for</h2>
+        <ul>
+          {area.whoFor.map((item) => <li>{item}</li>)}
+        </ul>
+
+        <slot name="before-diagnostic" />
+
+        <h2>The {area.diagnostic}</h2>
+        {area.diagnosticIntro && <p>{area.diagnosticIntro}</p>}
+        <p>{area.checksLabel ?? 'What it checks:'}</p>
+        {
+          area.checks.map((group) =>
+            group.label ? (
+              <p>
+                <strong>{group.label}:</strong> {group.items.join(', ')}.
+              </p>
+            ) : (
+              <ul>
+                {group.items.map((item) => <li>{item}</li>)}
+              </ul>
+            )
+          )
+        }
+        {area.checksNote && <p class="note">{area.checksNote}</p>}
+
+        <p>What you get:</p>
+        <ul>
+          {(area.whatYouGet ?? DEFAULT_WHAT_YOU_GET).map((item) => <li>{item}</li>)}
+        </ul>
+        <p>
+          {area.limitNote ??
+            `It's free. We run ${DIAGNOSTICS_PER_WEEK} diagnostics a week, first come, first served.`}
+        </p>
+        <p><a class="btn btn-primary" href={bookHref}>Get your {area.diagnostic} →</a></p>
+
+        <slot />
+
+        <h2>What happens next</h2>
+        {
+          area.nextSteps ? (
+            <>
+              <p>{area.nextSteps}</p>
+              <p><a class="btn btn-ghost" href="/services">See services →</a></p>
+            </>
+          ) : (
+            <p>
+              If you want help with the fixes, the diagnostic leads into a half-day
+              workshop and guided implementation.
+              <a href="/services">See how the program works →</a>
+            </p>
+          )
+        }
+
+        <slot name="after-next" />
+      </article>
+    </div>
+  </section>
+
+  {
+    related.length > 0 && (
+      <section class="section band-paper">
+        <div class="wrap">
+          <div class="section-head">
+            <h2>Related resources</h2>
+          </div>
+          <div class="prose">
+            <PostList posts={related} />
+          </div>
+        </div>
+      </section>
+    )
+  }
+</BaseLayout>

@@ -5,8 +5,8 @@ export const SITE_URL = 'https://brightcavedigital.com';
 
 export const SITE_TITLE = 'Bright Cave Digital';
 export const SITE_DESCRIPTION =
-  'AI-era web strategy and analytics for busy teams with big dreams. Start ' +
-  'with a free scorecard of how well people and AI can find your site.';
+  'Web analytics and web strategy for the AI era, right-sized to your team. ' +
+  'Start with a free diagnostic and a discovery call.';
 
 export const SITE_TAGLINE = 'A website that gets better on a schedule.';
 
@@ -35,26 +35,19 @@ export const DEFAULT_OG_IMAGE = '/og-default.png';
 
 // Primary navigation shown in the site header.
 export const NAV_LINKS = [
-  { href: '/about', label: 'About' },
+  { href: '/web-analytics', label: 'Web Analytics' },
+  { href: '/web-strategy', label: 'Web Strategy' },
+  { href: '/ai-strategy', label: 'AI Strategy' },
   { href: '/services', label: 'Services' },
-  { href: '/scorecard', label: 'Scorecard' },
-  { href: '/blog', label: 'Blog' },
   { href: '/resources', label: 'Resources' },
+  { href: '/about', label: 'About' },
 ];
 
-// Footer "Explore" links.
+// Footer "Explore" links: the header links plus the contact page.
 export const FOOTER_LINKS = [
-  { href: '/core-beliefs', label: 'Core beliefs' },
-  { href: '/about', label: 'About' },
-  { href: '/approach', label: 'Approach' },
-  { href: '/services', label: 'Services' },
-  { href: '/scorecard', label: 'Scorecard' },
-  { href: '/fixing-it-in-public', label: 'Fixing it in public' },
-  { href: '/work-with-us', label: 'Work with us' },
-  { href: '/now', label: 'Now' },
-  { href: '/blog', label: 'Blog' },
-  { href: '/resources', label: 'Resources' },
+  ...NAV_LINKS,
+  { href: '/contact', label: 'Book a discovery call' },
 ];
 
-// Free scorecards offered per week.
-export const SCORECARDS_PER_WEEK = '10';
+// Free diagnostics offered per week, across all three areas.
+export const DIAGNOSTICS_PER_WEEK = '10';

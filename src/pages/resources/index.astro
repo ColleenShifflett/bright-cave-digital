@@ -1,65 +1,31 @@
 ---
-import { getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import PostList from '../../components/PostList.astro';
+import TagFilter from '../../components/TagFilter.astro';
+import { getPublishedPosts } from '../../lib/posts';
 
-const resources = (
-  await getCollection('resources', ({ data }) => !data.draft)
-).sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
-
-const comingSoon = ['Roadmap template', 'Content model template', 'DIY scorecard checklist'];
+const posts = await getPublishedPosts();
 ---
 
 <BaseLayout
-  title="Free Resources"
-  description="Guides and templates for teams who want to do it themselves."
+  title="Resources"
+  description="Field notes on web analytics, web strategy, and AI strategy from Bright Cave Digital."
 >
   <section class="page-head">
     <div class="wrap">
       <div class="section-head">
         <p class="eyebrow">Resources</p>
-        <h1 class="h2-size">Do it yourself</h1>
-        <p class="sub">
-          Not everyone needs a consultant. These are the same guides and
-          templates we use, free for anyone who wants to run with them.
-        </p>
+        <h1 class="h2-size">Field notes and guides</h1>
+        <p class="sub">What we're learning about web analytics, web strategy, and AI, written for busy teams.</p>
       </div>
     </div>
   </section>
 
   <section class="section" style="padding-top: 0;">
-    <div class="wrap">
-      <ul class="post-list card-grid" style="list-style:none;">
-        <li>
-          <article class="card">
-            <span class="badge">guide · template</span>
-            <h2>Tracking Governance Guide and Template</h2>
-            <p>
-              A practical guide to naming, tagging, and documenting your
-              analytics, with a ready-to-use spreadsheet template.
-            </p>
-            <p class="card-cta"><span class="badge">Coming soon</span></p>
-          </article>
-        </li>
-        {
-          resources.map((resource) => (
-            <li>
-              <article class="card">
-                <span class="badge">{resource.data.resourceType}{resource.data.tier ? ` · ${resource.data.tier}` : ''}</span>
-                <h2><a href={`/resources/${resource.id}/`}>{resource.data.title}</a></h2>
-                <p>{resource.data.description}</p>
-                <p class="card-cta"><a href={`/resources/${resource.id}/`}>Open →</a></p>
-              </article>
-            </li>
-          ))
-        }
-      </ul>
-
-      <div class="prose" style="margin-top: var(--bca-space-16);">
-        <h2>Coming soon</h2>
-        <ul>
-          {comingSoon.map((item) => <li>{item}</li>)}
-        </ul>
-      </div>
+    <div class="wrap" style="max-width: 820px;">
+      <TagFilter />
+      {posts.length === 0 && <p style="text-align:center;color:var(--bca-fg-muted);">No posts yet. Check back soon.</p>}
+      <PostList posts={posts} />
     </div>
   </section>
 </BaseLayout>

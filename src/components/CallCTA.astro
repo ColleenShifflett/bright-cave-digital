@@ -1,0 +1,26 @@
+---
+import { DIAGNOSTICS_PER_WEEK } from '../consts';
+
+interface Props {
+  heading?: string;
+  line?: string;
+  label?: string;
+  href?: string;
+}
+
+const {
+  heading = 'Start with a conversation.',
+  line = `Book a discovery call and pick an area. We run ${DIAGNOSTICS_PER_WEEK} free diagnostics a week and walk you through what we find.`,
+  label = 'Book a discovery call',
+  href = '/contact',
+} = Astro.props;
+---
+
+<section class="cta-band call-cta">
+  <div class="wrap">
+    <h2>{heading}</h2>
+    <p>{line}</p>
+    <a class="btn btn-accent btn-lg" href={href}>{label} →</a>
+    <slot />
+  </div>
+</section>

@@ -3,14 +3,14 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 
 // Static confirmation page. The /api/contact endpoint redirects here after a
 // successful submission (or the client-side form script navigates here). It
-// skips the closing scorecard CTA: most visitors here just requested one.
+// skips the closing call CTA: the visitor just sent the form.
 ---
 
 <BaseLayout
   title="Thank you"
   description="Thanks for reaching out to Bright Cave Digital. We'll be in touch shortly."
   noindex={true}
-  scorecardCta={false}
+  callCta={false}
 >
   <section class="section">
     <div class="wrap">
@@ -19,12 +19,16 @@ import BaseLayout from '../layouts/BaseLayout.astro';
         <p class="eyebrow">Message received</p>
         <h2>Thanks. We'll be in touch.</h2>
         <p style="color: var(--bca-fg-muted); max-width: 46ch; margin-inline: auto;">
-          We read every message and usually reply within a couple of business
-          days. In the meantime, browse the free resources or read the blog.
+          We usually reply within two business days. What happens next:
         </p>
+        <ul style="color: var(--bca-fg-muted); max-width: 46ch; margin: 16px auto 0; text-align: left; line-height: 1.7;">
+          <li><strong>Diagnostic:</strong> we run it, then walk you through it on a discovery call.</li>
+          <li><strong>Custom project:</strong> we set up a call to talk through scope.</li>
+          <li><strong>Freelance:</strong> you're on the waitlist, and we'll reach out with honest timing when a spot opens.</li>
+        </ul>
         <div class="actions" style="display:flex;gap:14px;flex-wrap:wrap;justify-content:center;margin-top:var(--bca-space-8);">
-          <a class="btn btn-primary" href="/resources">Browse resources</a>
-          <a class="btn btn-ghost" href="/blog">Read the blog</a>
+          <a class="btn btn-primary" href="/resources/">Read Resources</a>
+          <a class="btn btn-ghost" href="/services">See services</a>
         </div>
         <p><a class="back-link" href="/">← Back to the homepage</a></p>
       </div>

@@ -3,6 +3,7 @@ title: 'Right-sized beats sophisticated'
 description: 'Big dreams, small teams: why sophisticated programs stall and what a sustainable program looks like.'
 pubDate: 2026-10-06
 author: 'Colleen Shifflett'
+tags: ['web-analytics', 'web-strategy']
 draft: true
 ---
 

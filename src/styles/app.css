@@ -46,15 +46,34 @@
   font-size: 10px; letter-spacing: var(--bca-tracking-eyebrow);
   text-transform: uppercase; color: var(--bca-fg-subtle); margin-top: 3px;
 }
-.nav-links { display: flex; gap: 26px; list-style: none; margin: 0; padding: 0; }
+.nav-links { display: flex; gap: 22px; list-style: none; margin: 0; padding: 0; }
 .nav-links a {
   color: var(--bca-fg-muted); font-size: 14px; font-weight: 500; border-bottom: none;
 }
 .nav-links a:hover, .nav-links a[aria-current="page"] { color: var(--bca-fg); }
 .nav-cta { display: flex; align-items: center; gap: 10px; }
 
-@media (max-width: 860px) {
+/* Mobile menu: a native disclosure, so it works without JS. */
+.nav-menu { display: none; position: relative; }
+.nav-menu summary {
+  list-style: none; cursor: pointer; font-size: 14px; font-weight: 600;
+  padding: 9px 12px; border: 1px solid var(--bca-border-strong); border-radius: var(--bca-radius-md);
+}
+.nav-menu summary::-webkit-details-marker { display: none; }
+.nav-menu ul {
+  position: absolute; right: 0; top: calc(100% + 8px); z-index: 20; min-width: 200px;
+  list-style: none; margin: 0; padding: 8px; background: var(--bca-paper);
+  border: 1px solid var(--bca-border); border-radius: var(--bca-radius-md); box-shadow: var(--bca-shadow-lg);
+}
+.nav-menu a { display: block; padding: 10px 12px; color: var(--bca-fg); font-size: 15px; border-bottom: none; }
+.nav-menu a[aria-current="page"] { color: var(--bca-clarity); }
+
+@media (max-width: 1080px) {
   .nav-links { display: none; }
+  .nav-menu { display: block; }
+}
+@media (max-width: 520px) {
+  .nav-cta .btn .long { display: none; }
 }
 /* Keep the brand and the header button on one line each at phone width. */
 @media (max-width: 420px) {
@@ -64,7 +83,7 @@
 }
 
 /* ---------- Footer ---------- */
-/* No top margin: every page ends with the full-bleed scorecard CTA band. */
+/* No top margin: every page ends with the full-bleed call CTA band. */
 .site-footer { background: var(--bca-paper); border-top: 1px solid var(--bca-border); }
 .site-footer .cols {
   display: grid; grid-template-columns: 2fr 2fr 1fr; gap: var(--bca-space-12);
@@ -223,7 +242,7 @@
 .btn-lg { padding: 14px 24px; font-size: 15px; }
 @media (max-width: 640px) { .cta-band h2 { font-size: 32px; } }
 /* The footer supplies the rule below the closing CTA band. */
-main > .scorecard-cta:last-child { border-bottom: none; }
+main > .call-cta:last-child { border-bottom: none; }
 
 /* ---------- Prose (articles / about) ---------- */
 .prose { max-width: 720px; margin: 0 auto; }
@@ -280,6 +299,7 @@ main > .scorecard-cta:last-child { border-bottom: none; }
 .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: var(--bca-space-5) var(--bca-space-6); }
 .field { display: flex; flex-direction: column; gap: 6px; }
 .field.full { grid-column: 1 / -1; }
+.field[hidden] { display: none; }
 .field label { font-family: var(--bca-font-body); font-weight: 600; font-size: 12px; color: var(--bca-fg); }
 .field label .req { color: var(--bca-danger); margin-left: 2px; }
 .field .help { font-size: 11px; color: var(--bca-fg-muted); }
@@ -357,3 +377,30 @@ main > .scorecard-cta:last-child { border-bottom: none; }
 .prose .lead-text { font-size: 19px; line-height: 1.55; color: var(--bca-fg-muted); }
 .prose .note { font-size: 14px; color: var(--bca-fg-muted); border-left: var(--bca-rule-accent); padding-left: var(--bca-space-4); }
 .field label .optional { font-weight: 400; color: var(--bca-fg-muted); }
+
+/* ---------- Resources ---------- */
+.tag-list--start { justify-content: flex-start; margin-top: 0; }
+.tag-list a { color: inherit; border-bottom: none; }
+.tag-list a:hover { color: var(--bca-clarity); }
+.card .tag-list li::before { content: none; }
+.card .tag-list li { display: inline-block; font-size: 11px; color: var(--bca-fg-muted); }
+.filter-row { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin-bottom: var(--bca-space-10); }
+.filter-row a { font-size: 14px; font-weight: 600; padding: 7px 14px; border: 1px solid var(--bca-border-strong); border-radius: var(--bca-radius-pill); color: var(--bca-fg-muted); }
+.filter-row a:hover, .filter-row a[aria-current="page"] { color: var(--bca-depth); background: color-mix(in srgb, var(--bca-glow) 22%, transparent); border-color: transparent; }
+
+/* ---------- Home area cards ---------- */
+/* Three equal cards. The two primary areas come first. */
+.area-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--bca-space-6); align-items: stretch; }
+.area-grid .card h3 { font-size: 26px; }
+.area-grid .card .diagnostic { font-family: var(--bca-font-mono); font-size: 12px; font-weight: 700; color: var(--bca-clarity); letter-spacing: var(--bca-tracking-wide); }
+@media (max-width: 860px) { .area-grid { grid-template-columns: 1fr; } }
+
+/* ---------- Services ladder ---------- */
+.service-head { display: flex; flex-wrap: wrap; align-items: center; gap: var(--bca-space-3); }
+.service-head h2 { margin: 0; }
+.prose .ladder > li + li { margin-top: var(--bca-space-4); }
+
+/* Markdown tables in posts get the data-table look and scroll on phones. */
+.prose table { display: block; overflow-x: auto; width: 100%; border-collapse: collapse; font-size: 15px; }
+.prose th, .prose td { text-align: left; padding: 10px 12px; border-bottom: 1px solid var(--bca-border); vertical-align: top; }
+.prose th { font-size: 12px; text-transform: uppercase; letter-spacing: var(--bca-tracking-wide); color: var(--bca-fg-muted); }

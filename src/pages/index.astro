@@ -1,160 +1,51 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import BeliefList from '../components/BeliefList.astro';
-import ScorecardCTA from '../components/ScorecardCTA.astro';
+import PostList from '../components/PostList.astro';
+import { AREAS } from '../data/areas';
+import { getPublishedPosts } from '../lib/posts';
 
-const paths = [
-  {
-    label: 'Resources',
-    title: 'Our self-guided tour.',
-    body: "Free and premium guides, templates, and tools for teams who'd rather do it themselves. Start with a free scorecard of your site.",
-    cta: 'Browse resources',
-    href: '/resources',
-    gem: 'gem--clarity',
-  },
-  {
-    label: 'Solutions',
-    title: 'Guided tours with a goal.',
-    body: "Six defined routes tailored to you, from a first diagnosis to a website that gets better on a schedule. Start where you are, stop when you're ready, and leave with your team owning the system.",
-    cta: 'See the six stages',
-    href: '/services',
-    gem: 'gem--glow',
-  },
-  {
-    label: 'Freelance',
-    title: 'How it all started.',
-    body: 'Hands-on, embedded analytics coverage for your team when you need an extra set of senior hands, not another hire.',
-    cta: 'Join the waitlist',
-    href: '/work-with-us#waiting-list',
-    gem: 'gem--insight',
-  },
-];
+const latest = (await getPublishedPosts()).slice(0, 3);
 
-const refusals = [
-  'A six-month redesign that never launches',
-  'A dozen more subscriptions',
-  "A retainer you can't get out of",
+const steps = [
+  { title: 'Diagnostic', body: 'A free check of the area you pick, walked through on a discovery call.' },
+  { title: 'Workshop', body: 'A half-day working session that turns the findings into a written plan.' },
+  { title: 'Implementation', body: 'We work the plan with you for a set number of months.' },
+  { title: 'Check-ins', body: 'Optional. Every two weeks, so the work keeps moving.' },
 ];
 ---
 
 <BaseLayout
-  title="AI-Era Web Strategy and Analytics"
-  description="AI-era web strategy and analytics for busy teams with big dreams. Start with a free scorecard of how well people and AI can find your site."
-  scorecardCta={false}
+  title="Web Strategy and Analytics for the AI Era"
+  description="Web analytics and web strategy for the AI era, right-sized to your team. Start with a free diagnostic and a discovery call."
 >
   <section class="hero hero--solo">
     <div class="wrap">
-      <p class="eyebrow">AI-era web strategy and analytics</p>
-      <h1>For busy teams with <span class="accent">big dreams.</span></h1>
+      <h1>Web strategy and analytics <span class="accent">for the AI era.</span></h1>
       <p class="lead">
-        Big dreams don't need a bigger team. They need a right-sized plan, a
-        website that gets better on a schedule, and data you can trust to show
-        what's working.
+        We help busy teams make their sites easier to find and their data easier
+        to trust, with a plan sized to the team you actually have.
       </p>
       <div class="actions">
-        <a class="btn btn-primary btn-lg" href="/scorecard">Get your free scorecard →</a>
-        <a class="btn btn-ghost btn-lg" href="/approach">How we work</a>
+        <a class="btn btn-primary btn-lg" href="/contact">Book a discovery call →</a>
+        <a class="btn btn-ghost btn-lg" href="/services">See services</a>
       </div>
     </div>
   </section>
 
-  <section class="section">
+  <section class="section" aria-labelledby="areas-heading">
     <div class="wrap">
       <div class="section-head">
-        <h2>
-          There's the development layer, the presentation layer, and then
-          there's the intelligence layer.
-        </h2>
+        <h2 id="areas-heading">Pick where to start</h2>
       </div>
-      <div class="prose">
-        <p>
-          The development layer makes your site run. The presentation layer
-          shapes what people see and experience. The intelligence layer makes it
-          understandable, findable, measurable, and improvable.
-        </p>
-        <p>
-          It's how your site is organized, what it says, how people and AI make
-          sense of it, and how you learn what's working. It's a layer most teams
-          don't see, and it's usually where the time and money quietly leak out.
-          We bring it into view.
-        </p>
-      </div>
-    </div>
-  </section>
-
-  <section class="section band-paper">
-    <div class="wrap">
-      <div class="section-head">
-        <p class="eyebrow">Start here</p>
-        <h2>Start by seeing where you stand.</h2>
-      </div>
-      <div class="prose">
-        <p>
-          Our scorecard checks how discoverable your site is to search engines
-          and AI assistants, then ranks the few fixes that matter most. You get
-          a plain-language report and a walkthrough, not a sales pitch.
-        </p>
-        <p>
-          Before we ran it on anyone else, we ran it on our own site. It scored
-          a 77: great with AI, thin on substance. We're fixing it in public, one
-          rescan at a time.
-        </p>
-        <div class="link-row">
-          <a class="btn btn-primary" href="/scorecard">Get your free scorecard →</a>
-          <a class="btn btn-ghost" href="/fixing-it-in-public">See our score and progress</a>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="section">
-    <div class="wrap">
-      <div class="section-head">
-        <h2>What we believe</h2>
-      </div>
-      <BeliefList variant="short" />
-      <p class="center-link"><a href="/core-beliefs">Read our core beliefs →</a></p>
-    </div>
-  </section>
-
-  <section class="statement">
-    <div class="wrap grid">
-      <div>
-        <p>
-          You don't need more tools.
-          <span class="accent">You need a system that holds together.</span>
-        </p>
-      </div>
-      <ul class="refusals">
+      <div class="area-grid">
         {
-          refusals.map((r) => (
-            <li class="no">
-              <span class="mark" aria-hidden="true">✕</span>
-              <span><span class="sr-only">Without: </span>{r}</span>
-            </li>
-          ))
-        }
-        <li class="yes">
-          <span class="mark" aria-hidden="true">✓</span>
-          <span><span class="sr-only">Instead: </span>One system, and the skills to run it</span>
-        </li>
-      </ul>
-    </div>
-  </section>
-
-  <section class="section" aria-labelledby="paths-heading">
-    <div class="wrap">
-      <h2 id="paths-heading" class="sr-only">Ways to work with us</h2>
-      <div class="card-grid">
-        {
-          paths.map((p) => (
-            <article class="card path-card">
-              <span class={`gem ${p.gem}`} aria-hidden="true" />
-              <span class="tier-code">{p.label}</span>
-              <h3>{p.title}</h3>
-              <p>{p.body}</p>
+          AREAS.map((area) => (
+            <article class="card">
+              <span class="diagnostic">{area.diagnostic}</span>
+              <h3>{area.name}</h3>
+              <p>{area.problem}</p>
               <p class="card-cta">
-                <a class="btn btn-ghost" href={p.href}>{p.cta}</a>
+                <a class="btn btn-ghost" href={`/${area.slug}`}>Explore {area.name} →</a>
               </p>
             </article>
           ))
@@ -163,31 +54,56 @@ const refusals = [
     </div>
   </section>
 
-  <section class="section band-paper">
+  <section class="section band-paper" aria-labelledby="how-heading">
+    <div class="wrap">
+      <div class="section-head">
+        <h2 id="how-heading">How it works</h2>
+      </div>
+      <ol class="steps" style="list-style:none;padding:0;margin:0;">
+        {
+          steps.map((s, i) => (
+            <li class="step">
+              <div class="num">0{i + 1}</div>
+              <h3>{s.title}</h3>
+              <p>{s.body}</p>
+            </li>
+          ))
+        }
+      </ol>
+      <p class="center-link">
+        Have something custom in mind? <a href="/contact?type=custom">Send a proposal →</a>
+      </p>
+    </div>
+  </section>
+
+  <section class="section">
     <div class="wrap">
       <div class="prose">
         <h2>Hi, I'm Colleen.</h2>
         <p>
           I've spent ten years in analytics across financial services, B2B SaaS,
-          media, and federal government. I have helped launch several web
-          analytics programs from small startups to large national organizations
-          and businesses. I've provided training and resources for over 500
-          non-technical professionals to use their own data with confidence.
-          Most recently I've enhanced my experience as an embedded analytics
-          engineer, keeping my technical practice sharp in alignment with my
-          creative direction.
+          media, and federal government, and trained over 500 non-technical
+          professionals to use their own data with confidence. What I've
+          learned: right-sized beats sophisticated, every time.
         </p>
-        <p>What I've learned: right-sized beats sophisticated, every time.</p>
         <p><a href="/about">More about me →</a></p>
       </div>
     </div>
   </section>
 
-  <ScorecardCTA>
-    <p class="cta-extra">
-      Want more hands-on help? Diagnose and Roadmap engagements are open now.
-      Longer projects run on a waiting list.
-      <a href="/work-with-us">Join the list →</a>
-    </p>
-  </ScorecardCTA>
+  {
+    latest.length > 0 && (
+      <section class="section band-paper">
+        <div class="wrap">
+          <div class="section-head">
+            <h2>Latest from Resources</h2>
+          </div>
+          <div class="prose">
+            <PostList posts={latest} />
+            <p class="center-link"><a href="/resources/">All resources →</a></p>
+          </div>
+        </div>
+      </section>
+    )
+  }
 </BaseLayout>

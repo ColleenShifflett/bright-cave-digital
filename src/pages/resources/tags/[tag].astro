@@ -1,0 +1,45 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import PostList from '../../../components/PostList.astro';
+import TagFilter from '../../../components/TagFilter.astro';
+import { AREAS, type Area } from '../../../data/areas';
+import { getPublishedPosts } from '../../../lib/posts';
+
+// One page per area tag, even when it has no posts yet, so the filter links
+// never 404.
+export function getStaticPaths() {
+  return AREAS.map((area) => ({ params: { tag: area.slug }, props: { area } }));
+}
+
+type Props = { area: Area };
+const { area } = Astro.props;
+const posts = (await getPublishedPosts()).filter((p) => p.data.tags.includes(area.slug));
+---
+
+<BaseLayout
+  title={`${area.name} resources`}
+  description={`Field notes on ${area.name} from Bright Cave Digital.`}
+>
+  <section class="page-head">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="eyebrow"><a href="/resources/">Resources</a></p>
+        <h1 class="h2-size">{area.name}</h1>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" style="padding-top: 0;">
+    <div class="wrap" style="max-width: 820px;">
+      <TagFilter current={area.slug} />
+      {
+        posts.length === 0 && (
+          <p style="text-align:center;color:var(--bca-fg-muted);">
+            Nothing here yet. <a href={`/${area.slug}`}>See the {area.name} page →</a>
+          </p>
+        )
+      }
+      <PostList posts={posts} />
+    </div>
+  </section>
+</BaseLayout>

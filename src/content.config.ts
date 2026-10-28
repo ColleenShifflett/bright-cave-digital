@@ -50,7 +50,7 @@ export const DEPTHS = ['foundation', 'working', 'specialist'] as const;
 // How fast content goes stale. Drives re-verification cadence.
 export const VOLATILITY = ['stable', 'shifting', 'volatile'] as const;
 
-// NOTE: deliberately NOT the same as `draft: boolean` on blog and resources.
+// NOTE: deliberately NOT the same as `draft: boolean` on blog posts.
 // The guide pipeline needs a review state that gates publication, and
 // validate_content.py enforces rules against it. The divergence is intentional.
 export const STATUSES = ['draft', 'review', 'published'] as const;
@@ -129,7 +129,7 @@ const provenance = {
 /* EXISTING COLLECTIONS                                                */
 /* ================================================================== */
 
-// Blog posts: dated, author-attributed articles.
+// Blog posts, published under /resources. Dated, author-attributed articles.
 const blog = defineCollection({
   loader: glob({ pattern: '**/*.{md,mdx}', base: './src/content/blog' }),
   schema: z.object({
@@ -138,30 +138,11 @@ const blog = defineCollection({
     pubDate: z.coerce.date(),
     updatedDate: z.coerce.date().optional(),
     author: z.string().default('Bright Cave Digital'),
+    // Area tags (web-analytics, web-strategy, ai-strategy) drive the filters
+    // and the related posts on area pages. Any other tag is a free label.
     tags: z.array(z.string()).default([]),
     heroImage: z.string().optional(),
     // Per-page social share image (falls back to the site default).
-    ogImage: z.string().optional(),
-    draft: z.boolean().default(false),
-  }),
-});
-
-// Resources: templates, checklists, tools, ebooks, and paid kits. Optionally
-// categorised by the DIY / DWY / DFY tier they best support.
-const resources = defineCollection({
-  loader: glob({ pattern: '**/*.{md,mdx}', base: './src/content/resources' }),
-  schema: z.object({
-    title: z.string(),
-    description: z.string(),
-    pubDate: z.coerce.date(),
-    updatedDate: z.coerce.date().optional(),
-    // 'guide' removed: long-form guides are their own collection now, so a
-    // resource can no longer claim to be one. 'kit' added for paid downloads.
-    resourceType: z
-      .enum(['template', 'checklist', 'tool', 'ebook', 'kit'])
-      .default('template'),
-    tier: z.enum(['DIY', 'DWY', 'DFY']).optional(),
-    downloadUrl: z.string().url().optional(),
     ogImage: z.string().optional(),
     draft: z.boolean().default(false),
   }),
@@ -259,7 +240,7 @@ const guides = defineCollection({
   schema: z.object({
     title: z.string(),
     subtitle: z.string().optional(),
-    // Matches blog and resources so shared SEO components work unchanged.
+    // Matches blog posts so shared SEO components work unchanged.
     description: z.string(),
     audience: z.enum(AUDIENCES),
     // The single claim the guide is organized around.
@@ -313,7 +294,6 @@ const guides = defineCollection({
 
 export const collections = {
   blog,
-  resources,
   atoms,
   lenses,
   exclusives,
